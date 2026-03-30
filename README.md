@@ -52,6 +52,15 @@ npm run preview
 - `npm run build`: create production bundle in `dist/`
 - `npm run preview`: run local preview server for production build
 
+## GitHub Pages routing notes
+
+- This project is configured as an SPA with GitHub Pages deep-link fallback.
+- `vite.config.js` uses `base: "./"` so assets resolve correctly on custom domains and repository paths.
+- `public/404.html` redirects unknown paths back to `index.html` with route information.
+- `index.html` restores the redirected path on load.
+
+If you redeploy, keep these files unchanged unless you intentionally change hosting strategy.
+
 ## Project structure
 
 ```text

@@ -75,6 +75,25 @@
         </div>
       </div>
     </noscript>
+    <script>
+      // Restores original path/query when redirected from 404.html on GitHub Pages.
+      (function () {
+        var search = window.location.search;
+        if (!search || search.indexOf("?p=") !== 0) return;
+
+        var encodedPath = search.slice(3).split("&")[0] || "";
+        var decodedPath = encodedPath.replace(/~and~/g, "&");
+        var hashIndex = search.indexOf("&h=");
+        var hash = hashIndex >= 0 ? decodeURIComponent(search.slice(hashIndex + 3)) : "";
+        var newUrl = decodeURIComponent(decodedPath) + window.location.hash;
+
+        if (hash) {
+          newUrl = decodeURIComponent(decodedPath) + hash;
+        }
+
+        window.history.replaceState(null, "", newUrl || "/");
+      })();
+    </script>
     <script type="module" src="/src/main.jsx"></script>
   </body>
   </html>

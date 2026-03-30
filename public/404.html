@@ -1,0 +1,33 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Redirecting...</title>
+    <script>
+      // GitHub Pages SPA fallback:
+      // - project pages (user.github.io/repo): keep first path segment
+      // - custom domains (example.com): keep zero path segments
+      (function () {
+        var host = window.location.hostname;
+        var segmentsToKeep = host.endsWith("github.io") ? 1 : 0;
+        var path = window.location.pathname;
+        var search = window.location.search || "";
+        var hash = window.location.hash || "";
+
+        var pathParts = path.split("/");
+        var kept = pathParts.slice(0, 1 + segmentsToKeep).join("/");
+        var rest = pathParts.slice(1 + segmentsToKeep).join("/");
+
+        var target =
+          kept +
+          "/?p=/" +
+          rest.replace(/&/g, "~and~") +
+          (search ? "&q=" + search.slice(1).replace(/&/g, "~and~") : "") +
+          (hash ? "&h=" + encodeURIComponent(hash) : "");
+
+        window.location.replace(target);
+      })();
+    </script>
+  </head>
+  <body></body>
+</html>
