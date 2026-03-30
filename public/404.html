@@ -9,7 +9,11 @@
       // - custom domains (example.com): keep zero path segments
       (function () {
         var host = window.location.hostname;
+        // This app is hosted at /Ledgr/ on the custom domain.
         var segmentsToKeep = host.endsWith("github.io") ? 1 : 0;
+        if (window.location.pathname.indexOf("/Ledgr/") === 0 || window.location.pathname === "/Ledgr") {
+          segmentsToKeep = 1;
+        }
         var path = window.location.pathname;
         var search = window.location.search || "";
         var hash = window.location.hash || "";

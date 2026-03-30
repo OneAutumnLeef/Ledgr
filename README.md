@@ -55,11 +55,19 @@ npm run preview
 ## GitHub Pages routing notes
 
 - This project is configured as an SPA with GitHub Pages deep-link fallback.
-- `vite.config.js` uses `base: "./"` so assets resolve correctly on custom domains and repository paths.
+- `vite.config.js` uses `base: "/Ledgr/"` to match deployment at `https://derajyojith.dev/Ledgr/`.
 - `public/404.html` redirects unknown paths back to `index.html` with route information.
 - `index.html` restores the redirected path on load.
 
 If you redeploy, keep these files unchanged unless you intentionally change hosting strategy.
+
+## GitHub Pages deployment (important)
+
+Do not publish raw source files (`index.html` + `src/`) directly to Pages. This app must be deployed from the Vite build output (`dist/`).
+
+- This repo includes [`.github/workflows/deploy-pages.yml`](.github/workflows/deploy-pages.yml) to build and deploy automatically on push to `main`.
+- In GitHub repository settings, set Pages source to **GitHub Actions**.
+- Custom domain is included via [`public/CNAME`](public/CNAME).
 
 ## Project structure
 

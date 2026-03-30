@@ -3,8 +3,8 @@ import react from "@vitejs/plugin-react";
 import tailwindcss from "@tailwindcss/vite";
 
 export default defineConfig({
-  // Relative asset paths avoid broken loads across custom domains and project paths.
-  base: "./",
+  // Deployed under https://derajyojith.dev/Ledgr/
+  base: "/Ledgr/",
   plugins: [react(), tailwindcss()],
   build: {
     chunkSizeWarningLimit: 900,
