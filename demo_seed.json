@@ -1,0 +1,1062 @@
+{
+  "sbi": [
+    {
+      "bank": "SBI",
+      "date": "01/03/2026",
+      "rawDescription": "UPI/DR/258327014725/PULSE FM /AURB/ref2014/Exec",
+      "debit": 150.22,
+      "credit": 0,
+      "balance": 13260.99
+    },
+    {
+      "bank": "SBI",
+      "date": "02/03/2026",
+      "rawDescription": "UPI/CR/109456381258/AARAV SEN/INDB/ref8541/Febr",
+      "debit": 0,
+      "credit": 13970,
+      "balance": 27230.99
+    },
+    {
+      "bank": "SBI",
+      "date": "07/03/2026",
+      "rawDescription": "UPI/CR/536189056901/MIRA DEV/SKYB/ref9076/UPI",
+      "debit": 0,
+      "credit": 612.22,
+      "balance": 27843.21
+    },
+    {
+      "bank": "SBI",
+      "date": "08/03/2026",
+      "rawDescription": "UPI/DR/734145256707/NIMBUS CLOUD/NOVA/ref9145/Mand",
+      "debit": 34.88,
+      "credit": 0,
+      "balance": 27808.33
+    },
+    {
+      "bank": "SBI",
+      "date": "13/03/2026",
+      "rawDescription": "POS ATM PURCH OTHPG 658387614523COMPUTEDOCK +24127290",
+      "debit": 909.22,
+      "credit": 0,
+      "balance": 26899.11
+    },
+    {
+      "bank": "SBI",
+      "date": "13/03/2026",
+      "rawDescription": "UPI/DR/769232507258/ORCHARD SERVICES/AURB/ref7674/Exec",
+      "debit": 68.87,
+      "credit": 0,
+      "balance": 26830.24
+    },
+    {
+      "bank": "SBI",
+      "date": "15/03/2026",
+      "rawDescription": "UPI/DR/932343838105/SELF LEDGR/HOMB/ref1256/UPI",
+      "debit": 2720.43,
+      "credit": 0,
+      "balance": 24109.81
+    },
+    {
+      "bank": "SBI",
+      "date": "15/03/2026",
+      "rawDescription": "UPI/CR/523694303054/NIMBUS CLOUD/NOVA/ref1854/UPI",
+      "debit": 0,
+      "credit": 35.02,
+      "balance": 24144.83
+    },
+    {
+      "bank": "SBI",
+      "date": "20/03/2026",
+      "rawDescription": "UPI/CR/812705830149/ISHA MENON /CNRXB/ref3163/UPI",
+      "debit": 0,
+      "credit": 1700,
+      "balance": 25844.83
+    },
+    {
+      "bank": "SBI",
+      "date": "21/03/2026",
+      "rawDescription": "UPI/DR/218123256101/SELF LEDGR/HOMB/ref1472/UPI",
+      "debit": 11262.54,
+      "credit": 0,
+      "balance": 14582.29
+    },
+    {
+      "bank": "SBI",
+      "date": "23/03/2026",
+      "rawDescription": "UPI/CR/376301472949/SAJAN DEV/ AURB/ref7858/UPI",
+      "debit": 0,
+      "credit": 939.2,
+      "balance": 15521.49
+    },
+    {
+      "bank": "SBI",
+      "date": "23/03/2026",
+      "rawDescription": "UPI/CR/954709698921/SAJAN DEV/ AURB/ref3589/UPI",
+      "debit": 0,
+      "credit": 360.95,
+      "balance": 15882.44
+    },
+    {
+      "bank": "SBI",
+      "date": "24/03/2026",
+      "rawDescription": "POS ATM PURCH OTHPOS136385474989VIEWCAST STREAM MUMBAI",
+      "debit": 97.66,
+      "credit": 0,
+      "balance": 15784.78
+    },
+    {
+      "bank": "SBI",
+      "date": "24/03/2026",
+      "rawDescription": "UPI/DR/114901892189/PATTY HOUSE/AURB/ref6296/ref4670",
+      "debit": 85,
+      "credit": 0,
+      "balance": 15699.78
+    },
+    {
+      "bank": "SBI",
+      "date": "24/03/2026",
+      "rawDescription": "UPI/DR/974123410907/KABIR JAIN/SBIN/ref2565/ref9418",
+      "debit": 81.7,
+      "credit": 0,
+      "balance": 15618.08
+    },
+    {
+      "bank": "SBI",
+      "date": "24/03/2026",
+      "rawDescription": "UPI/DR/172967654327/ROUTELOOP/UT IB/ref7836/ROUTELOOP",
+      "debit": 1036.47,
+      "credit": 0,
+      "balance": 14581.61
+    },
+    {
+      "bank": "SBI",
+      "date": "24/03/2026",
+      "rawDescription": "UPI/DR/127018381698/ORCHARD SERVICES/AURB/ref7349/Exec",
+      "debit": 307.02,
+      "credit": 0,
+      "balance": 14274.59
+    },
+    {
+      "bank": "SBI",
+      "date": "24/03/2026",
+      "rawDescription": "UPI/DR/605496309650/VELOCITY STACK/SKYB/ref4501/Pay",
+      "debit": 943.77,
+      "credit": 0,
+      "balance": 13330.82
+    },
+    {
+      "bank": "SBI",
+      "date": "24/03/2026",
+      "rawDescription": "UPI/DR/941252345476/MEALMINT/AERX/MEALMINT/UP",
+      "debit": 298.45,
+      "credit": 0,
+      "balance": 13032.37
+    },
+    {
+      "bank": "SBI",
+      "date": "25/03/2026",
+      "rawDescription": "UPI/DR/961872529218/SAMIR KHAN/NESF/ref4325/ref4587",
+      "debit": 79.2,
+      "credit": 0,
+      "balance": 12953.17
+    },
+    {
+      "bank": "SBI",
+      "date": "25/03/2026",
+      "rawDescription": "UPI/DR/565470709036/PANTRY CIRCLE/YORB/ref7236/ref9941",
+      "debit": 68,
+      "credit": 0,
+      "balance": 12885.17
+    },
+    {
+      "bank": "SBI",
+      "date": "25/03/2026",
+      "rawDescription": "UPI/DR/630383290163/KABIR DEV /YORB/ref7507/ref6569",
+      "debit": 90.8,
+      "credit": 0,
+      "balance": 12794.37
+    },
+    {
+      "bank": "SBI",
+      "date": "25/03/2026",
+      "rawDescription": "UPI/DR/647412107014/KFC/YORB/ref5812/Payment",
+      "debit": 412.99,
+      "credit": 0,
+      "balance": 12381.38
+    },
+    {
+      "bank": "SBI",
+      "date": "25/03/2026",
+      "rawDescription": "SAVINGS YIELD",
+      "debit": 0,
+      "credit": 23,
+      "balance": 12404.38
+    },
+    {
+      "bank": "SBI",
+      "date": "26/03/2026",
+      "rawDescription": "UPI/DR/669872769856/ARJUN KALE/KKBXXK/ref6745/ref7296",
+      "debit": 95.25,
+      "credit": 0,
+      "balance": 12309.13
+    },
+    {
+      "bank": "SBI",
+      "date": "26/03/2026",
+      "rawDescription": "UPI/CR/554183676109/TARA SEN/HOMB/ref9923/ref5545",
+      "debit": 0,
+      "credit": 7595,
+      "balance": 19904.13
+    },
+    {
+      "bank": "SBI",
+      "date": "26/03/2026",
+      "rawDescription": "UPI/DR/945030701056/KERNEL FORGE /SKYB/ref8767/UPI",
+      "debit": 7158,
+      "credit": 0,
+      "balance": 12746.13
+    },
+    {
+      "bank": "SBI",
+      "date": "26/03/2026",
+      "rawDescription": "UPI/CR/463298369496/SAANVI K/SBIN/ref6818/UPI",
+      "debit": 0,
+      "credit": 666.21,
+      "balance": 13412.34
+    },
+    {
+      "bank": "SBI",
+      "date": "26/03/2026",
+      "rawDescription": "UPI/DR/787236123454/APEX TURF/NOVA/ref7521/UPI",
+      "debit": 1036.6,
+      "credit": 0,
+      "balance": 12375.74
+    },
+    {
+      "bank": "SBI",
+      "date": "28/03/2026",
+      "rawDescription": "UPI/DR/372367216367/SELF LEDGR/HOMB/ref9743/UPI",
+      "debit": 291.8,
+      "credit": 0,
+      "balance": 12083.94
+    },
+    {
+      "bank": "SBI",
+      "date": "28/03/2026",
+      "rawDescription": "UPI/DR/545038501478/ORCHARD SERVICES/AURB/ref2678/Exec",
+      "debit": 208.91,
+      "credit": 0,
+      "balance": 11875.03
+    },
+    {
+      "bank": "SBI",
+      "date": "28/03/2026",
+      "rawDescription": "UPI/DR/238165054767/CEDAR COURTS/IDFB/ref6323/ref1632",
+      "debit": 2767,
+      "credit": 0,
+      "balance": 9108.03
+    },
+    {
+      "bank": "SBI",
+      "date": "28/03/2026",
+      "rawDescription": "UPI/DR/996909434509/ARAVIND NOOR /SBIN/ref6909/ref6985",
+      "debit": 1058,
+      "credit": 0,
+      "balance": 8050.03
+    },
+    {
+      "bank": "SBI",
+      "date": "30/03/2026",
+      "rawDescription": "UPI/DR/961216165016/SAMAR ALI/NOVA/ref4858/ref8527",
+      "debit": 99.6,
+      "credit": 0,
+      "balance": 7950.43
+    },
+    {
+      "bank": "SBI",
+      "date": "30/03/2026",
+      "rawDescription": "UPI/DR/801490501612/ROHAN MANI/KARB/ref1169/ref7690",
+      "debit": 70.8,
+      "credit": 0,
+      "balance": 7879.63
+    },
+    {
+      "bank": "SBI",
+      "date": "30/03/2026",
+      "rawDescription": "UPI/DR/189412145812/SPICE HARBOR/YORB/ref7903/ref2632",
+      "debit": 65.6,
+      "credit": 0,
+      "balance": 7814.03
+    },
+    {
+      "bank": "SBI",
+      "date": "30/03/2026",
+      "rawDescription": "UPI/DR/425652189490/ROHAN PILLAI /FDRXL/ref3412/Pay",
+      "debit": 114.03,
+      "credit": 0,
+      "balance": 7700
+    }
+  ],
+  "iob": [
+    {
+      "bank": "IOB",
+      "date": "29-Mar-26",
+      "rawDescription": "UPI/852907256763/CR/ ROUTELOOP/AURB /Refund fo",
+      "debit": 0,
+      "credit": 935.36,
+      "balance": 41132.14
+    },
+    {
+      "bank": "IOB",
+      "date": "29-Mar-26",
+      "rawDescription": "UPI/565852509092/DR/ ROUTELOOP/AURB /ref4387",
+      "debit": 2145.31,
+      "credit": 0,
+      "balance": 38986.83
+    },
+    {
+      "bank": "IOB",
+      "date": "29-Mar-26",
+      "rawDescription": "UPI/121698701238/CR/ REWARD LOOP /AURB/REWARDSPARK",
+      "debit": 0,
+      "credit": 9,
+      "balance": 38995.83
+    },
+    {
+      "bank": "IOB",
+      "date": "29-Mar-26",
+      "rawDescription": "UPI/465478781236/DR/ ROUTELOOP/AURB /ref4292",
+      "debit": 1160.36,
+      "credit": 0,
+      "balance": 37835.47
+    },
+    {
+      "bank": "IOB",
+      "date": "29-Mar-26",
+      "rawDescription": "UPI/572983816581/CR/TARA SEN /HOMB/UPI",
+      "debit": 0,
+      "credit": 2120,
+      "balance": 39955.47
+    },
+    {
+      "bank": "IOB",
+      "date": "28-Mar-26",
+      "rawDescription": "UPI/738987232383/CR/NIVAAN KAREEM/INDB/lunch",
+      "debit": 0,
+      "credit": 4160,
+      "balance": 44115.47
+    },
+    {
+      "bank": "IOB",
+      "date": "28-Mar-26",
+      "rawDescription": "UPI/796789232583/CR/ MIHIR SEN/CNRX/UPI",
+      "debit": 0,
+      "credit": 1260,
+      "balance": 45375.47
+    },
+    {
+      "bank": "IOB",
+      "date": "28-Mar-26",
+      "rawDescription": "UPI/509854901434/DR/NEON NIGHTS/NOVA/Paid via",
+      "debit": 602,
+      "credit": 0,
+      "balance": 44773.47
+    },
+    {
+      "bank": "IOB",
+      "date": "28-Mar-26",
+      "rawDescription": "UPI/743694527412/DR/NEON NIGHTS/NOVA/Paid via",
+      "debit": 1988,
+      "credit": 0,
+      "balance": 42785.47
+    },
+    {
+      "bank": "IOB",
+      "date": "28-Mar-26",
+      "rawDescription": "UPI/667612361216/CR/OMKAR VEER /SBI/UPI",
+      "debit": 0,
+      "credit": 1230,
+      "balance": 44015.47
+    },
+    {
+      "bank": "IOB",
+      "date": "28-Mar-26",
+      "rawDescription": "UPI/514705612909/CR/MIRA DEV /NOVA/ref6349",
+      "debit": 0,
+      "credit": 1230,
+      "balance": 45245.47
+    },
+    {
+      "bank": "IOB",
+      "date": "28-Mar-26",
+      "rawDescription": "UPI/169676705692/CR/SELF LEDGR /SBI/UPI",
+      "debit": 0,
+      "credit": 291.8,
+      "balance": 45537.27
+    },
+    {
+      "bank": "IOB",
+      "date": "26-Mar-26",
+      "rawDescription": "UPI/216947212789/ORCHARD SERVICES /AURB/Execution",
+      "debit": 217.67,
+      "credit": 0,
+      "balance": 45319.6
+    },
+    {
+      "bank": "IOB",
+      "date": "24-Mar-26",
+      "rawDescription": "UPI/214309494565/CR/ ROUTELOOP/AURB /Refund fo",
+      "debit": 0,
+      "credit": 1047.05,
+      "balance": 46366.65
+    },
+    {
+      "bank": "IOB",
+      "date": "24-Mar-26",
+      "rawDescription": "UPI/585834509816/CR/ REWARD LOOP /AURB/REWARDSPARK",
+      "debit": 0,
+      "credit": 10,
+      "balance": 46376.65
+    },
+    {
+      "bank": "IOB",
+      "date": "24-Mar-26",
+      "rawDescription": "UPI/832723278365/DR/ROHAN PILLAI/FDRX/ref7438",
+      "debit": 115.02,
+      "credit": 0,
+      "balance": 46261.63
+    },
+    {
+      "bank": "IOB",
+      "date": "24-Mar-26",
+      "rawDescription": "UPI/401492123414/DR/ HEMANTH K /KKBXX/Paid via",
+      "debit": 79.8,
+      "credit": 0,
+      "balance": 46181.83
+    },
+    {
+      "bank": "IOB",
+      "date": "23-Mar-26",
+      "rawDescription": "UPI/509250969452/DR/DEV MALIK/UBI/Paid via",
+      "debit": 252,
+      "credit": 0,
+      "balance": 45929.83
+    },
+    {
+      "bank": "IOB",
+      "date": "23-Mar-26",
+      "rawDescription": "UPI/269658185674/DR/ NAINA ROY /YORB/ref7901",
+      "debit": 108.9,
+      "credit": 0,
+      "balance": 45820.93
+    },
+    {
+      "bank": "IOB",
+      "date": "23-Mar-26",
+      "rawDescription": "UPI/109816185636/DR/ TAHA IDRIS /UCB/ref6563",
+      "debit": 245.7,
+      "credit": 0,
+      "balance": 45575.23
+    },
+    {
+      "bank": "IOB",
+      "date": "22-Mar-26",
+      "rawDescription": "UPI/576761030523/DR/ AYAAN SHAH/FDRX/Paid via",
+      "debit": 72.45,
+      "credit": 0,
+      "balance": 45502.78
+    },
+    {
+      "bank": "IOB",
+      "date": "22-Mar-26",
+      "rawDescription": "UPI/310943890987/DR/KIAN ARORA/KKBXX/Paid via",
+      "debit": 491.8,
+      "credit": 0,
+      "balance": 45010.98
+    },
+    {
+      "bank": "IOB",
+      "date": "22-Mar-26",
+      "rawDescription": "UPI/685418323074/DR/MEALMINT MARKET/AURB/UPIIntent",
+      "debit": 265,
+      "credit": 0,
+      "balance": 44745.98
+    },
+    {
+      "bank": "IOB",
+      "date": "22-Mar-26",
+      "rawDescription": "UPI/421672149014/CR/ REWARD LOOP /AURB/REWARDSPARK",
+      "debit": 0,
+      "credit": 5,
+      "balance": 44750.98
+    },
+    {
+      "bank": "IOB",
+      "date": "22-Mar-26",
+      "rawDescription": "UPI/765678921696/DR/ ROUTELOOP/AURB /ref6365",
+      "debit": 1114.25,
+      "credit": 0,
+      "balance": 43636.73
+    },
+    {
+      "bank": "IOB",
+      "date": "21-Mar-26",
+      "rawDescription": "UPI/216743836905/DR/ VEER KHANNA/YORB /ref4925",
+      "debit": 153.8,
+      "credit": 0,
+      "balance": 43482.93
+    },
+    {
+      "bank": "IOB",
+      "date": "21-Mar-26",
+      "rawDescription": "UPI/809636585838/DR/ NOVA FORGE/AERX /PaymentTo",
+      "debit": 1711.2,
+      "credit": 0,
+      "balance": 41771.73
+    },
+    {
+      "bank": "IOB",
+      "date": "20-Mar-26",
+      "rawDescription": "UPI/834565058161/DR/AUDIO HAVEN/AURB/Paymentto",
+      "debit": 12458.83,
+      "credit": 0,
+      "balance": 29312.9
+    },
+    {
+      "bank": "IOB",
+      "date": "20-Mar-26",
+      "rawDescription": "UPI/965072567654/CR/SELF LEDGR /SBI/UPI",
+      "debit": 0,
+      "credit": 11262.54,
+      "balance": 40575.44
+    },
+    {
+      "bank": "IOB",
+      "date": "19-Mar-26",
+      "rawDescription": "UPI/547076367016/DR/ MEALMINT/AURB /Paid via",
+      "debit": 377.06,
+      "credit": 0,
+      "balance": 40198.38
+    },
+    {
+      "bank": "IOB",
+      "date": "18-Mar-26",
+      "rawDescription": "UPI/594189278561/DR/VIHAAN RAO/SBI/Paid via",
+      "debit": 89.4,
+      "credit": 0,
+      "balance": 40108.98
+    },
+    {
+      "bank": "IOB",
+      "date": "18-Mar-26",
+      "rawDescription": "UPI/218709058303/DR/ SPICE HARBOR/YORB /Paid via",
+      "debit": 64.4,
+      "credit": 0,
+      "balance": 40044.58
+    },
+    {
+      "bank": "IOB",
+      "date": "18-Mar-26",
+      "rawDescription": "UPI/434523490347/DR/ SPICE HARBOR/YORB /Paid via",
+      "debit": 64,
+      "credit": 0,
+      "balance": 39980.58
+    },
+    {
+      "bank": "IOB",
+      "date": "18-Mar-26",
+      "rawDescription": "UPI/881014305018/DR/ RAHUL SEN/YORB/Paid via",
+      "debit": 80.4,
+      "credit": 0,
+      "balance": 39900.18
+    },
+    {
+      "bank": "IOB",
+      "date": "17-Mar-26",
+      "rawDescription": "UPI/430181454349/DR/ NAREN GILL /NOVA/Paid via",
+      "debit": 78,
+      "credit": 0,
+      "balance": 39822.18
+    },
+    {
+      "bank": "IOB",
+      "date": "17-Mar-26",
+      "rawDescription": "UPI/796363418327/DR/ PATTY HOUSE /AURB/Paid via",
+      "debit": 98.68,
+      "credit": 0,
+      "balance": 39723.5
+    },
+    {
+      "bank": "IOB",
+      "date": "17-Mar-26",
+      "rawDescription": "UPI/790361498903/DR/ROHAN PILLAI/FDRX/ref8678",
+      "debit": 119.97,
+      "credit": 0,
+      "balance": 39603.53
+    },
+    {
+      "bank": "IOB",
+      "date": "17-Mar-26",
+      "rawDescription": "UPI/474309278923/DR/ RYAAN SURI /KKBXX/Paid via",
+      "debit": 79.2,
+      "credit": 0,
+      "balance": 39524.33
+    },
+    {
+      "bank": "IOB",
+      "date": "16-Mar-26",
+      "rawDescription": "UPI/765012783038/DR/ PANTRYNOW/YORB/NO REMARK",
+      "debit": 157.31,
+      "credit": 0,
+      "balance": 39367.02
+    },
+    {
+      "bank": "IOB",
+      "date": "16-Mar-26",
+      "rawDescription": "UPI/730109278383/DR/PRANAV RAJ/YORB/Paid via",
+      "debit": 56,
+      "credit": 0,
+      "balance": 39311.02
+    },
+    {
+      "bank": "IOB",
+      "date": "16-Mar-26",
+      "rawDescription": "UPI/990987012369/DR/ROHAN PILLAI/FDRX/ref2610",
+      "debit": 124.7,
+      "credit": 0,
+      "balance": 39186.32
+    },
+    {
+      "bank": "IOB",
+      "date": "16-Mar-26",
+      "rawDescription": "UPI/750385476945/DR/ SPICE HARBOR/YORB /Paid via",
+      "debit": 54.2,
+      "credit": 0,
+      "balance": 39132.12
+    },
+    {
+      "bank": "IOB",
+      "date": "16-Mar-26",
+      "rawDescription": "UPI/249490141412/DR/ ISHAN DEY/SBI /Paid via",
+      "debit": 76.8,
+      "credit": 0,
+      "balance": 39055.32
+    },
+    {
+      "bank": "IOB",
+      "date": "16-Mar-26",
+      "rawDescription": "UPI/518347434109/CR/MIRA DEV /NOVA/ref4610",
+      "debit": 0,
+      "credit": 391.25,
+      "balance": 39446.57
+    },
+    {
+      "bank": "IOB",
+      "date": "15-Mar-26",
+      "rawDescription": "UPI/172789414721/CR/MIRA DEV /NOVA/ref1096",
+      "debit": 0,
+      "credit": 1542,
+      "balance": 40988.57
+    },
+    {
+      "bank": "IOB",
+      "date": "15-Mar-26",
+      "rawDescription": "UPI/783070301672/DR/SOUTH TABLE/YORB/Paid via",
+      "debit": 44.6,
+      "credit": 0,
+      "balance": 40943.97
+    },
+    {
+      "bank": "IOB",
+      "date": "15-Mar-26",
+      "rawDescription": "UPI/558167492701/CR/ NIMBUS CLOUD/NOVA /UPI",
+      "debit": 0,
+      "credit": 34.94,
+      "balance": 40978.91
+    },
+    {
+      "bank": "IOB",
+      "date": "15-Mar-26",
+      "rawDescription": "UPI/974547434747/DR/ EMBER TABLE/AURB /Paid via",
+      "debit": 203.66,
+      "credit": 0,
+      "balance": 40775.25
+    },
+    {
+      "bank": "IOB",
+      "date": "15-Mar-26",
+      "rawDescription": "UPI/765872363216/DR /KRANTHIKUMAR B/SKYB/Paid via",
+      "debit": 75,
+      "credit": 0,
+      "balance": 40700.25
+    },
+    {
+      "bank": "IOB",
+      "date": "15-Mar-26",
+      "rawDescription": "UPI/232127652549/DR/ QZ75PX7721 /CNRX/Paid via",
+      "debit": 49.2,
+      "credit": 0,
+      "balance": 40651.05
+    },
+    {
+      "bank": "IOB",
+      "date": "15-Mar-26",
+      "rawDescription": "UPI/452743870365/DR/NIKHIL DAS/FDRX/Paid via",
+      "debit": 66,
+      "credit": 0,
+      "balance": 40585.05
+    },
+    {
+      "bank": "IOB",
+      "date": "15-Mar-26",
+      "rawDescription": "UPI/969276321498/CR/SELF LEDGR /SBI/UPI",
+      "debit": 0,
+      "credit": 2720.43,
+      "balance": 43305.48
+    },
+    {
+      "bank": "IOB",
+      "date": "15-Mar-26",
+      "rawDescription": "UPI/610541058783/CR/ PAYAXIS/NOVA /SPRINTPRR",
+      "debit": 0,
+      "credit": 1587.36,
+      "balance": 44892.84
+    },
+    {
+      "bank": "IOB",
+      "date": "14-Mar-26",
+      "rawDescription": "UPI/507612141012/CR/ ARIN MEHTA /INDB/NO REMARK",
+      "debit": 0,
+      "credit": 790,
+      "balance": 45682.84
+    },
+    {
+      "bank": "IOB",
+      "date": "14-Mar-26",
+      "rawDescription": "UPI/221858903416/DR/ QUICKDISH DINE /SKYB/Paid via",
+      "debit": 73.5,
+      "credit": 0,
+      "balance": 45609.34
+    },
+    {
+      "bank": "IOB",
+      "date": "14-Mar-26",
+      "rawDescription": "UPI/496709838789/DR/ VELOCITY STACK/SKYB /Paymentto",
+      "debit": 3925.56,
+      "credit": 0,
+      "balance": 41683.78
+    },
+    {
+      "bank": "IOB",
+      "date": "14-Mar-26",
+      "rawDescription": "UPI/454369252527/DR/ VELOCITY STACK/SKYB /Paymentto",
+      "debit": 58.75,
+      "credit": 0,
+      "balance": 41625.03
+    },
+    {
+      "bank": "IOB",
+      "date": "13-Mar-26",
+      "rawDescription": "UPI/121470187678/DR/ QUICKDISH DINE /SKYB/Paid via",
+      "debit": 75.5,
+      "credit": 0,
+      "balance": 41549.53
+    },
+    {
+      "bank": "IOB",
+      "date": "13-Mar-26",
+      "rawDescription": "UPI/214907094787/DR/LOCAL PANTRY /NOVA/Payment f",
+      "debit": 82.6,
+      "credit": 0,
+      "balance": 41466.93
+    },
+    {
+      "bank": "IOB",
+      "date": "13-Mar-26",
+      "rawDescription": "UPI/712901876163/DR/ ISHAAN PAUL/FDRX /Paid via",
+      "debit": 79.8,
+      "credit": 0,
+      "balance": 41387.13
+    },
+    {
+      "bank": "IOB",
+      "date": "13-Mar-26",
+      "rawDescription": "UPI/858741672567/DR/ ZAIN ARIF /SBI/Paid via",
+      "debit": 76.2,
+      "credit": 0,
+      "balance": 41310.93
+    },
+    {
+      "bank": "IOB",
+      "date": "10-Mar-26",
+      "rawDescription": "UPI/449834145072/DR /VEER MALHOTRA/CNRX/Paid via",
+      "debit": 286.8,
+      "credit": 0,
+      "balance": 41024.13
+    },
+    {
+      "bank": "IOB",
+      "date": "10-Mar-26",
+      "rawDescription": "UPI/465258169410/DR/ RHEA KAPOOR /CNRX/Paid via",
+      "debit": 361,
+      "credit": 0,
+      "balance": 40663.13
+    },
+    {
+      "bank": "IOB",
+      "date": "10-Mar-26",
+      "rawDescription": "UPI/252761014347/DR/ REHAN DUTT/HOMB/Paid via",
+      "debit": 315,
+      "credit": 0,
+      "balance": 40348.13
+    },
+    {
+      "bank": "IOB",
+      "date": "09-Mar-26",
+      "rawDescription": "UPI/689610529436/DR/ CAFE STITCH /AERX/Pay",
+      "debit": 490.07,
+      "credit": 0,
+      "balance": 39858.06
+    },
+    {
+      "bank": "IOB",
+      "date": "09-Mar-26",
+      "rawDescription": "UPI/503632949894/DR/ ROUTELOOP/NOVA /ref6367",
+      "debit": 981.9,
+      "credit": 0,
+      "balance": 38876.16
+    },
+    {
+      "bank": "IOB",
+      "date": "09-Mar-26",
+      "rawDescription": "UPI/623034361258/DR/ PANTRYNOW/YORB/NO REMARK",
+      "debit": 53.2,
+      "credit": 0,
+      "balance": 38822.96
+    },
+    {
+      "bank": "IOB",
+      "date": "09-Mar-26",
+      "rawDescription": "UPI/870703638965/DR/ PANTRYNOW/KKBXX /NO REMARK",
+      "debit": 376.83,
+      "credit": 0,
+      "balance": 38446.13
+    },
+    {
+      "bank": "IOB",
+      "date": "09-Mar-26",
+      "rawDescription": "UPI/723076521276/DR/ QUICKDISH/SKYB/NO REMARK",
+      "debit": 445,
+      "credit": 0,
+      "balance": 38001.13
+    },
+    {
+      "bank": "IOB",
+      "date": "08-Mar-26",
+      "rawDescription": "UPI/601672783696/ NIMBUS CLOUD/NOVA /MandateEx",
+      "debit": 34.96,
+      "credit": 0,
+      "balance": 37966.17
+    },
+    {
+      "bank": "IOB",
+      "date": "08-Mar-26",
+      "rawDescription": "UPI/789052105612/DR/ MEALMINT/AERX /UPIIntent",
+      "debit": 441.48,
+      "credit": 0,
+      "balance": 37524.69
+    },
+    {
+      "bank": "IOB",
+      "date": "06-Mar-26",
+      "rawDescription": "UPI/301236549454/DR/ IRA NAIR /FDRX/Paid via",
+      "debit": 73,
+      "credit": 0,
+      "balance": 37451.69
+    },
+    {
+      "bank": "IOB",
+      "date": "06-Mar-26",
+      "rawDescription": "UPI/334107630947/DR/ CRUMB THEORY /YORB/Paid via",
+      "debit": 64,
+      "credit": 0,
+      "balance": 37387.69
+    },
+    {
+      "bank": "IOB",
+      "date": "06-Mar-26",
+      "rawDescription": "UPI/287256503250/DR/ VELVET SWEETS/YORB/Paid via",
+      "debit": 67.85,
+      "credit": 0,
+      "balance": 37319.84
+    },
+    {
+      "bank": "IOB",
+      "date": "06-Mar-26",
+      "rawDescription": "UPI/198729492583/DR/ SPICE HARBOR/YORB /Paid via",
+      "debit": 53.3,
+      "credit": 0,
+      "balance": 37266.54
+    },
+    {
+      "bank": "IOB",
+      "date": "06-Mar-26",
+      "rawDescription": "UPI/678129234923/DR/SAMIR KHAN /SBI/Paid via",
+      "debit": 74.1,
+      "credit": 0,
+      "balance": 37192.44
+    },
+    {
+      "bank": "IOB",
+      "date": "05-Mar-26",
+      "rawDescription": "UPI/667232547430/DR/HARBOR HOUSE LIVING/YORB/Paid via",
+      "debit": 21260,
+      "credit": 0,
+      "balance": 15932.44
+    },
+    {
+      "bank": "IOB",
+      "date": "05-Mar-26",
+      "rawDescription": "UPI/323054363252/DR /RISHI NARAIN /SBI/Paid via",
+      "debit": 70.8,
+      "credit": 0,
+      "balance": 15861.64
+    },
+    {
+      "bank": "IOB",
+      "date": "05-Mar-26",
+      "rawDescription": "UPI/383212569074/DR/PATTY HOUSE /NOVA/Payment f",
+      "debit": 102,
+      "credit": 0,
+      "balance": 15759.64
+    },
+    {
+      "bank": "IOB",
+      "date": "05-Mar-26",
+      "rawDescription": "UPI/712963292941/DR/ROHAN PILLAI/FDRX/ref6898",
+      "debit": 120,
+      "credit": 0,
+      "balance": 15639.64
+    },
+    {
+      "bank": "IOB",
+      "date": "05-Mar-26",
+      "rawDescription": "UPI/154301690701/DR/ SPICE HARBOR/YORB /Paid via",
+      "debit": 67.85,
+      "credit": 0,
+      "balance": 15571.79
+    },
+    {
+      "bank": "IOB",
+      "date": "05-Mar-26",
+      "rawDescription": "UPI/212749652107/DR/ZUBIN KHAN /SBI/Paid via",
+      "debit": 79.8,
+      "credit": 0,
+      "balance": 15491.99
+    },
+    {
+      "bank": "IOB",
+      "date": "04-Mar-26",
+      "rawDescription": "UPI/965016381474/CR/ REWARD LOOP /AURB/REWARDSPARK",
+      "debit": 0,
+      "credit": 6,
+      "balance": 15497.99
+    },
+    {
+      "bank": "IOB",
+      "date": "04-Mar-26",
+      "rawDescription": "UPI/289458523092/DR/ ROUTELOOP/AURB /ref9745",
+      "debit": 1018.42,
+      "credit": 0,
+      "balance": 14479.57
+    },
+    {
+      "bank": "IOB",
+      "date": "03-Mar-26",
+      "rawDescription": "UPI/141416109272/DR/ KABIR JAIN/SBI /Paid via",
+      "debit": 63.45,
+      "credit": 0,
+      "balance": 14416.12
+    },
+    {
+      "bank": "IOB",
+      "date": "03-Mar-26",
+      "rawDescription": "FNSIP/MAR 8854",
+      "debit": 71.64,
+      "credit": 0,
+      "balance": 14344.48
+    },
+    {
+      "bank": "IOB",
+      "date": "03-Mar-26",
+      "rawDescription": "UPI/181272989478/DR/ PRANAV RAJ/SBI /Paid via",
+      "debit": 66.5,
+      "credit": 0,
+      "balance": 14277.98
+    },
+    {
+      "bank": "IOB",
+      "date": "03-Mar-26",
+      "rawDescription": "UPI/209458985030/DR/ QUICKDISH LTD/NOVA /ref8072",
+      "debit": 229.3,
+      "credit": 0,
+      "balance": 14048.68
+    },
+    {
+      "bank": "IOB",
+      "date": "02-Mar-26",
+      "rawDescription": "UPI/185436961472/DR/ QUICKDISH/SKYB /NO REMARK",
+      "debit": 357.82,
+      "credit": 0,
+      "balance": 13690.86
+    },
+    {
+      "bank": "IOB",
+      "date": "02-Mar-26",
+      "rawDescription": "UPI/747816761634/CR/ REWARD LOOP /AURB/REWARDSPARK",
+      "debit": 0,
+      "credit": 11,
+      "balance": 13701.86
+    },
+    {
+      "bank": "IOB",
+      "date": "02-Mar-26",
+      "rawDescription": "UPI/612989494105/DR/CARTROOT/AURB/UPIIntent",
+      "debit": 3694.3,
+      "credit": 0,
+      "balance": 10007.56
+    },
+    {
+      "bank": "IOB",
+      "date": "02-Mar-26",
+      "rawDescription": "UPI/443478963872/DR/MEALMINT MARKET/AERX/ref9329",
+      "debit": 307.56,
+      "credit": 0,
+      "balance": 9700
+    },
+    {
+      "bank": "IOB",
+      "date": "02-Mar-26",
+      "rawDescription": "UPI/896341010107/CR/ YUVAN S/SBI /UPI",
+      "debit": 0,
+      "credit": 615.51,
+      "balance": 10315.51
+    },
+    {
+      "bank": "IOB",
+      "date": "02-Mar-26",
+      "rawDescription": "UPI/347654505018/DR/ QUICKDISH LTD/NOVA /ref7785",
+      "debit": 256.3,
+      "credit": 0,
+      "balance": 10059.21
+    },
+    {
+      "bank": "IOB",
+      "date": "02-Mar-26",
+      "rawDescription": "UPI/258345210107/ CINEWAVE/AURB /Execution",
+      "debit": 193.1,
+      "credit": 0,
+      "balance": 9866.11
+    }
+  ]
+}

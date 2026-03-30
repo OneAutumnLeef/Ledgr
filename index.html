@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0"
+    />
+    <meta
+      name="description"
+      content="Ledgr personal finance dashboard for Indian bank users."
+    />
+    <link rel="icon" type="image/png" href="https://images.prismic.io/derajportfolio/acq0eJGXnQHGZG01_ledgr-icon.png?auto=format,compress" />
+    <link rel="apple-touch-icon" href="https://images.prismic.io/derajportfolio/acq0eJGXnQHGZG01_ledgr-icon.png?auto=format,compress" />
+    <title>Ledgr</title>
+    <style>
+      html, body {
+        margin: 0;
+        min-height: 100%;
+        background: #0A0A0F;
+        color: #F3F4F6;
+        font-family: system-ui, sans-serif;
+      }
+
+      #root {
+        min-height: 100vh;
+      }
+
+      .boot-fallback {
+        min-height: 100vh;
+        display: grid;
+        place-items: center;
+        padding: 24px;
+        background:
+          radial-gradient(circle at top right, rgba(59, 130, 246, 0.14), transparent 28%),
+          radial-gradient(circle at left center, rgba(200, 241, 53, 0.10), transparent 24%),
+          #0A0A0F;
+      }
+
+      .boot-card {
+        width: min(560px, 100%);
+        border-radius: 28px;
+        border: 1px solid rgba(255,255,255,0.08);
+        background: rgba(19, 19, 26, 0.82);
+        padding: 32px;
+        box-shadow: 0 22px 80px rgba(0,0,0,0.45);
+      }
+
+      .boot-card h1 {
+        margin: 0 0 8px;
+        font-size: 32px;
+      }
+
+      .boot-card p {
+        margin: 0;
+        color: rgba(255,255,255,0.72);
+        line-height: 1.6;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root">
+      <div class="boot-fallback">
+        <div class="boot-card">
+          <h1>Ledgr is starting…</h1>
+          <p>If this screen stays here, run the app through Vite with <code>npm run dev</code> instead of opening <code>index.html</code> directly.</p>
+        </div>
+      </div>
+    </div>
+    <noscript>
+      <div class="boot-fallback">
+        <div class="boot-card">
+          <h1>JavaScript is required</h1>
+          <p>Enable JavaScript to load the Ledgr dashboard.</p>
+        </div>
+      </div>
+    </noscript>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+  </html>

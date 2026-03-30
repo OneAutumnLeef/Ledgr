@@ -1,0 +1,1544 @@
+[
+  {
+    "cat": "Food Delivery",
+    "color": "#E85D26",
+    "merchants": [
+      {
+        "name": "Zomato",
+        "keys": [
+          "ZOMATO",
+          "Zomatofood",
+          "ETERNAL LIMITE",
+          "zomatofood",
+          "ZomatoOnl"
+        ]
+      },
+      {
+        "name": "Swiggy",
+        "keys": [
+          "SWIGGY",
+          "Swiggy",
+          "SwiggyLtd",
+          "Swiggy Diners",
+          "SwiggyDine"
+        ]
+      },
+      {
+        "name": "Dunzo",
+        "keys": [
+          "DUNZO",
+          "dunzo"
+        ]
+      },
+      {
+        "name": "Blinkit",
+        "keys": [
+          "BLINKIT",
+          "blinkit",
+          "Grofers"
+        ]
+      },
+      {
+        "name": "Zepto",
+        "keys": [
+          "Zepto",
+          "ZEPTO",
+          "zepto"
+        ]
+      },
+      {
+        "name": "EatSure",
+        "keys": [
+          "EATSURE",
+          "eatsure"
+        ]
+      },
+      {
+        "name": "Rebel Foods",
+        "keys": [
+          "REBELFOODS",
+          "rebel foods"
+        ]
+      }
+    ]
+  },
+  {
+    "cat": "Restaurants & Cafés",
+    "color": "#C0542D",
+    "merchants": [
+      {
+        "name": "McDonald's",
+        "keys": [
+          "MCDONALDS",
+          "MC DONALDS",
+          "McDonalds Hard",
+          "mcdonalds"
+        ]
+      },
+      {
+        "name": "KFC",
+        "keys": [
+          "KFC",
+          "devyanikfc"
+        ]
+      },
+      {
+        "name": "Domino's",
+        "keys": [
+          "DOMINOS",
+          "DOMINOZ",
+          "dominos"
+        ]
+      },
+      {
+        "name": "Pizza Hut",
+        "keys": [
+          "PIZZAHUT",
+          "pizza hut",
+          "PIZZAHUTONLINE"
+        ]
+      },
+      {
+        "name": "Burger King",
+        "keys": [
+          "BURGERKING",
+          "burger king",
+          "BKIND"
+        ]
+      },
+      {
+        "name": "Subway",
+        "keys": [
+          "SUBWAY",
+          "subway"
+        ]
+      },
+      {
+        "name": "Starbucks",
+        "keys": [
+          "STARBUCKS",
+          "starbucks",
+          "TATA STARBUCKS"
+        ]
+      },
+      {
+        "name": "Café Coffee Day",
+        "keys": [
+          "CAFECOFFEEDAY",
+          "CCD",
+          "cafe coffee"
+        ]
+      },
+      {
+        "name": "Wow Momo",
+        "keys": [
+          "WOWMOMO",
+          "wow momo"
+        ]
+      },
+      {
+        "name": "Haldirams",
+        "keys": [
+          "HALDIRAM",
+          "haldirams"
+        ]
+      },
+      {
+        "name": "Barbeque Nation",
+        "keys": [
+          "BARBEQUE",
+          "bbq nation"
+        ]
+      },
+      {
+        "name": "Saravana Bhavan",
+        "keys": [
+          "SARAVANABHAVAN",
+          "saravana"
+        ]
+      },
+      {
+        "name": "Shubh Sagar",
+        "keys": [
+          "Shubh sagar",
+          "Shubh sa",
+          "shubh sagar"
+        ]
+      },
+      {
+        "name": "Bread Fantasy",
+        "keys": [
+          "Bread Fantasy",
+          "bread fantasy"
+        ]
+      },
+      {
+        "name": "New Udupi Grand",
+        "keys": [
+          "NEW UDUPI GRAN",
+          "new udupi"
+        ]
+      },
+      {
+        "name": "La Casa",
+        "keys": [
+          "LA CASA",
+          "la casa"
+        ]
+      },
+      {
+        "name": "Bella Sweets",
+        "keys": [
+          "BELLA SWEETS",
+          "bella sweets"
+        ]
+      },
+      {
+        "name": "Stick It Up",
+        "keys": [
+          "STICK IT UP",
+          "stick it up"
+        ]
+      },
+      {
+        "name": "Swiggy Diners",
+        "keys": [
+          "Swiggy Diners",
+          "SWIGGYDINERS"
+        ]
+      }
+    ]
+  },
+  {
+    "cat": "Groceries & Supermarkets",
+    "color": "#2D8C4E",
+    "merchants": [
+      {
+        "name": "BigBasket",
+        "keys": [
+          "BIGBASKET",
+          "bigbasket",
+          "BBnow"
+        ]
+      },
+      {
+        "name": "DMart",
+        "keys": [
+          "DMART",
+          "dmart",
+          "AVENUE SUPER"
+        ]
+      },
+      {
+        "name": "Reliance Smart",
+        "keys": [
+          "RELIANCE SMART",
+          "RELSMRT",
+          "Reliance Retail"
+        ]
+      },
+      {
+        "name": "Spencer's",
+        "keys": [
+          "SPENCERS",
+          "spencers"
+        ]
+      },
+      {
+        "name": "More Supermarket",
+        "keys": [
+          "MORE SUPERMARKET",
+          "moresupermarket"
+        ]
+      },
+      {
+        "name": "Fresh Zone",
+        "keys": [
+          "FRESH ZONE",
+          "fresh zone"
+        ]
+      },
+      {
+        "name": "Nature's Basket",
+        "keys": [
+          "NATURESBASKET",
+          "natures basket"
+        ]
+      },
+      {
+        "name": "Licious",
+        "keys": [
+          "LICIOUS",
+          "licious"
+        ]
+      },
+      {
+        "name": "Ninjacart",
+        "keys": [
+          "NINJACART",
+          "ninjacart"
+        ]
+      },
+      {
+        "name": "Jiomart",
+        "keys": [
+          "JIOMART",
+          "jiomart"
+        ]
+      }
+    ]
+  },
+  {
+    "cat": "E-Commerce & Shopping",
+    "color": "#FF9900",
+    "merchants": [
+      {
+        "name": "Amazon",
+        "keys": [
+          "AMAZON",
+          "amazon",
+          "AMZNMKTPLACE",
+          "AmzPrime"
+        ]
+      },
+      {
+        "name": "Flipkart",
+        "keys": [
+          "FLIPKART",
+          "FLIPKART PAYME",
+          "flipkart"
+        ]
+      },
+      {
+        "name": "Myntra",
+        "keys": [
+          "MYNTRA",
+          "myntra"
+        ]
+      },
+      {
+        "name": "Meesho",
+        "keys": [
+          "MEESHO",
+          "meesho"
+        ]
+      },
+      {
+        "name": "Snapdeal",
+        "keys": [
+          "SNAPDEAL",
+          "snapdeal"
+        ]
+      },
+      {
+        "name": "Tata CLiQ",
+        "keys": [
+          "TATACLIQ",
+          "tatacliq",
+          "TATA CLIQ"
+        ]
+      },
+      {
+        "name": "Nykaa",
+        "keys": [
+          "NYKAA",
+          "nykaa",
+          "FSNTAIL"
+        ]
+      },
+      {
+        "name": "Ajio",
+        "keys": [
+          "AJIO",
+          "ajio",
+          "AJIO FASION"
+        ]
+      },
+      {
+        "name": "Pepperfry",
+        "keys": [
+          "PEPPERFRY",
+          "pepperfry"
+        ]
+      },
+      {
+        "name": "Croma",
+        "keys": [
+          "CROMA",
+          "croma",
+          "INFINITI RETAIL"
+        ]
+      },
+      {
+        "name": "Reliance Digital",
+        "keys": [
+          "RELIANCE DIGITAL",
+          "reliancedigital"
+        ]
+      },
+      {
+        "name": "Headphone Zone",
+        "keys": [
+          "HEADPHONE ZONE",
+          "headphonezone"
+        ]
+      },
+      {
+        "name": "Decathlon",
+        "keys": [
+          "DECATHLON",
+          "decathlon"
+        ]
+      },
+      {
+        "name": "Ikea",
+        "keys": [
+          "IKEA",
+          "ikea"
+        ]
+      }
+    ]
+  },
+  {
+    "cat": "Transport & Travel",
+    "color": "#1A56DB",
+    "merchants": [
+      {
+        "name": "Uber",
+        "keys": [
+          "UBER",
+          "uber",
+          "UBERINDIATECH"
+        ]
+      },
+      {
+        "name": "Ola",
+        "keys": [
+          "OLA",
+          "olacabs",
+          "ANIGMA OLA"
+        ]
+      },
+      {
+        "name": "Rapido",
+        "keys": [
+          "RAPIDO",
+          "rapido"
+        ]
+      },
+      {
+        "name": "RedBus",
+        "keys": [
+          "redbus",
+          "REDBUS",
+          "redbusBoo",
+          "REDBUS TICKETS"
+        ]
+      },
+      {
+        "name": "IRCTC",
+        "keys": [
+          "IRCTC",
+          "irctc",
+          "CRIS"
+        ]
+      },
+      {
+        "name": "MakeMyTrip",
+        "keys": [
+          "MAKEMYTRIP",
+          "makemytrip",
+          "MMT"
+        ]
+      },
+      {
+        "name": "Goibibo",
+        "keys": [
+          "GOIBIBO",
+          "goibibo"
+        ]
+      },
+      {
+        "name": "Yatra",
+        "keys": [
+          "YATRA",
+          "yatra"
+        ]
+      },
+      {
+        "name": "Cleartrip",
+        "keys": [
+          "CLEARTRIP",
+          "cleartrip"
+        ]
+      },
+      {
+        "name": "EaseMyTrip",
+        "keys": [
+          "EASEMYTRIP",
+          "easemytrip"
+        ]
+      },
+      {
+        "name": "OYO",
+        "keys": [
+          "OYO",
+          "oyorooms",
+          "ORAVEL"
+        ]
+      },
+      {
+        "name": "Airbnb",
+        "keys": [
+          "AIRBNB",
+          "airbnb"
+        ]
+      },
+      {
+        "name": "Treebo",
+        "keys": [
+          "TREEBO",
+          "treebo"
+        ]
+      },
+      {
+        "name": "IndiGo",
+        "keys": [
+          "INDIGO",
+          "Interglobe",
+          "6E"
+        ]
+      },
+      {
+        "name": "Air India",
+        "keys": [
+          "AIR INDIA",
+          "airindia"
+        ]
+      },
+      {
+        "name": "SpiceJet",
+        "keys": [
+          "SPICEJET",
+          "spicejet"
+        ]
+      },
+      {
+        "name": "Vistara",
+        "keys": [
+          "VISTARA",
+          "vistara",
+          "TATA SIA"
+        ]
+      },
+      {
+        "name": "Indian Oil (Petrol)",
+        "keys": [
+          "IOCL",
+          "INDIANOIL",
+          "HPCL",
+          "BPCL",
+          "petrol",
+          "BHARAT PETROLEUM"
+        ]
+      },
+      {
+        "name": "Fastag (NETC)",
+        "keys": [
+          "FASTAG",
+          "netc fastag",
+          "IHMCL",
+          "NHAI"
+        ]
+      }
+    ]
+  },
+  {
+    "cat": "Subscriptions & Entertainment",
+    "color": "#8B5CF6",
+    "merchants": [
+      {
+        "name": "Netflix",
+        "keys": [
+          "NETFLIX",
+          "netflix"
+        ]
+      },
+      {
+        "name": "Spotify",
+        "keys": [
+          "SPOTIFY",
+          "spotify"
+        ]
+      },
+      {
+        "name": "Apple Services",
+        "keys": [
+          "APPLE ME",
+          "APPLE MEDIA SE",
+          "appleservi",
+          "APPLEME"
+        ]
+      },
+      {
+        "name": "YouTube / Google",
+        "keys": [
+          "YOUTUBE GOOGLE",
+          "youtube",
+          "YTPREMIUM"
+        ]
+      },
+      {
+        "name": "Amazon Prime",
+        "keys": [
+          "AMAZON PRIME",
+          "amazonprime",
+          "PRIMEVIDEOIND"
+        ]
+      },
+      {
+        "name": "Disney+ Hotstar",
+        "keys": [
+          "HOTSTAR",
+          "DISNEYPLUS",
+          "NOVI DIGITAL"
+        ]
+      },
+      {
+        "name": "SonyLIV",
+        "keys": [
+          "SONYLIV",
+          "sonyliv",
+          "SONY PICTURES"
+        ]
+      },
+      {
+        "name": "Zee5",
+        "keys": [
+          "ZEE5",
+          "zee5"
+        ]
+      },
+      {
+        "name": "Jio Cinema",
+        "keys": [
+          "JIOCINEMA",
+          "JIOHOTSTAR"
+        ]
+      },
+      {
+        "name": "BookMyShow",
+        "keys": [
+          "BOOKMYSHOW",
+          "bookmyshow",
+          "BIGTREE"
+        ]
+      },
+      {
+        "name": "PVR Cinemas",
+        "keys": [
+          "PVR",
+          "PVRINOX",
+          "inox"
+        ]
+      },
+      {
+        "name": "Riot Games",
+        "keys": [
+          "Riot Games",
+          "RIOT GAMES",
+          "riotgames"
+        ]
+      },
+      {
+        "name": "Steam",
+        "keys": [
+          "STEAM",
+          "steamgames",
+          "VALVE"
+        ]
+      },
+      {
+        "name": "Nassaa Entertainment",
+        "keys": [
+          "NASSAA ENTERTA",
+          "nassaa"
+        ]
+      }
+    ]
+  },
+  {
+    "cat": "Tech, Cloud & Dev Tools",
+    "color": "#0EA5E9",
+    "merchants": [
+      {
+        "name": "Google Cloud",
+        "keys": [
+          "Google C",
+          "googleclou",
+          "GOOGLE CLOUD",
+          "GoogleCloud"
+        ]
+      },
+      {
+        "name": "RunPod",
+        "keys": [
+          "RUNPOD.IO",
+          "runpod"
+        ]
+      },
+      {
+        "name": "SprintPro",
+        "keys": [
+          "SPRINTPRO",
+          "SPRINTPR O",
+          "sprintpro"
+        ]
+      },
+      {
+        "name": "Histogen",
+        "keys": [
+          "HISTOGEN",
+          "histogen"
+        ]
+      },
+      {
+        "name": "AWS",
+        "keys": [
+          "AMAZON WEB",
+          "AWS",
+          "amazonwebservices"
+        ]
+      },
+      {
+        "name": "Microsoft Azure",
+        "keys": [
+          "MICROSOFT",
+          "azure",
+          "MSFT"
+        ]
+      },
+      {
+        "name": "DigitalOcean",
+        "keys": [
+          "DIGITALOCEAN",
+          "digitalocean"
+        ]
+      },
+      {
+        "name": "Vercel",
+        "keys": [
+          "VERCEL",
+          "vercel"
+        ]
+      },
+      {
+        "name": "GitHub",
+        "keys": [
+          "GITHUB",
+          "github"
+        ]
+      },
+      {
+        "name": "Replit",
+        "keys": [
+          "REPLIT",
+          "replit"
+        ]
+      },
+      {
+        "name": "Notion",
+        "keys": [
+          "NOTION",
+          "notion"
+        ]
+      },
+      {
+        "name": "Figma",
+        "keys": [
+          "FIGMA",
+          "figma"
+        ]
+      },
+      {
+        "name": "Slack",
+        "keys": [
+          "SLACK",
+          "slack"
+        ]
+      },
+      {
+        "name": "Zoom",
+        "keys": [
+          "ZOOM",
+          "zoom"
+        ]
+      },
+      {
+        "name": "ChatGPT / OpenAI",
+        "keys": [
+          "OPENAI",
+          "chatgpt",
+          "OPENAI CHATGPT"
+        ]
+      }
+    ]
+  },
+  {
+    "cat": "Utilities & Telecom",
+    "color": "#64748B",
+    "merchants": [
+      {
+        "name": "Airtel",
+        "keys": [
+          "AIRTEL",
+          "airtel",
+          "Bharti Airtel"
+        ]
+      },
+      {
+        "name": "Jio",
+        "keys": [
+          "JIO",
+          "jio",
+          "Reliance Jio",
+          "RJIL"
+        ]
+      },
+      {
+        "name": "BSNL",
+        "keys": [
+          "BSNL",
+          "bsnl"
+        ]
+      },
+      {
+        "name": "Vi (Vodafone Idea)",
+        "keys": [
+          "VODAFONE",
+          "VI ",
+          "vodafoneidea"
+        ]
+      },
+      {
+        "name": "BESCOM",
+        "keys": [
+          "BESCOM",
+          "bescom"
+        ]
+      },
+      {
+        "name": "TNEB / TANGEDCO",
+        "keys": [
+          "TNEB",
+          "TANGEDCO",
+          "tneb"
+        ]
+      },
+      {
+        "name": "MSEDCL",
+        "keys": [
+          "MSEDCL",
+          "msedcl",
+          "mahadiscom"
+        ]
+      },
+      {
+        "name": "BWSSB (Water)",
+        "keys": [
+          "BWSSB",
+          "bwssb"
+        ]
+      },
+      {
+        "name": "Tata Power",
+        "keys": [
+          "TATA POWER",
+          "tatapower"
+        ]
+      },
+      {
+        "name": "Adani Gas",
+        "keys": [
+          "ADANI GAS",
+          "adanigas",
+          "MGL",
+          "IGL"
+        ]
+      },
+      {
+        "name": "Tikona / ACT Fiber",
+        "keys": [
+          "TIKONA",
+          "ACT FIBER",
+          "actfibernet"
+        ]
+      },
+      {
+        "name": "Hathway",
+        "keys": [
+          "HATHWAY",
+          "hathway"
+        ]
+      },
+      {
+        "name": "Paytm Postpaid",
+        "keys": [
+          "PAYTM POSTPAID",
+          "paytmpostpaid"
+        ]
+      }
+    ]
+  },
+  {
+    "cat": "Health & Pharmacy",
+    "color": "#10B981",
+    "merchants": [
+      {
+        "name": "Apollo Pharmacy",
+        "keys": [
+          "APOLLO PHARMA",
+          "APOLLOPHARMA",
+          "apollopharmacy"
+        ]
+      },
+      {
+        "name": "Practo",
+        "keys": [
+          "PRACTO",
+          "practo"
+        ]
+      },
+      {
+        "name": "PharmEasy",
+        "keys": [
+          "PHARMEASY",
+          "pharmeasy"
+        ]
+      },
+      {
+        "name": "1mg (Tata 1mg)",
+        "keys": [
+          "TATA 1MG",
+          "1MG",
+          "tata1mg"
+        ]
+      },
+      {
+        "name": "Netmeds",
+        "keys": [
+          "NETMEDS",
+          "netmeds"
+        ]
+      },
+      {
+        "name": "MedPlus",
+        "keys": [
+          "MEDPLUS",
+          "medplus"
+        ]
+      },
+      {
+        "name": "Cult.fit",
+        "keys": [
+          "CULTFIT",
+          "CUREFIT",
+          "cult.fit"
+        ]
+      },
+      {
+        "name": "HealthifyMe",
+        "keys": [
+          "HEALTHIFYME",
+          "healthifyme"
+        ]
+      },
+      {
+        "name": "Cure.fit",
+        "keys": [
+          "CUREFIT",
+          "curefit"
+        ]
+      }
+    ]
+  },
+  {
+    "cat": "Finance, Payments & Insurance",
+    "color": "#F59E0B",
+    "merchants": [
+      {
+        "name": "PhonePe",
+        "keys": [
+          "PHONEPE",
+          "phonepe",
+          "PhonePeUPI"
+        ]
+      },
+      {
+        "name": "Google Pay",
+        "keys": [
+          "GOOGLE PAY",
+          "googlepay",
+          "GPay",
+          "GOOGLEPAY"
+        ]
+      },
+      {
+        "name": "Paytm",
+        "keys": [
+          "PAYTM",
+          "paytm",
+          "paytmqr",
+          "Paytm Ltd"
+        ]
+      },
+      {
+        "name": "BHIM",
+        "keys": [
+          "BHIM",
+          "NPCI BHIM",
+          "BHIMCASHB"
+        ]
+      },
+      {
+        "name": "Amazon Pay",
+        "keys": [
+          "AMAZON PAY",
+          "AMAZONPAY",
+          "amazonpay"
+        ]
+      },
+      {
+        "name": "Cred",
+        "keys": [
+          "CRED",
+          "credpay",
+          "CRED GARAGE"
+        ]
+      },
+      {
+        "name": "Razorpay",
+        "keys": [
+          "RAZORPAY",
+          "razorpay"
+        ]
+      },
+      {
+        "name": "BharatPe",
+        "keys": [
+          "BHARATPE",
+          "bharatpe",
+          "bharatpe.9"
+        ]
+      },
+      {
+        "name": "MobiKwik",
+        "keys": [
+          "MOBIKWIK",
+          "mobikwik"
+        ]
+      },
+      {
+        "name": "Freecharge",
+        "keys": [
+          "FREECHARGE",
+          "freecharge"
+        ]
+      },
+      {
+        "name": "LIC",
+        "keys": [
+          "LIC",
+          "lic india",
+          "LICPREMIUM"
+        ]
+      },
+      {
+        "name": "HDFC Ergo",
+        "keys": [
+          "HDFC ERGO",
+          "hdfcergo"
+        ]
+      },
+      {
+        "name": "PolicyBazaar",
+        "keys": [
+          "POLICYBAZAAR",
+          "policybazaar"
+        ]
+      },
+      {
+        "name": "Bajaj Allianz",
+        "keys": [
+          "BAJAJ ALLIANZ",
+          "bajajallianz"
+        ]
+      },
+      {
+        "name": "Groww",
+        "keys": [
+          "GROWW",
+          "groww",
+          "NEXTBILLION"
+        ]
+      },
+      {
+        "name": "Zerodha",
+        "keys": [
+          "ZERODHA",
+          "zerodha",
+          "NSCCL"
+        ]
+      },
+      {
+        "name": "Upstox",
+        "keys": [
+          "UPSTOX",
+          "upstox",
+          "RKSV"
+        ]
+      },
+      {
+        "name": "CoinDCX",
+        "keys": [
+          "COINDCX",
+          "coindcx"
+        ]
+      },
+      {
+        "name": "WazirX",
+        "keys": [
+          "WAZIRX",
+          "wazirx"
+        ]
+      },
+      {
+        "name": "Navi",
+        "keys": [
+          "NAVI",
+          "NAVI UPI",
+          "navifinserv"
+        ]
+      },
+      {
+        "name": "MoneyTap",
+        "keys": [
+          "MONEYTAP",
+          "moneytap"
+        ]
+      },
+      {
+        "name": "KreditBee",
+        "keys": [
+          "KREDITBEE",
+          "kreditbee"
+        ]
+      },
+      {
+        "name": "LazyPay",
+        "keys": [
+          "LAZYPAY",
+          "lazypay"
+        ]
+      }
+    ]
+  },
+  {
+    "cat": "Education & Ed-Tech",
+    "color": "#7C3AED",
+    "merchants": [
+      {
+        "name": "BYJU'S",
+        "keys": [
+          "BYJUS",
+          "byjus",
+          "THINK & LEARN"
+        ]
+      },
+      {
+        "name": "Unacademy",
+        "keys": [
+          "UNACADEMY",
+          "unacademy"
+        ]
+      },
+      {
+        "name": "Vedantu",
+        "keys": [
+          "VEDANTU",
+          "vedantu"
+        ]
+      },
+      {
+        "name": "Coursera",
+        "keys": [
+          "COURSERA",
+          "coursera"
+        ]
+      },
+      {
+        "name": "Udemy",
+        "keys": [
+          "UDEMY",
+          "udemy"
+        ]
+      },
+      {
+        "name": "LinkedIn Learning",
+        "keys": [
+          "LINKEDIN",
+          "linkedinlearning"
+        ]
+      },
+      {
+        "name": "WhiteHat Jr",
+        "keys": [
+          "WHITEHAT",
+          "whitehatjr"
+        ]
+      },
+      {
+        "name": "Physics Wallah",
+        "keys": [
+          "PHYSICSWALLAH",
+          "pw.live"
+        ]
+      },
+      {
+        "name": "upGrad",
+        "keys": [
+          "UPGRAD",
+          "upgrad"
+        ]
+      },
+      {
+        "name": "Duolingo",
+        "keys": [
+          "DUOLINGO",
+          "duolingo"
+        ]
+      }
+    ]
+  },
+  {
+    "cat": "Sports & Recreation",
+    "color": "#DC2626",
+    "merchants": [
+      {
+        "name": "Turf Town",
+        "keys": [
+          "TURF TOW",
+          "turftownte",
+          "turf town"
+        ]
+      },
+      {
+        "name": "Wesley Turf",
+        "keys": [
+          "WESLEY T",
+          "wesleyturf",
+          "wesley turf"
+        ]
+      },
+      {
+        "name": "Decathlon",
+        "keys": [
+          "DECATHLON",
+          "decathlon"
+        ]
+      },
+      {
+        "name": "Dream11",
+        "keys": [
+          "DREAM11",
+          "dream11",
+          "DREAM SPORTS"
+        ]
+      },
+      {
+        "name": "MPL (Mobile Premier League)",
+        "keys": [
+          "MPL",
+          "mpl",
+          "MOBILE PREMIER"
+        ]
+      },
+      {
+        "name": "Fitpass",
+        "keys": [
+          "FITPASS",
+          "fitpass"
+        ]
+      },
+      {
+        "name": "Cult.fit",
+        "keys": [
+          "CULT FIT",
+          "cultfit"
+        ]
+      },
+      {
+        "name": "Sportz Village",
+        "keys": [
+          "SPORTZVILLAGE",
+          "sportzvillage"
+        ]
+      }
+    ]
+  },
+  {
+    "cat": "Rent & Housing",
+    "color": "#78716C",
+    "merchants": [
+      {
+        "name": "Krish Co Living",
+        "keys": [
+          "KRISH CO LIVIN",
+          "krishcoliving"
+        ]
+      },
+      {
+        "name": "NoBroker",
+        "keys": [
+          "NOBROKER",
+          "nobroker"
+        ]
+      },
+      {
+        "name": "MagicBricks",
+        "keys": [
+          "MAGICBRICKS",
+          "magicbricks"
+        ]
+      },
+      {
+        "name": "99acres",
+        "keys": [
+          "99ACRES",
+          "99acres"
+        ]
+      },
+      {
+        "name": "Housing.com",
+        "keys": [
+          "HOUSING.COM",
+          "housing"
+        ]
+      },
+      {
+        "name": "Nestaway",
+        "keys": [
+          "NESTAWAY",
+          "nestaway"
+        ]
+      },
+      {
+        "name": "Commonfloor",
+        "keys": [
+          "COMMONFLOOR",
+          "commonfloor"
+        ]
+      },
+      {
+        "name": "Society Maintenance",
+        "keys": [
+          "SOCIETYMAINT",
+          "MAINTENANCE",
+          "APNACOMPLEX"
+        ]
+      }
+    ]
+  },
+  {
+    "cat": "Government & Banking",
+    "color": "#1D4ED8",
+    "merchants": [
+      {
+        "name": "APY / NPS (Atal Pension)",
+        "keys": [
+          "APY/SI",
+          "NPSCRA",
+          "nps",
+          "PFRDA",
+          "ATALpension"
+        ]
+      },
+      {
+        "name": "Income Tax / TDS",
+        "keys": [
+          "INCOMETAX",
+          "TDS",
+          "oltas",
+          "NSDL TDS"
+        ]
+      },
+      {
+        "name": "GST / Challan",
+        "keys": [
+          "GSTN",
+          "gst challan",
+          "GSTPAY"
+        ]
+      },
+      {
+        "name": "BBPS (Bill Pay)",
+        "keys": [
+          "BBPS",
+          "BHARATBILLPAY",
+          "BillPay"
+        ]
+      },
+      {
+        "name": "Post Office",
+        "keys": [
+          "INDPOST",
+          "INDIA POST",
+          "postoffice"
+        ]
+      },
+      {
+        "name": "Passport Office",
+        "keys": [
+          "PASSPORT",
+          "PASSPORTSEVA"
+        ]
+      },
+      {
+        "name": "Fastag / NHAI",
+        "keys": [
+          "NHAI",
+          "IHMCL",
+          "Fastag",
+          "NETC"
+        ]
+      },
+      {
+        "name": "MCA / ROC",
+        "keys": [
+          "MCAIND",
+          "MCA21",
+          "ROC"
+        ]
+      },
+      {
+        "name": "e-Challan (Traffic)",
+        "keys": [
+          "ECHALLAN",
+          "echallan",
+          "traffic fine"
+        ]
+      },
+      {
+        "name": "PM KISAN",
+        "keys": [
+          "PMKISAN",
+          "pm-kisan"
+        ]
+      }
+    ]
+  },
+  {
+    "cat": "ATM & Cash",
+    "color": "#6B7280",
+    "merchants": [
+      {
+        "name": "SBI ATM",
+        "keys": [
+          "SBI ATM",
+          "SBIATM",
+          "ATW/"
+        ]
+      },
+      {
+        "name": "HDFC ATM",
+        "keys": [
+          "HDFC ATM",
+          "HDFCATM"
+        ]
+      },
+      {
+        "name": "ICICI ATM",
+        "keys": [
+          "ICICI ATM",
+          "ICICIATM"
+        ]
+      },
+      {
+        "name": "Axis ATM",
+        "keys": [
+          "AXIS ATM",
+          "AXISATM"
+        ]
+      },
+      {
+        "name": "Other Bank ATM",
+        "keys": [
+          "ATM WDL",
+          "ATMPURCH",
+          "CASH WDL",
+          "ATM CASH"
+        ]
+      },
+      {
+        "name": "Cash Deposit Machine",
+        "keys": [
+          "CDM",
+          "CASH DEPOSIT",
+          "CDM DEPOSIT"
+        ]
+      }
+    ]
+  },
+  {
+    "cat": "P2P & Transfers",
+    "color": "#9CA3AF",
+    "merchants": [
+      {
+        "name": "Self Transfer (own accounts)",
+        "keys": [
+          "derajyojit",
+          "DERAJ YO",
+          "own account"
+        ]
+      },
+      {
+        "name": "NEFT Transfer",
+        "keys": [
+          "NEFT",
+          "neft cr",
+          "neft dr"
+        ]
+      },
+      {
+        "name": "RTGS Transfer",
+        "keys": [
+          "RTGS",
+          "rtgs"
+        ]
+      },
+      {
+        "name": "IMPS Transfer",
+        "keys": [
+          "IMPS",
+          "imps"
+        ]
+      },
+      {
+        "name": "UPI P2P (person)",
+        "keys": [
+          "UPI/DR/",
+          "UPI/CR/",
+          "paid via upi"
+        ]
+      },
+      {
+        "name": "Cheque Clearance",
+        "keys": [
+          "CLG",
+          "CLEARING",
+          "CHQ"
+        ]
+      }
+    ]
+  }
+]
