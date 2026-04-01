@@ -19,43 +19,7 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
-import {
-  AlertTriangle,
-  ArrowDownRight,
-  ArrowUpRight,
-  BrainCircuit,
-  BusFront,
-  ChartColumnBig,
-  CircleDollarSign,
-  Cpu,
-  Download,
-  Dumbbell,
-  Flame,
-  Gamepad2,
-  House,
-  IndianRupee,
-  Landmark,
-  LayoutGrid,
-  Pencil,
-  PiggyBank,
-  Plus,
-  ReceiptText,
-  RefreshCcw,
-  Repeat2,
-  Search,
-  ShoppingBag,
-  ShoppingBasket,
-  Sparkles,
-  Target,
-  TrendingDown,
-  TrendingUp,
-  Upload,
-  Users,
-  UtensilsCrossed,
-  WalletCards,
-  X,
-  Zap,
-} from "lucide-react";
+import { UploadCloud, AlertCircle, ArrowUpRight, ArrowDownRight, Activity, TrendingUp, Calendar, Filter, Download, Flame, Search, AlertTriangle, ArrowRightLeft, CreditCard, ChevronRight, CheckCircle2, Copy, BarChart3, PieChart as PieChartIcon, AlignLeft, Tags, Wallet, Target, Repeat2, ArrowDownCircle, Banknote, HelpCircle, FileText, Smartphone, Tv, Zap, Train, Coffee, ShoppingCart, Landmark, Plane, Users, Plus, X, BrainCircuit, LayoutGrid, ChartColumnBig, WalletCards, Gamepad2, ShoppingBag, TrendingDown, House, BusFront, CircleDollarSign, Cpu, Dumbbell, IndianRupee, Pencil, PiggyBank, ReceiptText, RefreshCcw, ShoppingBasket, Sparkles, Target as TargetIcon, Users as UsersIcon, UtensilsCrossed, Upload } from "lucide-react";
 import demoSeed from "../demo_seed.json";
 import merchantCatalog from "../merchant_catalog.json";
 import "./styles.css";
@@ -72,14 +36,26 @@ const STORAGE_KEYS = {
   reviewRows: "ledgr-review-rows",
 };
 
-const TAB_ITEMS = [
-  { id: "overview", label: "Overview", icon: LayoutGrid },
-  { id: "analysis", label: "Analysis", icon: ChartColumnBig },
-  { id: "subscriptions", label: "Subscriptions", icon: Repeat2 },
-  { id: "budget", label: "Budget", icon: PiggyBank },
-  { id: "insights", label: "Insights", icon: BrainCircuit },
-  { id: "transactions", label: "Transactions", icon: WalletCards },
+const SIDEBAR_SECTIONS = [
+  {
+    title: "General",
+    items: [
+      { id: "overview",       label: "Dashboard",     icon: LayoutGrid    },
+      { id: "transactions",   label: "Transactions",  icon: WalletCards   },
+      { id: "subscriptions",  label: "Subscriptions", icon: RefreshCcw    },
+      { id: "budget",         label: "Budgets & Goals", icon: Target      },
+    ]
+  },
+  {
+    title: "Tools",
+    items: [
+      { id: "analysis",  label: "Analytics", icon: ChartColumnBig },
+      { id: "insights",  label: "Insights",  icon: BrainCircuit   },
+    ]
+  },
 ];
+
+const TAB_ITEMS = SIDEBAR_SECTIONS.flatMap(s => s.items);
 
 const BANK_META = {
   SBI: {
@@ -230,88 +206,70 @@ const SUBSCRIPTION_MERCHANTS = new Set([
 const SELF_TRANSFER_HINT = /DERAJ YO|DERAJ YOJITH|DERAJYOJITH|SELF LEDGR|OWN BRIDGE|OWN ACCOUNT/i;
 
 const GLOBAL_STYLES = `
-  @import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;700&family=DM+Serif+Display:ital@0;1&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Roboto:wght@400;500;700&family=Fira+Code:wght@400;500&display=swap');
 
   :root {
-    --bg: #0A0A0F;
-    --surface: rgba(19, 19, 26, 0.82);
-    --surface-strong: rgba(19, 19, 26, 0.96);
-    --surface-soft: rgba(255, 255, 255, 0.02);
-    --accent: #C8F135;
-    --secondary: #3B82F6;
-    --danger: #FF4D6D;
-    --text: #F3F4F6;
-    --text-80: rgba(255, 255, 255, 0.8);
-    --text-75: rgba(255, 255, 255, 0.75);
-    --text-70: rgba(255, 255, 255, 0.7);
-    --text-65: rgba(255, 255, 255, 0.65);
-    --text-60: rgba(255, 255, 255, 0.6);
-    --text-50: rgba(255, 255, 255, 0.5);
-    --text-45: rgba(255, 255, 255, 0.45);
-    --text-40: rgba(255, 255, 255, 0.4);
-    --muted: #6B7280;
-    --line: rgba(255,255,255,0.08);
-    --line-10: rgba(255, 255, 255, 0.1);
-    --line-5: rgba(255, 255, 255, 0.05);
-    --surface-5: rgba(255, 255, 255, 0.05);
-    --glow: rgba(200, 241, 53, 0.18);
-    --shadow: 0 22px 80px rgba(0,0,0,0.45);
+    --bg: #0D0D17;
+    --surface: #13131A;
+    --surface-strong: #1A1A24;
+    --surface-soft: #0D0D17;
+    --accent: #C8F22E;
+    --secondary: #13131A;
+    --danger: #EF4444;
+    --primary: #FAFAFA;
+    --text: #FAFAFA;
+    --text-80: rgba(250, 250, 250, 0.8);
+    --text-75: rgba(250, 250, 250, 0.75);
+    --text-70: rgba(250, 250, 250, 0.7);
+    --text-65: rgba(250, 250, 250, 0.65);
+    --text-60: rgba(250, 250, 250, 0.6);
+    --text-50: rgba(250, 250, 250, 0.5);
+    --text-45: rgba(250, 250, 250, 0.45);
+    --text-40: rgba(250, 250, 250, 0.4);
+    --muted: #A1A1AA;
+    --line: rgba(255, 255, 255, 0.08);
+    --line-10: rgba(255, 255, 255, 0.08);
+    --line-5: rgba(255, 255, 255, 0.04);
+    --surface-5: rgba(255, 255, 255, 0.03);
+    --glow: rgba(200, 242, 46, 0.18);
+    --shadow: 0 1px 3px rgba(0,0,0,0.2);
+    --shadow-lg: 0 10px 20px rgba(0, 0, 0, 0.25);
+    --shadow-xl: 0 16px 32px rgba(0, 0, 0, 0.3);
   }
 
   body {
     margin: 0;
     min-height: 100vh;
-    background:
-      radial-gradient(circle at top right, rgba(59, 130, 246, 0.14), transparent 28%),
-      radial-gradient(circle at left center, rgba(200, 241, 53, 0.10), transparent 24%),
-      var(--bg);
+    background: var(--bg);
     color: var(--text);
-    font-family: 'DM Sans', sans-serif;
-    transition: background 260ms ease, color 260ms ease;
+    font-family: 'Roboto', sans-serif;
   }
-
-  body::before {
-    content: "";
-    position: fixed;
-    inset: 0;
-    pointer-events: none;
-    opacity: 0.16;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180' viewBox='0 0 180 180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.4' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)' opacity='0.35'/%3E%3C/svg%3E");
-    mix-blend-mode: soft-light;
-  }
-
-  .ledgr-display { font-family: 'DM Serif Display', serif; letter-spacing: 0.02em; }
-  .ledgr-mono { font-family: 'DM Mono', monospace; font-variant-numeric: tabular-nums; }
+  body::before { display: none; }
+  
+  .ledgr-display { font-family: 'Inter', sans-serif; font-weight: 700; letter-spacing: -0.01em; }
+  .ledgr-mono { font-family: 'Fira Code', monospace; font-variant-numeric: tabular-nums; }
 
   .glass-card {
     position: relative;
-    overflow: hidden;
-    border: 1px solid var(--line);
-    background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.01));
-    backdrop-filter: blur(20px);
+    border: 1px solid var(--line-10);
+    background: var(--surface);
+    border-radius: 0.5rem;
     box-shadow: var(--shadow);
+    transition: all 400ms cubic-bezier(0.16, 1, 0.3, 1);
   }
-
-  .glass-card::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    border-radius: inherit;
-    padding: 1px;
-    background: linear-gradient(135deg, rgba(255,255,255,0.16), transparent, rgba(200,241,53,0.16));
-    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-    -webkit-mask-composite: xor;
-    mask-composite: exclude;
-    pointer-events: none;
+  .glass-card:hover {
+    box-shadow: var(--shadow-xl);
+    transform: translateY(-2px);
   }
-
-  .soft-grid {
-    background-image: linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
-    background-size: 22px 22px;
-  }
-
-  .mobile-safe { padding-bottom: calc(env(safe-area-inset-bottom) + 6rem); }
+  .glass-card::before { display: none; }
+  .soft-grid { display: none; }
+  @media (max-width: 1023px) { .mobile-safe { padding-bottom: calc(env(safe-area-inset-bottom) + 5rem); } }
   .range-input { accent-color: var(--accent); }
+
+  ::-webkit-scrollbar { width: 6px; height: 6px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: var(--surface-strong); border-radius: 0.5rem; }
+  ::-webkit-scrollbar-thumb:hover { background: var(--line-10); }
 `;
 
 function storageGet(key, fallback) {
@@ -1293,14 +1251,14 @@ function EmptyState({ title, message }) {
       <svg viewBox="0 0 240 140" className="mx-auto h-28 w-40 text-[var(--text-50)]">
         <defs>
           <linearGradient id="empty-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stopColor="#3B82F6" stopOpacity="0.65" />
-            <stop offset="100%" stopColor="#C8F135" stopOpacity="0.7" />
+            <stop offset="0%" stopColor="#1E293B" stopOpacity="0.85" />
+            <stop offset="100%" stopColor="#22C55E" stopOpacity="0.7" />
           </linearGradient>
         </defs>
         <rect x="28" y="26" width="184" height="88" rx="18" fill="rgba(255,255,255,0.04)" stroke="url(#empty-gradient)" strokeWidth="2" />
         <path d="M58 86C82 58 96 66 116 84C138 102 160 50 186 72" fill="none" stroke="url(#empty-gradient)" strokeWidth="4" strokeLinecap="round" />
-        <circle cx="84" cy="58" r="9" fill="#C8F135" fillOpacity="0.85" />
-        <circle cx="162" cy="52" r="6" fill="#3B82F6" fillOpacity="0.8" />
+        <circle cx="84" cy="58" r="9" fill="#22C55E" fillOpacity="0.85" />
+        <circle cx="162" cy="52" r="6" fill="#1E293B" fillOpacity="0.8" />
       </svg>
       <h3 className="ledgr-display mt-5 text-2xl">{title}</h3>
       <p className="mx-auto mt-2 max-w-md text-sm text-[var(--muted)]">{message}</p>
@@ -1419,6 +1377,7 @@ function TransactionDrawer({ transaction, onClose, onSave }) {
             className="fixed inset-0 z-40 bg-black/60 backdrop-blur-sm"
             onClick={onClose}
           />
+        <KeyboardShortcutsModal open={shortcutsOpen} onClose={() => setShortcutsOpen(false)} />
           <motion.aside
             initial={{ x: "100%" }}
             animate={{ x: 0 }}
@@ -1580,94 +1539,1018 @@ function UploadConsole({ onLoadDemo, onFileChange, reviewRows, transactionCount,
   );
 }
 
-function OverviewTab({ analytics, transactions, onOpenTransaction }) {
-  if (!transactions.length) {
-    return <EmptyState title="No transactions yet" message="Import a statement or load the March demo set to unlock Ledgr's charts, budgets, and smart insights." />;
-  }
+
+function SpendingHeatmap({ transactions, onDateClick }) {
+  const tooltipRef = useRef(null);
+
+  // Create a persistent tooltip container in document.body (outside glass-card)
+  useEffect(() => {
+    const el = document.createElement('div');
+    el.style.cssText = 'position:fixed;z-index:99999;pointer-events:none;display:none;transform:translate(-50%,-100%);border-radius:8px;border:1px solid var(--line-10);background:#1A1A24;padding:8px 12px;box-shadow:0 25px 50px -12px rgba(0,0,0,.5);';
+    document.body.appendChild(el);
+    tooltipRef.current = el;
+    return () => { document.body.removeChild(el); };
+  }, []);
+
+  const { spendByDay, maxSpend, topMerchantByDay } = useMemo(() => {
+    const sbd = {};
+    let ms = 0;
+    const tmbd = {};
+    transactions.forEach(trx => {
+      if (trx.debit > 0 && !trx.isSelfTransfer && trx.date) {
+        sbd[trx.date] = (sbd[trx.date] || 0) + trx.debit;
+        if (sbd[trx.date] > ms) ms = sbd[trx.date];
+        if (!tmbd[trx.date] || trx.debit > tmbd[trx.date].amount) {
+          tmbd[trx.date] = { merchant: trx.merchant, amount: trx.debit };
+        }
+      }
+    });
+    return { spendByDay: sbd, maxSpend: ms, topMerchantByDay: tmbd };
+  }, [transactions]);
+
+  const { weeks, monthName, hasData } = useMemo(() => {
+    const dates = Object.keys(spendByDay).sort();
+    if (!dates.length) return { weeks: [], monthName: '', hasData: false };
+
+    const firstDate = new Date(dates[0]);
+    const monthStart = new Date(firstDate.getFullYear(), firstDate.getMonth(), 1);
+    const monthEnd = new Date(firstDate.getFullYear(), firstDate.getMonth() + 1, 0);
+    const startOffset = monthStart.getDay() === 0 ? 6 : monthStart.getDay() - 1;
+
+    const days = [];
+    for (let d = new Date(monthStart); d <= monthEnd; d.setDate(d.getDate() + 1)) {
+      const iso = d.toISOString().slice(0, 10);
+      days.push({ date: iso, spend: spendByDay[iso] || 0, day: d.getDate() });
+    }
+
+    const wks = [];
+    let currentWeek = Array(startOffset).fill(null);
+    days.forEach(day => {
+      currentWeek.push(day);
+      if (currentWeek.length === 7) {
+        wks.push(currentWeek);
+        currentWeek = [];
+      }
+    });
+    if (currentWeek.length > 0) {
+      while (currentWeek.length < 7) currentWeek.push(null);
+      wks.push(currentWeek);
+    }
+
+    const mn = new Intl.DateTimeFormat('en-IN', { month: 'long', year: 'numeric' }).format(firstDate);
+    return { weeks: wks, monthName: mn, hasData: true };
+  }, [spendByDay]);
+
+  if (!hasData) return null;
+
+  const DOW = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+
+  const showTooltip = (e, d) => {
+    const el = tooltipRef.current;
+    if (!el) return;
+    const rect = e.currentTarget.getBoundingClientRect();
+    const dateStr = new Date(d.date).toLocaleDateString('en-IN', { day: '2-digit', month: 'short', weekday: 'short' });
+    const merchant = topMerchantByDay[d.date];
+    el.style.display = 'block';
+    el.style.left = `${rect.left + rect.width / 2}px`;
+    el.style.top = `${rect.top - 8}px`;
+    el.innerHTML = `
+      <div style="font-size:11px;font-weight:600;color:var(--text);white-space:nowrap">${dateStr}</div>
+      <div style="color:var(--accent);font-family:'JetBrains Mono',monospace;font-weight:700;font-size:14px">${formatCurrency(d.spend, 0)}</div>
+      ${merchant ? `<div style="font-size:10px;color:var(--muted);margin-top:2px;white-space:nowrap">Top: ${merchant.merchant}</div>` : ''}
+    `;
+  };
+
+  const hideTooltip = () => {
+    const el = tooltipRef.current;
+    if (el) el.style.display = 'none';
+  };
 
   return (
-    <div className="grid gap-6">
-      <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
-        <MetricCard title="Total Spent" icon={ArrowDownRight} value={analytics.totalSpent} note="Self transfers excluded from spend" accent="var(--danger)" />
-        <MetricCard title="Total Credits" icon={ArrowUpRight} value={analytics.adjustedCredits} note="Non-self credits only" accent="var(--secondary)" />
-        <MetricCard title="Net Cash Flow" icon={TrendingUp} value={analytics.cashFlow.adjustedNet} note={analytics.cashFlow.adjustedNet >= 0 ? "Positive month" : "Deficit month"} />
-        <MetricCard title="Self Transfers" icon={Repeat2} value={analytics.selfTransferTotal} note="Excluded from KPI spend totals" accent="#94A3B8" />
-        <MetricCard title="Biggest Expense" icon={Flame} value={analytics.biggestExpense?.debit || 0} note={analytics.biggestExpense?.merchant || "No debit transactions"} accent="#FB7185" />
-        <MetricCard title="Top Category" icon={ChartColumnBig} value={analytics.topCategory?.value || 0} note={analytics.topCategory?.name || "Waiting for spend"} accent={analytics.topCategory?.color || "var(--accent)"} />
+    <div className="glass-card p-5">
+      <div className="flex items-center justify-between mb-4">
+        <div>
+          <div className="text-[11px] uppercase tracking-widest text-[var(--muted)] font-medium">Spending Heatmap</div>
+          <div className="mt-1 text-sm font-semibold text-[var(--text)]">{monthName}</div>
+        </div>
+        <div className="flex items-center gap-2 text-[10px] text-[var(--muted)]">
+          <span>Less</span>
+          {[0, 0.25, 0.5, 0.75, 1].map((i) => (
+            <div key={i} className="w-3 h-3 rounded-sm" style={{
+              backgroundColor: i === 0 ? 'rgba(255,255,255,0.04)' : `rgba(200, 242, 46, ${0.15 + i * 0.65})`
+            }} />
+          ))}
+          <span>More</span>
+        </div>
       </div>
 
-      <div className="grid gap-6 xl:grid-cols-[1fr,1fr,0.9fr]">
-        <SectionCard title="Spending by Category" eyebrow="March Mix">
-          <div className="h-80">
-            <ResponsiveContainer width="100%" height="100%">
-              <PieChart>
-                <Pie data={analytics.spendByCategory} dataKey="value" nameKey="name" innerRadius={78} outerRadius={118} paddingAngle={2}>
-                  {analytics.spendByCategory.map((entry) => (
-                    <Cell key={entry.name} fill={entry.color} />
-                  ))}
-                </Pie>
-                <Tooltip content={<ChartTooltip />} />
-              </PieChart>
-            </ResponsiveContainer>
+      {/* Row-based heatmap: each row = a day of the week */}
+      <div className="space-y-1">
+        {DOW.map((dayName, dowIndex) => (
+          <div key={dayName} className="flex items-center gap-1.5">
+            <div className="w-8 text-[10px] text-[var(--muted)] shrink-0">{dayName}</div>
+            <div className="flex gap-1 flex-1">
+              {weeks.map((week, wi) => {
+                const d = week[dowIndex];
+                if (!d) return <div key={wi} className="h-7 rounded-sm flex-1" />;
+                const intensity = maxSpend > 0 ? d.spend / maxSpend : 0;
+                return (
+                  <div
+                    key={d.date}
+                    className="h-7 rounded-sm cursor-pointer transition-all hover:ring-1 hover:ring-[var(--accent)] hover:z-10 flex items-center justify-center flex-1"
+                    style={{
+                      backgroundColor: d.spend === 0
+                        ? 'rgba(255,255,255,0.04)'
+                        : `rgba(200, 242, 46, ${0.15 + intensity * 0.65})`,
+                    }}
+                    onMouseEnter={(e) => showTooltip(e, d)}
+                    onMouseLeave={hideTooltip}
+                    onClick={() => onDateClick && onDateClick(d.date)}
+                  >
+                    <span className="text-[9px] font-semibold text-[var(--text)] opacity-50 select-none pointer-events-none">{d.day}</span>
+                  </div>
+                );
+              })}
+            </div>
           </div>
-        </SectionCard>
+        ))}
+      </div>
+    </div>
+  );
+}
 
-        <SectionCard title="Balance Over Time" eyebrow={`${Math.max(analytics.banks.length, 1)}-Account Curve`}>
-          <div className="h-80">
+
+function BurnRateBar({ analytics, transactions, budgets }) {
+  const dates = transactions.filter(t => t.debit > 0 && !t.isSelfTransfer).map(t => t.date).filter(Boolean).sort();
+  if (dates.length < 2) return null;
+
+  const first = new Date(dates[0]);
+  const last = new Date(dates[dates.length - 1]);
+  const daysElapsed = Math.max(1, Math.ceil((last - first) / (1000 * 60 * 60 * 24)));
+  const dailyBurn = analytics.totalSpent / daysElapsed;
+  const projected = dailyBurn * 30;
+  const totalBudget = Object.values(budgets || {}).reduce((s, v) => s + v, 0);
+  const pacePercent = totalBudget > 0 ? Math.min(150, (projected / totalBudget) * 100) : 0;
+  const onTrack = totalBudget > 0 && projected <= totalBudget;
+  const paceLabel = totalBudget === 0 ? "No budget set" : onTrack ? "On track" : "Overspending";
+
+  return (
+    <div className="glass-card p-5">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-3">
+        <div className="flex items-center gap-2">
+          <div className={`w-8 h-8 rounded-lg flex items-center justify-center shrink-0 ${onTrack ? "bg-[var(--accent)]/10 border border-[var(--accent)]/25" : "bg-[var(--danger)]/10 border border-[var(--danger)]/25"}`}>
+            <Flame size={14} className={onTrack ? "text-[var(--accent)]" : "text-[var(--danger)]"} />
+          </div>
+          <div>
+            <div className="text-[11px] uppercase tracking-widest text-[var(--muted)] font-medium">Burn Rate</div>
+            <div className="text-xs text-[var(--muted)]">{daysElapsed} days tracked</div>
+          </div>
+        </div>
+        <div className="flex items-center gap-4 sm:gap-6">
+          <div className="text-right">
+            <div className="text-[10px] uppercase tracking-wider text-[var(--muted)]">Daily avg</div>
+            <div className="ledgr-mono text-sm font-bold text-[var(--text)]">{formatCurrency(dailyBurn, 0)}</div>
+          </div>
+          <div className="text-right">
+            <div className="text-[10px] uppercase tracking-wider text-[var(--muted)]">Projected /mo</div>
+            <div className={`ledgr-mono text-sm font-bold ${onTrack ? "text-[var(--accent)]" : "text-[var(--danger)]"}`}>{formatCurrency(projected, 0)}</div>
+          </div>
+          {totalBudget > 0 && (
+            <div className="text-right">
+              <div className="text-[10px] uppercase tracking-wider text-[var(--muted)]">Budget</div>
+              <div className="ledgr-mono text-sm font-bold text-[var(--text)]">{formatCurrency(totalBudget, 0)}</div>
+            </div>
+          )}
+          <span className={`text-[10px] font-bold uppercase tracking-wider px-2 py-1 rounded ${onTrack ? "bg-[var(--accent)]/15 text-[var(--accent)] border border-[var(--accent)]/25" : "bg-[var(--danger)]/15 text-[var(--danger)] border border-[var(--danger)]/25"}`}>{paceLabel}</span>
+        </div>
+      </div>
+      {totalBudget > 0 && (
+        <div className="h-2 rounded-full bg-[var(--surface-5)] overflow-hidden">
+          <motion.div
+            initial={{ width: 0 }}
+            animate={{ width: `${Math.min(pacePercent, 100)}%` }}
+            transition={{ duration: 0.8, ease: "easeOut" }}
+            className={`h-full rounded-full ${onTrack ? "bg-[var(--accent)]" : "bg-[var(--danger)]"}`}
+          />
+        </div>
+      )}
+    </div>
+  );
+}
+
+function CommandPalette({ open, onClose, transactions, onNavigate, onAction }) {
+  const [query, setQuery] = useState("");
+  const [selectedIndex, setSelectedIndex] = useState(0);
+  const inputRef = useRef(null);
+
+  useEffect(() => {
+    if (open) {
+      setQuery("");
+      setSelectedIndex(0);
+      setTimeout(() => inputRef.current?.focus(), 50);
+    }
+  }, [open]);
+
+  const staticCommands = [
+    { type: "nav", label: "Go to Dashboard", icon: LayoutGrid, action: () => onNavigate("overview") },
+    { type: "nav", label: "Go to Transactions", icon: WalletCards, action: () => onNavigate("transactions") },
+    { type: "nav", label: "Go to Analytics", icon: ChartColumnBig, action: () => onNavigate("analysis") },
+    { type: "nav", label: "Go to Insights", icon: BrainCircuit, action: () => onNavigate("insights") },
+    { type: "nav", label: "Go to Subscriptions", icon: RefreshCcw, action: () => onNavigate("subscriptions") },
+    { type: "nav", label: "Go to Budgets & Goals", icon: Target, action: () => onNavigate("budget") },
+    { type: "action", label: "Load demo data", icon: RefreshCcw, action: () => onAction("demo") },
+    { type: "action", label: "Export CSV", icon: Download, action: () => onAction("export") },
+    { type: "action", label: "Clear all data", icon: X, action: () => onAction("clear") },
+  ];
+
+  const lowerQuery = query.toLowerCase().trim();
+
+  const filteredCommands = lowerQuery
+    ? staticCommands.filter(c => c.label.toLowerCase().includes(lowerQuery))
+    : staticCommands;
+
+  const merchantResults = lowerQuery.length >= 2
+    ? [...new Map(
+        transactions
+          .filter(t => t.merchant.toLowerCase().includes(lowerQuery))
+          .map(t => [t.merchant, t])
+      ).values()].slice(0, 5)
+    : [];
+
+  const allResults = [
+    ...filteredCommands.map(c => ({ ...c, id: c.label })),
+    ...merchantResults.map(t => ({
+      type: "merchant",
+      label: t.merchant,
+      sublabel: `${t.category} · ${formatCurrency(t.amount)}`,
+      icon: Search,
+      id: `m-${t.merchant}`,
+      action: () => { onNavigate("transactions"); onAction("search", t.merchant); }
+    }))
+  ];
+
+  useEffect(() => { setSelectedIndex(0); }, [query]);
+
+  const executeSelected = () => {
+    if (allResults[selectedIndex]) {
+      allResults[selectedIndex].action();
+      onClose();
+    }
+  };
+
+  const handleKeyDown = (e) => {
+    if (e.key === "ArrowDown") {
+      e.preventDefault();
+      setSelectedIndex(i => Math.min(i + 1, allResults.length - 1));
+    } else if (e.key === "ArrowUp") {
+      e.preventDefault();
+      setSelectedIndex(i => Math.max(i - 1, 0));
+    } else if (e.key === "Enter") {
+      e.preventDefault();
+      executeSelected();
+    } else if (e.key === "Escape") {
+      onClose();
+    }
+  };
+
+  if (!open) return null;
+
+  return (
+    <AnimatePresence>
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        className="fixed inset-0 z-[100] flex items-start justify-center pt-[15vh] bg-black/60 backdrop-blur-sm"
+        onClick={onClose}
+      >
+        <motion.div
+          initial={{ opacity: 0, y: -16, scale: 0.96 }}
+          animate={{ opacity: 1, y: 0, scale: 1 }}
+          exit={{ opacity: 0, y: -12, scale: 0.96 }}
+          transition={{ duration: 0.15 }}
+          className="w-full max-w-lg rounded-xl border border-[var(--line-10)] bg-[var(--surface)] shadow-2xl overflow-hidden"
+          onClick={e => e.stopPropagation()}
+        >
+          {/* Input */}
+          <div className="flex items-center gap-3 px-4 py-3 border-b border-[var(--line-10)]">
+            <Search size={16} className="text-[var(--muted)] shrink-0" />
+            <input
+              ref={inputRef}
+              value={query}
+              onChange={e => setQuery(e.target.value)}
+              onKeyDown={handleKeyDown}
+              placeholder="Type a command or search merchants…"
+              className="flex-1 bg-transparent text-sm text-[var(--text)] placeholder-[var(--muted)] outline-none"
+            />
+            <kbd className="hidden sm:inline-flex items-center gap-1 rounded border border-[var(--line-10)] bg-[var(--surface-5)] px-1.5 py-0.5 text-[10px] font-mono text-[var(--muted)]">ESC</kbd>
+          </div>
+
+          {/* Results */}
+          <div className="max-h-72 overflow-y-auto py-1">
+            {allResults.length === 0 && (
+              <div className="px-4 py-6 text-center text-sm text-[var(--muted)]">No results found</div>
+            )}
+            {allResults.map((item, i) => {
+              const Icon = item.icon;
+              const active = i === selectedIndex;
+              return (
+                <button
+                  key={item.id}
+                  type="button"
+                  className={`w-full flex items-center gap-3 px-4 py-2.5 text-left text-sm transition-colors cursor-pointer ${
+                    active ? "bg-[var(--accent)]/10 text-[var(--accent)]" : "text-[var(--text)] hover:bg-[var(--surface-5)]"
+                  }`}
+                  onClick={() => { item.action(); onClose(); }}
+                  onMouseEnter={() => setSelectedIndex(i)}
+                >
+                  <Icon size={15} className={active ? "text-[var(--accent)]" : "text-[var(--muted)]"} />
+                  <div className="flex-1 min-w-0">
+                    <div className={`truncate ${active ? "font-semibold" : ""}`}>{item.label}</div>
+                    {item.sublabel && <div className="text-[11px] text-[var(--muted)] truncate">{item.sublabel}</div>}
+                  </div>
+                  <span className={`text-[9px] uppercase tracking-wider px-1.5 py-0.5 rounded font-semibold ${
+                    item.type === "nav" ? "bg-[var(--surface-5)] text-[var(--muted)]" :
+                    item.type === "action" ? "bg-[var(--accent)]/10 text-[var(--accent)]" :
+                    "bg-[var(--surface-5)] text-[var(--muted)]"
+                  }`}>{item.type === "nav" ? "Navigate" : item.type === "action" ? "Action" : "Merchant"}</span>
+                </button>
+              );
+            })}
+          </div>
+
+          {/* Footer */}
+          <div className="flex items-center gap-3 px-4 py-2 border-t border-[var(--line-10)] text-[10px] text-[var(--muted)]">
+            <span><kbd className="text-[var(--text)]">↑↓</kbd> navigate</span>
+            <span><kbd className="text-[var(--text)]">↵</kbd> select</span>
+            <span><kbd className="text-[var(--text)]">esc</kbd> close</span>
+          </div>
+        </motion.div>
+      </motion.div>
+    </AnimatePresence>
+  );
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   FEATURE 1: Top Merchants Widget
+   ═══════════════════════════════════════════════════════════════════════════ */
+function TopMerchantsWidget({ analytics }) {
+  const top5 = analytics.merchantSpend.slice(0, 5);
+  if (!top5.length) return null;
+  const maxVal = top5[0]?.value || 1;
+
+  return (
+    <div className="glass-card p-5">
+      <div className="flex items-center justify-between mb-4">
+        <div>
+          <div className="text-[11px] uppercase tracking-widest text-[var(--muted)] font-medium">Top Merchants</div>
+          <div className="mt-1 text-sm font-semibold text-[var(--text)]">Where money went</div>
+        </div>
+      </div>
+      <div className="space-y-3">
+        {top5.map((m, i) => {
+          const pct = (m.value / maxVal) * 100;
+          const colors = ['#C8F22E', '#A3E635', '#6EE7B7', '#34D399', '#10B981'];
+          return (
+            <div key={m.merchant}>
+              <div className="flex items-center justify-between mb-1.5">
+                <span className="text-xs font-medium text-[var(--text)] truncate max-w-[60%]">{m.merchant}</span>
+                <span className="ledgr-mono text-xs font-bold text-[var(--text)]">{formatCurrency(m.value, 0)}</span>
+              </div>
+              <div className="h-1.5 rounded-full bg-[var(--surface-5)] overflow-hidden">
+                <motion.div
+                  initial={{ width: 0 }}
+                  animate={{ width: `${pct}%` }}
+                  transition={{ duration: 0.6, delay: i * 0.08 }}
+                  className="h-full rounded-full"
+                  style={{ backgroundColor: colors[i % 5] }}
+                />
+              </div>
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   FEATURE 2: Spending by Day-of-Week
+   ═══════════════════════════════════════════════════════════════════════════ */
+function DayOfWeekChart({ transactions }) {
+  const DOW_NAMES = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+  const totals = [0, 0, 0, 0, 0, 0, 0];
+  const counts = [0, 0, 0, 0, 0, 0, 0];
+
+  transactions.forEach(trx => {
+    if (trx.debit > 0 && !trx.isSelfTransfer && trx.date) {
+      const dow = new Date(trx.date).getDay();
+      totals[dow] += trx.debit;
+      counts[dow]++;
+    }
+  });
+
+  const data = DOW_NAMES.map((name, i) => ({
+    name,
+    total: Math.round(totals[i]),
+    avg: counts[i] > 0 ? Math.round(totals[i] / counts[i]) : 0,
+  }));
+
+  const maxTotal = Math.max(...data.map(d => d.total), 1);
+  if (maxTotal <= 0) return null;
+
+  return (
+    <div className="glass-card p-5">
+      <div className="mb-4">
+        <div className="text-[11px] uppercase tracking-widest text-[var(--muted)] font-medium">Day of Week</div>
+        <div className="mt-1 text-sm font-semibold text-[var(--text)]">When you spend most</div>
+      </div>
+      <div className="flex items-end gap-2" style={{ height: '120px' }}>
+        {data.map((d) => {
+          const height = Math.max((d.total / maxTotal) * 100, 4);
+          const isWeekend = d.name === 'Sat' || d.name === 'Sun';
+          return (
+            <div key={d.name} className="flex-1 flex flex-col items-center justify-end h-full group">
+              <div className="text-[9px] ledgr-mono font-bold text-[var(--text)] opacity-0 group-hover:opacity-100 transition-opacity mb-1">{formatCurrency(d.total, 0)}</div>
+              <motion.div
+                initial={{ height: 0 }}
+                animate={{ height: `${height}%` }}
+                transition={{ duration: 0.5 }}
+                className="w-full rounded-t-md"
+                style={{ backgroundColor: isWeekend ? 'rgba(239,68,68,0.6)' : 'rgba(200,242,46,0.45)' }}
+              />
+              <div className={`text-[10px] font-medium mt-1 ${isWeekend ? 'text-[var(--danger)]' : 'text-[var(--muted)]'}`}>{d.name}</div>
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   FEATURE 3: Smart Alerts Bar
+   ═══════════════════════════════════════════════════════════════════════════ */
+function SmartAlerts({ analytics, transactions }) {
+  const alerts = [];
+
+  // High rent ratio
+  const rentEntry = analytics.spendByCategory.find(c => c.name === 'Rent');
+  const rentSpend = rentEntry?.value || 0;
+  if (analytics.adjustedCredits > 0 && rentSpend > 0) {
+    const rentPct = (rentSpend / analytics.adjustedCredits) * 100;
+    if (rentPct > 30) alerts.push({ type: 'warning', text: `Rent is ${rentPct.toFixed(0)}% of your income — financial advisors recommend under 30%` });
+  }
+
+  // Top category dominance
+  if (analytics.topCategory && analytics.totalSpent > 0) {
+    const dominance = (analytics.topCategory.value / analytics.totalSpent) * 100;
+    if (dominance > 25) alerts.push({ type: 'info', text: `${analytics.topCategory.name} accounts for ${dominance.toFixed(0)}% of all spending` });
+  }
+
+  // Large single transaction
+  const debits = transactions.filter(t => t.debit > 0 && !t.isSelfTransfer);
+  if (debits.length > 3) {
+    const avg = debits.reduce((s, t) => s + t.debit, 0) / debits.length;
+    const outliers = debits.filter(t => t.debit > avg * 3);
+    if (outliers.length) {
+      const biggest = outliers.sort((a, b) => b.debit - a.debit)[0];
+      alerts.push({ type: 'alert', text: `${biggest.merchant} charged ${formatCurrency(biggest.debit, 0)} — ${(biggest.debit / avg).toFixed(1)}× your average transaction` });
+    }
+  }
+
+  // Subscription burn
+  const subTotal = (analytics.subscriptions || []).reduce((s, sub) => s + sub.total, 0);
+  if (subTotal > 0 && analytics.adjustedCredits > 0) {
+    const subPct = (subTotal / analytics.adjustedCredits) * 100;
+    if (subPct > 5) alerts.push({ type: 'info', text: `Subscriptions eat ${formatCurrency(subTotal, 0)}/mo — that's ${formatCurrency(subTotal * 12, 0)}/year` });
+  }
+
+  // Weekend spending
+  const weekendSpend = debits.filter(t => { const d = new Date(t.date).getDay(); return d === 0 || d === 6; }).reduce((s, t) => s + t.debit, 0);
+  const weekdaySpend = debits.filter(t => { const d = new Date(t.date).getDay(); return d > 0 && d < 6; }).reduce((s, t) => s + t.debit, 0);
+  if (weekendSpend > 0 && weekdaySpend > 0) {
+    const weekendDailyAvg = weekendSpend / 8; // ~8 weekend days
+    const weekdayDailyAvg = weekdaySpend / 22; // ~22 weekdays
+    if (weekendDailyAvg > weekdayDailyAvg * 1.5) {
+      alerts.push({ type: 'warning', text: `Weekend daily spending is ${(weekendDailyAvg / weekdayDailyAvg).toFixed(1)}× higher than weekdays` });
+    }
+  }
+
+  if (!alerts.length) return null;
+
+  const icons = { warning: AlertTriangle, info: BrainCircuit, alert: Flame };
+  const colors = { warning: 'var(--danger)', info: 'var(--accent)', alert: '#F97316' };
+
+  return (
+    <div className="space-y-2">
+      {alerts.slice(0, 3).map((alert, i) => {
+        const Icon = icons[alert.type];
+        return (
+          <motion.div
+            key={i}
+            initial={{ opacity: 0, x: -8 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: i * 0.1 }}
+            className="flex items-center gap-3 rounded-lg border border-[var(--line-10)] bg-[var(--surface)] px-4 py-3"
+          >
+            <Icon size={14} style={{ color: colors[alert.type] }} className="shrink-0" />
+            <span className="text-xs text-[var(--text-75)] leading-relaxed">{alert.text}</span>
+          </motion.div>
+        );
+      })}
+    </div>
+  );
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   FEATURE 4: Quick Category Budget Progress (Overview)
+   ═══════════════════════════════════════════════════════════════════════════ */
+function QuickBudgetProgress({ analytics, budgets, onTabChange }) {
+  if (!Object.keys(budgets || {}).length) return null;
+
+  const spendMap = Object.fromEntries(analytics.spendByCategory.map(c => [c.name, c.value]));
+  const rows = Object.entries(budgets)
+    .filter(([cat]) => !['Self Transfer', 'Cashback', 'Interest Income', 'Income'].includes(cat))
+    .map(([category, budget]) => ({
+      category,
+      budget,
+      actual: spendMap[category] || 0,
+      pct: budget > 0 ? Math.min(((spendMap[category] || 0) / budget) * 100, 150) : 0,
+    }))
+    .filter(r => r.actual > 0)
+    .sort((a, b) => b.pct - a.pct)
+    .slice(0, 5);
+
+  if (!rows.length) return null;
+
+  return (
+    <div className="glass-card p-5">
+      <div className="flex items-center justify-between mb-4">
+        <div>
+          <div className="text-[11px] uppercase tracking-widest text-[var(--muted)] font-medium">Budget Progress</div>
+          <div className="mt-1 text-sm font-semibold text-[var(--text)]">Top 5 categories</div>
+        </div>
+        <button type="button" onClick={() => onTabChange && onTabChange("budget")} className="text-xs text-[var(--accent)] border border-[var(--accent)]/30 bg-[var(--accent)]/8 px-3 py-1 rounded hover:bg-[var(--accent)]/15 transition-colors cursor-pointer">
+          Manage →
+        </button>
+      </div>
+      <div className="space-y-3">
+        {rows.map(r => {
+          const over = r.pct > 100;
+          const meta = CATEGORY_META[r.category] || CATEGORY_META.Other;
+          const Icon = meta.icon;
+          return (
+            <div key={r.category}>
+              <div className="flex items-center justify-between mb-1">
+                <div className="flex items-center gap-2 min-w-0">
+                  <Icon size={12} style={{ color: meta.color }} />
+                  <span className="text-xs text-[var(--text)] truncate">{r.category}</span>
+                </div>
+                <div className="flex items-center gap-2 shrink-0">
+                  <span className="ledgr-mono text-[10px] text-[var(--muted)]">{formatCurrency(r.actual, 0)}</span>
+                  <span className="text-[10px] text-[var(--muted)]">/</span>
+                  <span className="ledgr-mono text-[10px] text-[var(--muted)]">{formatCurrency(r.budget, 0)}</span>
+                </div>
+              </div>
+              <div className="h-1.5 rounded-full bg-[var(--surface-5)] overflow-hidden">
+                <motion.div
+                  initial={{ width: 0 }}
+                  animate={{ width: `${Math.min(r.pct, 100)}%` }}
+                  transition={{ duration: 0.5 }}
+                  className={`h-full rounded-full ${over ? 'bg-[var(--danger)]' : 'bg-[var(--accent)]'}`}
+                />
+              </div>
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   FEATURE 5: Spending Streaks / Gamification
+   ═══════════════════════════════════════════════════════════════════════════ */
+function SpendingStreaks({ transactions }) {
+  const debits = transactions.filter(t => t.debit > 0 && !t.isSelfTransfer && t.date);
+  if (debits.length < 3) return null;
+
+  const spendDays = new Set(debits.map(t => t.date));
+  const allDates = [...spendDays].sort();
+  const first = new Date(allDates[0]);
+  const last = new Date(allDates[allDates.length - 1]);
+
+  // Count no-spend days
+  let noSpendDays = 0;
+  let currentStreak = 0;
+  let longestStreak = 0;
+  
+  for (let d = new Date(first); d <= last; d.setDate(d.getDate() + 1)) {
+    const iso = d.toISOString().slice(0, 10);
+    if (!spendDays.has(iso)) {
+      noSpendDays++;
+      currentStreak++;
+      if (currentStreak > longestStreak) longestStreak = currentStreak;
+    } else {
+      currentStreak = 0;
+    }
+  }
+
+  // Average transaction count per active day
+  const txPerDay = debits.length / Math.max(spendDays.size, 1);
+
+  // Unique merchants
+  const uniqueMerchants = new Set(debits.map(t => t.merchant)).size;
+
+  return (
+    <div className="glass-card p-5">
+      <div className="mb-4">
+        <div className="text-[11px] uppercase tracking-widest text-[var(--muted)] font-medium">Spending Patterns</div>
+        <div className="mt-1 text-sm font-semibold text-[var(--text)]">Activity insights</div>
+      </div>
+      <div className="grid grid-cols-2 gap-3">
+        <div className="rounded-lg border border-[var(--line-10)] bg-[var(--surface-5)] p-3 text-center">
+          <div className="ledgr-mono text-xl font-bold text-[var(--accent)]">{noSpendDays}</div>
+          <div className="text-[10px] text-[var(--muted)] mt-1">No-spend days</div>
+        </div>
+        <div className="rounded-lg border border-[var(--line-10)] bg-[var(--surface-5)] p-3 text-center">
+          <div className="ledgr-mono text-xl font-bold text-[var(--accent)]">{longestStreak}</div>
+          <div className="text-[10px] text-[var(--muted)] mt-1">Best streak</div>
+        </div>
+        <div className="rounded-lg border border-[var(--line-10)] bg-[var(--surface-5)] p-3 text-center">
+          <div className="ledgr-mono text-xl font-bold text-[var(--text)]">{txPerDay.toFixed(1)}</div>
+          <div className="text-[10px] text-[var(--muted)] mt-1">Avg tx/day</div>
+        </div>
+        <div className="rounded-lg border border-[var(--line-10)] bg-[var(--surface-5)] p-3 text-center">
+          <div className="ledgr-mono text-xl font-bold text-[var(--text)]">{uniqueMerchants}</div>
+          <div className="text-[10px] text-[var(--muted)] mt-1">Merchants</div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   FEATURE 6: Keyboard Shortcuts Help Modal
+   ═══════════════════════════════════════════════════════════════════════════ */
+function KeyboardShortcutsModal({ open, onClose }) {
+  if (!open) return null;
+  const shortcuts = [
+    { keys: ['Ctrl', 'K'], desc: 'Open command palette' },
+    { keys: ['?'], desc: 'Show this help' },
+    { keys: ['1-6'], desc: 'Switch to tab by number' },
+    { keys: ['Esc'], desc: 'Close dialogs' },
+  ];
+
+  return (
+    <AnimatePresence>
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        className="fixed inset-0 z-[100] flex items-center justify-center bg-black/60 backdrop-blur-sm"
+        onClick={onClose}
+      >
+        <motion.div
+          initial={{ opacity: 0, scale: 0.95 }}
+          animate={{ opacity: 1, scale: 1 }}
+          exit={{ opacity: 0, scale: 0.95 }}
+          className="w-full max-w-sm rounded-xl border border-[var(--line-10)] bg-[var(--surface)] shadow-2xl p-6"
+          onClick={e => e.stopPropagation()}
+        >
+          <div className="flex items-center justify-between mb-5">
+            <h3 className="ledgr-display text-lg text-[var(--text)]">Keyboard Shortcuts</h3>
+            <button type="button" onClick={onClose} className="text-[var(--muted)] hover:text-[var(--text)] transition-colors cursor-pointer">
+              <X size={16} />
+            </button>
+          </div>
+          <div className="space-y-3">
+            {shortcuts.map((s, i) => (
+              <div key={i} className="flex items-center justify-between">
+                <span className="text-sm text-[var(--text-75)]">{s.desc}</span>
+                <div className="flex items-center gap-1">
+                  {s.keys.map(k => (
+                    <kbd key={k} className="rounded border border-[var(--line-10)] bg-[var(--surface-5)] px-2 py-1 text-[11px] font-mono text-[var(--text)]">{k}</kbd>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+          <div className="mt-5 pt-4 border-t border-[var(--line-10)] text-xs text-[var(--muted)] text-center">
+            Press <kbd className="rounded border border-[var(--line-10)] bg-[var(--surface-5)] px-1.5 py-0.5 text-[10px] font-mono text-[var(--text)]">?</kbd> anywhere to toggle this
+          </div>
+        </motion.div>
+      </motion.div>
+    </AnimatePresence>
+  );
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   FEATURE 7: Transaction Quick Stats (inline mini metrics)
+   ═══════════════════════════════════════════════════════════════════════════ */
+function QuickStats({ transactions }) {
+  const debits = transactions.filter(t => t.debit > 0 && !t.isSelfTransfer);
+  if (debits.length < 2) return null;
+
+  const amounts = debits.map(t => t.debit).sort((a, b) => a - b);
+  const total = amounts.reduce((s, v) => s + v, 0);
+  const avg = total / amounts.length;
+  const median = amounts.length % 2 === 0
+    ? (amounts[amounts.length / 2 - 1] + amounts[amounts.length / 2]) / 2
+    : amounts[Math.floor(amounts.length / 2)];
+  const largest = amounts[amounts.length - 1];
+  const smallest = amounts[0];
+
+  const stats = [
+    { label: 'Average', value: formatCurrency(avg, 0), accent: false },
+    { label: 'Median', value: formatCurrency(median, 0), accent: false },
+    { label: 'Largest', value: formatCurrency(largest, 0), accent: true },
+    { label: 'Smallest', value: formatCurrency(smallest, 0), accent: false },
+  ];
+
+  return (
+    <div className="glass-card p-5">
+      <div className="mb-4">
+        <div className="text-[11px] uppercase tracking-widest text-[var(--muted)] font-medium">Transaction Stats</div>
+        <div className="mt-1 text-sm font-semibold text-[var(--text)]">{debits.length} debits analyzed</div>
+      </div>
+      <div className="grid grid-cols-2 gap-2">
+        {stats.map(s => (
+          <div key={s.label} className="rounded-lg border border-[var(--line-10)] bg-[var(--surface-5)] px-3 py-2.5">
+            <div className="text-[10px] uppercase tracking-wider text-[var(--muted)]">{s.label}</div>
+            <div className={`ledgr-mono text-sm font-bold mt-1 ${s.accent ? 'text-[var(--danger)]' : 'text-[var(--text)]'}`}>{s.value}</div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+
+function OverviewTab({ analytics, transactions, onOpenTransaction, onTabChange, budgets }) {
+  if (!transactions.length) {
+    return (
+      <div className="flex flex-col items-center justify-center py-24 text-center">
+        <div className="w-16 h-16 rounded-2xl bg-[var(--accent)]/10 border border-[var(--accent)]/25 flex items-center justify-center mb-6">
+          <UploadCloud size={28} className="text-[var(--accent)]" />
+        </div>
+        <h2 className="ledgr-display text-2xl text-[var(--text)]">No transactions yet</h2>
+        <p className="mt-3 max-w-sm text-sm text-[var(--muted)] leading-relaxed">Upload a real bank statement (SBI, IOB, Canara) or hit <span className="text-[var(--accent)] font-medium">Load Demo Data</span> in the sidebar to populate the dashboard.</p>
+      </div>
+    );
+  }
+
+  const latest = [...transactions].sort((a,b) => b.sequence - a.sequence).slice(0, 8);
+  const netPositive = analytics.cashFlow.adjustedNet >= 0;
+  const CHART_COLORS = ['#C8F22E','#A3E635','#6EE7B7','#34D399','#10B981','#059669'];
+
+  return (
+    <div className="space-y-5">
+
+      {/* ── KPI Row ── */}
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+        {/* Total Spent */}
+        <div className="glass-card p-5">
+          <div className="flex items-start justify-between gap-2">
+            <div>
+              <div className="text-[11px] uppercase tracking-widest text-[var(--muted)] font-medium">Total Spent</div>
+              <div className="mt-2 ledgr-mono text-2xl font-bold text-[var(--text)]">{formatCurrency(analytics.totalSpent, 0)}</div>
+              <div className="mt-1 text-xs text-[var(--muted)]">Excl. self-transfers</div>
+            </div>
+            <div className="w-9 h-9 rounded-lg bg-[var(--danger)]/10 border border-[var(--danger)]/25 flex items-center justify-center shrink-0">
+              <ArrowDownRight size={16} className="text-[var(--danger)]" />
+            </div>
+          </div>
+        </div>
+
+        {/* Credits In */}
+        <div className="glass-card p-5">
+          <div className="flex items-start justify-between gap-2">
+            <div>
+              <div className="text-[11px] uppercase tracking-widest text-[var(--muted)] font-medium">Credits In</div>
+              <div className="mt-2 ledgr-mono text-2xl font-bold text-[var(--text)]">{formatCurrency(analytics.adjustedCredits, 0)}</div>
+              <div className="mt-1 text-xs text-[var(--muted)]">Non-self credits</div>
+            </div>
+            <div className="w-9 h-9 rounded-lg bg-[var(--accent)]/10 border border-[var(--accent)]/25 flex items-center justify-center shrink-0">
+              <ArrowUpRight size={16} className="text-[var(--accent)]" />
+            </div>
+          </div>
+        </div>
+
+        {/* Net Flow */}
+        <div className="glass-card p-5">
+          <div className="flex items-start justify-between gap-2">
+            <div>
+              <div className="text-[11px] uppercase tracking-widest text-[var(--muted)] font-medium">Net Flow</div>
+              <div className={`mt-2 ledgr-mono text-2xl font-bold ${netPositive ? "text-[var(--accent)]" : "text-[var(--danger)]"}`}>{formatAmountDisplay(analytics.cashFlow.adjustedNet)}</div>
+              <div className="mt-1 text-xs text-[var(--muted)]">{netPositive ? "Positive month" : "Deficit month"}</div>
+            </div>
+            <div className={`w-9 h-9 rounded-lg flex items-center justify-center shrink-0 ${netPositive ? "bg-[var(--accent)]/10 border border-[var(--accent)]/25" : "bg-[var(--danger)]/10 border border-[var(--danger)]/25"}`}>
+              <TrendingUp size={16} className={netPositive ? "text-[var(--accent)]" : "text-[var(--danger)]"} />
+            </div>
+          </div>
+        </div>
+
+        {/* Top Category */}
+        <div className="glass-card p-5">
+          <div className="flex items-start justify-between gap-2">
+            <div className="min-w-0">
+              <div className="text-[11px] uppercase tracking-widest text-[var(--muted)] font-medium">Top Category</div>
+              <div className="mt-2 ledgr-mono text-2xl font-bold text-[var(--text)]">{formatCurrency(analytics.topCategory?.value || 0, 0)}</div>
+              <div className="mt-1 text-xs text-[var(--muted)] truncate">{analytics.topCategory?.name || "No spend yet"}</div>
+            </div>
+            <div className="w-9 h-9 rounded-lg bg-[var(--accent)]/10 border border-[var(--accent)]/25 flex items-center justify-center shrink-0">
+              <ChartColumnBig size={16} style={{ color: analytics.topCategory?.color || "var(--accent)" }} />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* ── Burn Rate ── */}
+      <BurnRateBar analytics={analytics} transactions={transactions} budgets={budgets} />
+
+      {/* ── Heatmap ── */}
+      <SpendingHeatmap
+        transactions={transactions}
+        onDateClick={(date) => {
+          if (onTabChange) {
+            onTabChange("transactions");
+          }
+        }}
+      />
+
+      {/* ── Charts Row ── */}
+      <div className="grid gap-5 lg:grid-cols-2">
+
+        {/* Balance timeline */}
+        <div className="glass-card p-5">
+          <div className="flex items-center justify-between mb-4">
+            <div>
+              <div className="text-[11px] uppercase tracking-widest text-[var(--muted)] font-medium">Balance Over Time</div>
+              <div className="mt-1 text-sm font-semibold text-[var(--text)]">{analytics.banks.length}-Account Curve</div>
+            </div>
+          </div>
+          <div className="h-52">
             <ResponsiveContainer width="100%" height="100%">
-              <AreaChart data={analytics.balanceSeries}>
+              <AreaChart data={analytics.balanceSeries} margin={{left:-10}}>
                 <defs>
-                  {analytics.banks.map((bank) => {
+                  {analytics.banks.map((bank, i) => {
                     const color = BANK_META[bank]?.color || BANK_META.DEFAULT.color;
                     return (
-                      <linearGradient key={bank} id={`${bank.toLowerCase()}-area`} x1="0" y1="0" x2="0" y2="1">
-                        <stop offset="0%" stopColor={color} stopOpacity={0.32} />
+                      <linearGradient key={bank} id={`bal-${bank}`} x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="0%" stopColor={color} stopOpacity={0.3} />
                         <stop offset="100%" stopColor={color} stopOpacity={0} />
                       </linearGradient>
                     );
                   })}
                 </defs>
-                <CartesianGrid stroke="rgba(255,255,255,0.06)" vertical={false} />
-                <XAxis dataKey="label" stroke="rgba(255,255,255,0.45)" tickLine={false} axisLine={false} />
-                <YAxis stroke="rgba(255,255,255,0.45)" tickLine={false} axisLine={false} tickFormatter={(value) => `₹${Math.round(value / 1000)}k`} />
+                <CartesianGrid stroke="rgba(255,255,255,0.04)" vertical={false} />
+                <XAxis dataKey="label" tick={{ fill:"#A1A1AA", fontSize:11 }} axisLine={false} tickLine={false} />
+                <YAxis tick={{ fill:"#A1A1AA", fontSize:11 }} axisLine={false} tickLine={false} tickFormatter={v => `₹${(v/1000).toFixed(0)}k`} />
                 <Tooltip content={<ChartTooltip />} />
                 {analytics.banks.map((bank) => {
                   const color = BANK_META[bank]?.color || BANK_META.DEFAULT.color;
-                  return <Area key={bank} type="monotone" dataKey={bank} name={`${bank} Balance`} stroke={color} fill={`url(#${bank.toLowerCase()}-area)`} strokeWidth={2.5} />;
+                  return <Area key={bank} type="monotone" dataKey={bank} stroke={color} fill={`url(#bal-${bank})`} strokeWidth={2} dot={false} />;
                 })}
               </AreaChart>
             </ResponsiveContainer>
           </div>
-        </SectionCard>
+        </div>
 
-        <SectionCard title="Recent Activity" eyebrow="Latest 10">
-          <div className="space-y-3">
-            {analytics.recentTransactions.map((transaction) => (
-              <button
-                key={transaction.id}
-                type="button"
-                onClick={() => onOpenTransaction(transaction)}
-                className="flex w-full items-center justify-between rounded-2xl border border-[var(--line-10)] bg-[var(--surface-5)] px-4 py-3 text-left transition hover:bg-[var(--surface-5)]"
-              >
-                <div>
-                  <div className="flex flex-wrap items-center gap-2">
-                    <div className="font-medium text-[var(--text)]">{transaction.merchant}</div>
-                    <BankBadge bank={transaction.bank} />
-                  </div>
-                  <div className="mt-1 flex flex-wrap items-center gap-2">
-                    <CategoryChip category={transaction.category} />
-                    <span className="text-xs text-[var(--muted)]">{formatLongDate(transaction.statementDate)}</span>
-                  </div>
-                </div>
-                <div className={`ledgr-mono text-right ${transaction.credit > 0 ? "text-emerald-300" : "text-[var(--text)]"}`}>
-                  {transaction.credit > 0 ? "+" : "-"}
-                  {formatCurrency(transaction.amount)}
-                </div>
-              </button>
-            ))}
+        {/* Category donut */}
+        <div className="glass-card p-5">
+          <div className="flex items-center justify-between mb-4">
+            <div>
+              <div className="text-[11px] uppercase tracking-widest text-[var(--muted)] font-medium">Spend by Category</div>
+              <div className="mt-1 text-sm font-semibold text-[var(--text)]">Current period</div>
+            </div>
+            <button type="button" onClick={() => onTabChange("analysis")} className="text-xs text-[var(--accent)] border border-[var(--accent)]/30 bg-[var(--accent)]/8 px-3 py-1 rounded hover:bg-[var(--accent)]/15 transition-colors cursor-pointer">
+              Full breakdown →
+            </button>
           </div>
-        </SectionCard>
+          <div className="flex items-center gap-4 h-52">
+            <div className="w-[120px] h-full shrink-0">
+              <ResponsiveContainer width="100%" height="100%">
+                <PieChart>
+                  <Pie data={analytics.spendByCategory.slice(0,6)} dataKey="value" nameKey="name" innerRadius="60%" outerRadius="90%" paddingAngle={4} stroke="transparent">
+                    {analytics.spendByCategory.slice(0,6).map((entry, i) => (
+                      <Cell key={entry.name} fill={CHART_COLORS[i % CHART_COLORS.length]} />
+                    ))}
+                  </Pie>
+                  <Tooltip contentStyle={{ borderRadius:"0.5rem", backgroundColor:"var(--surface-strong)", borderColor:"var(--line-10)", color:"var(--text)", fontSize:12 }} />
+                </PieChart>
+              </ResponsiveContainer>
+            </div>
+            <div className="flex-1 space-y-2 overflow-hidden">
+              {analytics.spendByCategory.slice(0,6).map((cat, i) => (
+                <div key={cat.name} className="flex items-center justify-between gap-2 min-w-0">
+                  <div className="flex items-center gap-2 min-w-0">
+                    <div className="w-2 h-2 rounded-full shrink-0" style={{ backgroundColor: CHART_COLORS[i % CHART_COLORS.length] }} />
+                    <span className="text-xs text-[var(--text-75)] truncate">{cat.name}</span>
+                  </div>
+                  <span className="ledgr-mono text-xs font-semibold text-[var(--text)] shrink-0">₹{(cat.value/1000).toFixed(1)}k</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
       </div>
+
+      {/* ── Smart Insights ── */}
+      <SmartAlerts analytics={analytics} transactions={transactions} />
+
+      {/* ── Bottom Row ── */}
+      <div className="grid gap-5 lg:grid-cols-[1fr_320px]">
+
+        {/* Recent Transactions */}
+        <div className="glass-card p-5">
+          <div className="flex items-center justify-between mb-4">
+            <div className="text-sm font-semibold text-[var(--text)]">Recent Transactions</div>
+            <button type="button" onClick={() => onTabChange("transactions")} className="text-xs text-[var(--accent)] border border-[var(--accent)]/30 bg-[var(--accent)]/8 px-3 py-1 rounded hover:bg-[var(--accent)]/15 transition-colors cursor-pointer">
+              View all →
+            </button>
+          </div>
+          <div className="overflow-x-auto">
+            <table className="w-full text-left text-xs">
+              <thead>
+                <tr className="border-b border-[var(--line-10)]">
+                  <th className="pb-2 px-1 text-[var(--muted)] font-medium uppercase tracking-wider">#</th>
+                  <th className="pb-2 px-1 text-[var(--muted)] font-medium uppercase tracking-wider">Merchant</th>
+                  <th className="pb-2 px-1 text-[var(--muted)] font-medium uppercase tracking-wider">Category</th>
+                  <th className="pb-2 px-1 text-[var(--muted)] font-medium uppercase tracking-wider">Date</th>
+                  <th className="pb-2 px-1 text-[var(--muted)] font-medium uppercase tracking-wider text-right">Amount</th>
+                </tr>
+              </thead>
+              <tbody>
+                {latest.map((trx, idx) => (
+                  <tr key={trx.id} className="border-b border-[var(--line-10)] last:border-0 hover:bg-[var(--surface-5)] cursor-pointer transition-colors" onClick={() => onOpenTransaction(trx)}>
+                    <td className="py-3 px-1 text-[var(--muted)]">{idx + 1}</td>
+                    <td className="py-3 px-1 font-medium text-[var(--text)] max-w-[140px] truncate">{trx.merchant}</td>
+                    <td className="py-3 px-1">
+                      <CategoryChip category={trx.category} />
+                    </td>
+                    <td className="py-3 px-1 text-[var(--muted)]">{formatShortDate(trx.statementDate)}</td>
+                    <td className={`py-3 px-1 ledgr-mono font-bold text-right ${trx.credit > 0 ? "text-[var(--accent)]" : "text-[var(--text)]"}`}>
+                      {trx.credit > 0 ? "+" : "−"}{formatCurrency(trx.amount, 0)}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        {/* Subscriptions panel */}
+        <div className="glass-card p-5">
+          <div className="flex items-center justify-between mb-4">
+            <div className="text-sm font-semibold text-[var(--text)]">Subscriptions</div>
+            <button type="button" onClick={() => onTabChange("subscriptions")} className="text-xs text-[var(--accent)] border border-[var(--accent)]/30 bg-[var(--accent)]/8 px-3 py-1 rounded hover:bg-[var(--accent)]/15 transition-colors cursor-pointer">
+              Manage →
+            </button>
+          </div>
+          {analytics.subscriptions.length === 0 ? (
+            <div className="text-xs text-[var(--muted)] mt-4">No recurring charges detected.</div>
+          ) : (
+            <div className="space-y-3">
+              {analytics.subscriptions.slice(0,6).map((sub) => {
+                const meta = CATEGORY_META["Entertainment / Gaming"] || CATEGORY_META.Other;
+                const IconEl = meta.icon;
+                return (
+                  <div key={sub.merchant} className="flex items-center gap-3">
+                    <div className={`w-8 h-8 rounded-lg flex items-center justify-center shrink-0 border ${sub.flagged ? "border-[var(--danger)]/30 bg-[var(--danger)]/8" : "border-[var(--line-10)] bg-[var(--surface-5)]"}`}>
+                      <IconEl size={14} className={sub.flagged ? "text-[var(--danger)]" : "text-[var(--muted)]"} />
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <div className="text-xs font-medium text-[var(--text)] truncate">{sub.merchant}</div>
+                      <div className="text-[10px] text-[var(--muted)]">{sub.count} charge{sub.count > 1 ? "s" : ""}</div>
+                    </div>
+                    <div className={`ledgr-mono text-sm font-bold shrink-0 ${sub.flagged ? "text-[var(--danger)]" : "text-[var(--text)]"}`}>
+                      {formatCurrency(sub.total, 0)}
+                    </div>
+                  </div>
+                );
+              })}
+              <div className="pt-2 border-t border-[var(--line-10)] flex items-center justify-between text-xs">
+                <span className="text-[var(--muted)]">Monthly total</span>
+                <span className="ledgr-mono font-bold text-[var(--accent)]">{formatCurrency(analytics.subscriptionTotal, 0)}</span>
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
+      {/* ── Insights Grid ── */}
+      <div className="grid gap-5 lg:grid-cols-2 xl:grid-cols-4">
+        <TopMerchantsWidget analytics={analytics} />
+        <DayOfWeekChart transactions={transactions} />
+        <SpendingStreaks transactions={transactions} />
+        <QuickStats transactions={transactions} />
+      </div>
+
+      {/* ── Budget Progress ── */}
+      <QuickBudgetProgress analytics={analytics} budgets={budgets} onTabChange={onTabChange} />
+
     </div>
   );
 }
@@ -1724,8 +2607,8 @@ function AnalysisTab({ analytics }) {
                 <Bar dataKey="value" name="Spend" fill="url(#merchant-gradient)" radius={[0, 12, 12, 0]} />
                 <defs>
                   <linearGradient id="merchant-gradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                    <stop offset="0%" stopColor="#3B82F6" />
-                    <stop offset="100%" stopColor="#C8F135" />
+                    <stop offset="0%" stopColor="#1E293B" />
+                    <stop offset="100%" stopColor="#22C55E" />
                   </linearGradient>
                 </defs>
               </BarChart>
@@ -1739,7 +2622,7 @@ function AnalysisTab({ analytics }) {
               <div
                 key={item.merchant}
                 className="rounded-[1.5rem] border border-[var(--line-10)] p-4"
-                style={{ background: `linear-gradient(135deg, rgba(200,241,53,${0.1 + item.intensity * 0.35}), rgba(59,130,246,${0.08 + item.intensity * 0.22}))` }}
+                style={{ background: `linear-gradient(135deg, rgba(34,197,94,${0.1 + item.intensity * 0.35}), rgba(15,23,42,${0.2 + item.intensity * 0.22}))` }}
               >
                 <div className="text-sm font-medium text-[var(--text)]">{item.merchant}</div>
                 <div className="mt-2 ledgr-mono text-xl">{formatCurrency(item.total)}</div>
@@ -2157,6 +3040,23 @@ function TransactionsTab({ rows, filters, setFilters, page, setPage, totalPages,
   );
 }
 
+function LiveClock() {
+  const [now, setNow] = useState(new Date());
+  useEffect(() => {
+    const id = setInterval(() => setNow(new Date()), 1000);
+    return () => clearInterval(id);
+  }, []);
+  const time = now.toLocaleTimeString("en-IN", { hour: "2-digit", minute: "2-digit" });
+  const date = now.toLocaleDateString("en-IN", { day: "2-digit", month: "short" });
+  return (
+    <div className="hidden sm:flex items-center gap-1.5 rounded-lg border border-[var(--line-10)] bg-[var(--surface-5)] px-3 py-2 text-xs font-medium text-[var(--muted)] ledgr-mono select-none">
+      <span className="text-[var(--text)]">{time}</span>
+      <span>·</span>
+      <span>{date}</span>
+    </div>
+  );
+}
+
 function App() {
   const [activeTab, setActiveTab] = useState("overview");
   const [merchantOverrides, setMerchantOverrides] = useState(() => storageGet(STORAGE_KEYS.merchantOverrides, {}));
@@ -2165,6 +3065,8 @@ function App() {
   const [goals, setGoals] = useState(() => storageGet(STORAGE_KEYS.goals, []));
   const [reviewRows, setReviewRows] = useState(() => storageGet(STORAGE_KEYS.reviewRows, []));
   const [selectedTransaction, setSelectedTransaction] = useState(null);
+  const [commandPaletteOpen, setCommandPaletteOpen] = useState(false);
+  const [shortcutsOpen, setShortcutsOpen] = useState(false);
   const [page, setPage] = useState(1);
   const [toasts, setToasts] = useState([]);
   const [filters, setFilters] = useState({
@@ -2205,6 +3107,37 @@ function App() {
   useEffect(() => {
     setPage(1);
   }, [filters.bank, filters.category, filters.type, filters.dateFrom, filters.dateTo, filters.amountMin, filters.amountMax, deferredSearch]);
+
+  // Keyboard shortcuts: Ctrl+K, ?, 1-6 for tabs
+  useEffect(() => {
+    const handler = (e) => {
+      // Skip if typing in input
+      if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || e.target.tagName === 'SELECT') return;
+
+      if ((e.metaKey || e.ctrlKey) && e.key === "k") {
+        e.preventDefault();
+        setCommandPaletteOpen(prev => !prev);
+        return;
+      }
+      if (e.key === "?" && !e.ctrlKey && !e.metaKey) {
+        e.preventDefault();
+        setShortcutsOpen(prev => !prev);
+        return;
+      }
+      if (e.key === "Escape") {
+        setShortcutsOpen(false);
+        setCommandPaletteOpen(false);
+        return;
+      }
+      // Number keys 1-6 switch tabs
+      const tabKeys = { '1': 'overview', '2': 'transactions', '3': 'subscriptions', '4': 'budget', '5': 'analysis', '6': 'insights' };
+      if (tabKeys[e.key] && !e.ctrlKey && !e.metaKey) {
+        setActiveTab(tabKeys[e.key]);
+      }
+    };
+    window.addEventListener("keydown", handler);
+    return () => window.removeEventListener("keydown", handler);
+  }, []);
 
   const addToast = (title, message = "", type = "success") => {
     const id = crypto.randomUUID();
@@ -2357,7 +3290,7 @@ function App() {
 
   let tabContent = null;
   if (activeTab === "overview") {
-    tabContent = <OverviewTab analytics={analytics} transactions={transactions} onOpenTransaction={setSelectedTransaction} />;
+    tabContent = <OverviewTab analytics={analytics} transactions={transactions} onOpenTransaction={setSelectedTransaction} onTabChange={setActiveTab} budgets={budgets} />;
   } else if (activeTab === "analysis") {
     tabContent = <AnalysisTab analytics={analytics} />;
   } else if (activeTab === "subscriptions") {
@@ -2387,92 +3320,192 @@ function App() {
   return (
     <>
       <style>{GLOBAL_STYLES}</style>
-      <div className="mobile-safe min-h-screen bg-[var(--bg)] text-[var(--text)]">
+      <div className="mobile-safe min-h-screen bg-[var(--bg)] text-[var(--text)] flex">
         <ToastStack toasts={toasts} />
-        <div className="mx-auto max-w-7xl px-4 py-5 sm:px-6 lg:px-8">
-          <header className="glass-card rounded-[2rem] px-5 py-5 sm:px-6">
-            <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
-              <div>
-                <div className="flex items-center gap-3 mb-3">
-                  <img src="https://images.prismic.io/derajportfolio/acq0eJGXnQHGZG01_ledgr-icon.png?auto=format,compress" alt="Ledgr" className="h-8 w-8" />
-                  <div className="text-[11px] uppercase tracking-[0.35em] text-[var(--muted)]">Ledgr</div>
+        <CommandPalette
+          open={commandPaletteOpen}
+          onClose={() => setCommandPaletteOpen(false)}
+          transactions={transactions}
+          onNavigate={(tab) => setActiveTab(tab)}
+          onAction={(action, payload) => {
+            if (action === "demo") loadDemo();
+            else if (action === "export") exportFilteredView();
+            else if (action === "clear") { setTransactions([]); setBudgets({}); setGoals([]); setReviewRows([]); }
+            else if (action === "search" && payload) setFilters(cur => ({ ...cur, search: payload }));
+          }}
+        />
+
+        {/* ── Sidebar ── */}
+        <aside className="w-64 shrink-0 bg-[var(--surface)] hidden lg:flex flex-col border-r border-[var(--line-10)] sticky top-0 h-screen">
+          {/* Logo */}
+          <div className="px-6 py-5 flex items-center gap-3 border-b border-[var(--line-10)]">
+            <img src="https://images.prismic.io/derajportfolio/acq0eJGXnQHGZG01_ledgr-icon.png?auto=format,compress" alt="Ledgr" className="h-8 w-8 rounded" />
+            <span className="ledgr-display text-xl tracking-tight text-[var(--text)]">LEDGR</span>
+          </div>
+
+          {/* Upload area in sidebar */}
+          <div className="px-4 pt-4 pb-2">
+            <div className="rounded-lg border border-dashed border-[var(--line-10)] bg-[var(--surface-5)] p-3 text-center">
+              <label className="cursor-pointer">
+                <div className="flex items-center justify-center gap-2 text-xs font-medium text-[var(--muted)] hover:text-[var(--text)] transition-colors">
+                  <Upload size={14} />
+                  <span>Upload Statement</span>
                 </div>
-                <h1 className="ledgr-display mt-2 text-4xl sm:text-5xl">Personal finance with statement-grade precision.</h1>
-                <p className="mt-3 max-w-2xl text-sm text-[var(--muted)]">A luxury-fintech dashboard for Indian bank users, tuned for SBI, IOB, and Canara exports, merchant cleanup, budget planning, and refund-aware analytics.</p>
+                <input type="file" accept=".txt,.csv,.pdf" multiple onChange={handleFileChange} className="hidden" />
+              </label>
+              <button type="button" onClick={loadDemo} className="mt-2 w-full rounded bg-[var(--accent)]/15 border border-[var(--accent)]/25 py-1.5 text-[11px] font-semibold text-[var(--accent)] hover:bg-[var(--accent)]/25 transition-colors cursor-pointer">
+                Load Demo Data
+              </button>
+            </div>
+          </div>
+
+          {/* Nav sections */}
+          <nav className="flex-1 px-3 py-4 space-y-6 overflow-y-auto">
+            {SIDEBAR_SECTIONS.map((section) => (
+              <div key={section.title}>
+                <div className="px-3 mb-2 text-[10px] font-bold uppercase tracking-widest text-[var(--muted)]">{section.title}</div>
+                <div className="space-y-0.5">
+                  {section.items.map((tab) => {
+                    const Icon = tab.icon;
+                    const active = activeTab === tab.id;
+                    return (
+                      <button
+                        key={tab.id}
+                        type="button"
+                        onClick={() => setActiveTab(tab.id)}
+                        className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-all cursor-pointer ${
+                          active
+                            ? "bg-[var(--accent)]/12 text-[var(--accent)] border-l-2 border-[var(--accent)]"
+                            : "text-[var(--text-60)] hover:bg-[var(--surface-5)] hover:text-[var(--text)] border-l-2 border-transparent"
+                        }`}
+                      >
+                        <Icon size={16} className={active ? "text-[var(--accent)]" : "text-[var(--muted)]"} />
+                        {tab.label}
+                      </button>
+                    );
+                  })}
+                </div>
               </div>
-              <div className="grid gap-3 sm:grid-cols-3 lg:min-w-[28rem]">
-                {headerStats.map((stat) => (
-                  <div key={stat.label} className="rounded-[1.5rem] border border-[var(--line-10)] bg-[var(--surface-5)] px-4 py-4">
-                    <div className="text-[11px] uppercase tracking-[0.24em] text-[var(--muted)]">{stat.label}</div>
-                    <div className="mt-3 ledgr-mono text-lg">{stat.value}</div>
-                  </div>
-                ))}
+            ))}
+          </nav>
+
+          {/* Stats strip */}
+          <div className="px-4 pb-5 space-y-2 border-t border-[var(--line-10)] pt-4">
+            <button type="button" onClick={() => setShortcutsOpen(true)} className="w-full flex items-center justify-between text-xs text-[var(--muted)] hover:text-[var(--text)] transition-colors cursor-pointer mb-2">
+              <span>Keyboard shortcuts</span>
+              <kbd className="rounded border border-[var(--line-10)] bg-[var(--surface-5)] px-1.5 py-0.5 text-[9px] font-mono">?</kbd>
+            </button>
+            <div className="flex items-center justify-between text-xs">
+              <span className="text-[var(--muted)]">Transactions</span>
+              <span className="ledgr-mono font-semibold text-[var(--text)]">{transactions.length.toLocaleString("en-IN")}</span>
+            </div>
+            <div className="flex items-center justify-between text-xs">
+              <span className="text-[var(--muted)]">Banks</span>
+              <div className="flex items-center gap-1">
+                {analytics.banks.length ? analytics.banks.map(b => <BankBadge key={b} bank={b} />) : <span className="text-[var(--text-40)]">—</span>}
               </div>
             </div>
-            <div className="mt-6 flex flex-wrap items-center gap-3">
-              {TAB_ITEMS.map((tab) => {
-                const Icon = tab.icon;
-                const active = activeTab === tab.id;
-                return (
-                  <button
-                    key={tab.id}
-                    type="button"
-                    onClick={() => setActiveTab(tab.id)}
-                    className={`hidden rounded-full px-4 py-2 text-sm transition md:inline-flex md:items-center md:gap-2 ${active ? "bg-[var(--accent)] text-black" : "border border-[var(--line-10)] bg-[var(--surface-5)] text-[var(--text-75)] hover:bg-[var(--surface-5)]"}`}
-                  >
-                    <Icon size={15} />
-                    {tab.label}
-                  </button>
-                );
-              })}
+            {reviewRows.length > 0 && (
+              <div className="flex items-center justify-between text-xs">
+                <span className="text-[var(--danger)]">Review queue</span>
+                <span className="ledgr-mono font-semibold text-[var(--danger)]">{reviewRows.length}</span>
+              </div>
+            )}
+          </div>
+        </aside>
+
+        {/* ── Main area ── */}
+        <div className="flex-1 flex flex-col h-screen overflow-hidden min-w-0">
+
+          {/* Header */}
+          <header className="shrink-0 h-16 flex items-center justify-between px-6 border-b border-[var(--line-10)] bg-[var(--bg)] gap-4">
+            <div className="flex items-center gap-3 min-w-0">
+              {/* Mobile logo */}
+              <img src="https://images.prismic.io/derajportfolio/acq0eJGXnQHGZG01_ledgr-icon.png?auto=format,compress" alt="Ledgr" className="h-7 w-7 rounded lg:hidden shrink-0" />
+              {/* Live search */}
+              <div className="relative max-w-xs w-full">
+                <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-[var(--muted)] pointer-events-none" />
+                <input
+                  value={filters.search}
+                  onChange={(e) => {
+                    setFilters(cur => ({ ...cur, search: e.target.value }));
+                    if (e.target.value.trim() && activeTab !== "transactions") setActiveTab("transactions");
+                  }}
+                  placeholder="Search transactions…"
+                  className="w-full bg-[var(--surface-5)] border border-[var(--line-10)] rounded-lg py-2 pl-8 pr-16 text-sm text-[var(--text)] placeholder-[var(--muted)] outline-none focus:border-[var(--accent)] transition-colors"
+                />
+                <button
+                  type="button"
+                  onClick={() => setCommandPaletteOpen(true)}
+                  className="absolute right-2 top-1/2 -translate-y-1/2 flex items-center gap-1 rounded border border-[var(--line-10)] bg-[var(--surface)] px-1.5 py-0.5 text-[10px] font-mono text-[var(--muted)] hover:text-[var(--text)] hover:border-[var(--accent)]/40 transition-colors cursor-pointer"
+                >
+                  ⌘K
+                </button>
+              </div>
+            </div>
+
+            <div className="flex items-center gap-2 shrink-0">
+              {/* Live clock */}
+              <LiveClock />
+              {/* Upload */}
+              <label className="flex items-center gap-2 cursor-pointer rounded-lg border border-[var(--line-10)] bg-[var(--surface-5)] px-3 py-2 text-xs font-medium text-[var(--text)] hover:bg-[var(--surface)] hover:border-[var(--accent)]/40 transition-all">
+                <Upload size={14} />
+                <span className="hidden sm:inline">Upload</span>
+                <input type="file" accept=".txt,.csv,.pdf" multiple onChange={handleFileChange} className="hidden" />
+              </label>
+              {/* Demo */}
+              <button type="button" onClick={loadDemo} className="flex items-center gap-2 rounded-lg bg-[var(--accent)] px-3 py-2 text-xs font-semibold text-black hover:brightness-105 transition-all cursor-pointer">
+                <RefreshCcw size={14} />
+                <span className="hidden sm:inline">Demo</span>
+              </button>
+              {/* Clear data */}
+              {transactions.length > 0 && (
+                <button type="button" onClick={() => { setTransactions([]); setBudgets({}); setGoals([]); setReviewRows([]); }} className="flex items-center gap-2 rounded-lg border border-[var(--danger)]/30 px-3 py-2 text-xs font-medium text-[var(--danger)] hover:bg-[var(--danger)]/10 transition-all cursor-pointer">
+                  <X size={14} />
+                  <span className="hidden sm:inline">Clear</span>
+                </button>
+              )}
             </div>
           </header>
 
-          <main className="mt-6 space-y-6">
-            <UploadConsole
-              onLoadDemo={loadDemo}
-              onFileChange={handleFileChange}
-              reviewRows={reviewRows}
-              transactionCount={transactions.length}
-              bankCounts={analytics.bankCounts}
-            />
-            <motion.div key={activeTab} initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.28 }}>
-              {tabContent}
-            </motion.div>
-            <footer className="glass-card rounded-[1.75rem] px-6 py-6 mt-12 mb-20 text-center">
-  <motion.div
-    initial={{ opacity: 0 }}
-    animate={{ opacity: 1 }}
-    transition={{ delay: 0.3 }}
-    className="space-y-2"
-  >
-    <p className="text-sm text-[var(--text)]">
-      Built by{" "}
-      <a
-        href="https://derajyojith.dev"
-        target="_blank"
-        rel="noopener noreferrer"
-        className="font-semibold text-[var(--accent)] hover:underline transition-all duration-200"
-      >
-        Deraj Yojith
-      </a>
-    </p>
-    <p className="text-xs text-[var(--muted)]">
-      Privacy-first expense tracker for Indian bank users. All data stays local.
-    </p>
-  </motion.div>
-</footer>
+          {/* Scrollable content */}
+          <main className="flex-1 overflow-y-auto">
+            <div className="p-6">
+              <motion.div key={activeTab} initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.18 }}>
+                {tabContent}
+              </motion.div>
+            </div>
+
+            {/* Footer */}
+            <footer className="border-t border-[var(--line-10)] px-6 py-5 mt-4">
+              <div className="flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-[var(--muted)]">
+                <div className="flex items-center gap-2">
+                  <img src="https://images.prismic.io/derajportfolio/acq0eJGXnQHGZG01_ledgr-icon.png?auto=format,compress" alt="Ledgr" className="h-4 w-4 rounded opacity-60" />
+                  <span>Built by{" "}
+                    <a href="https://derajyojith.dev" target="_blank" rel="noopener noreferrer" className="font-semibold text-[var(--accent)] hover:underline transition-colors">
+                      Deraj Yojith
+                    </a>
+                  </span>
+                </div>
+                <div className="flex items-center gap-4">
+                  <span>Privacy-first · All data stays local</span>
+                  <span className="hidden sm:inline">·</span>
+                  <span className="hidden sm:inline">SBI + IOB + Canara</span>
+                </div>
+              </div>
+            </footer>
           </main>
         </div>
 
-        <nav className="fixed inset-x-4 bottom-4 z-30 grid grid-cols-5 gap-2 rounded-[1.75rem] border border-[var(--line-10)] bg-[var(--surface-strong)] p-2 shadow-2xl backdrop-blur md:hidden">
-          {TAB_ITEMS.map((tab) => {
+        {/* Mobile bottom nav */}
+        <nav className="fixed inset-x-0 bottom-0 z-30 flex border-t border-[var(--line-10)] bg-[var(--surface)] lg:hidden">
+          {SIDEBAR_SECTIONS.flatMap(s => s.items).slice(0, 5).map((tab) => {
             const Icon = tab.icon;
             const active = activeTab === tab.id;
             return (
-              <button key={tab.id} type="button" onClick={() => setActiveTab(tab.id)} className={`flex flex-col items-center justify-center gap-1 rounded-[1.25rem] px-2 py-2 text-[11px] ${active ? "bg-[var(--accent)] text-black" : "text-[var(--text-65)]"}`}>
-                <Icon size={16} />
-                {tab.label}
+              <button key={tab.id} type="button" onClick={() => setActiveTab(tab.id)} className={`flex flex-1 flex-col items-center justify-center gap-1 py-3 text-[10px] font-medium transition-colors cursor-pointer ${active ? "text-[var(--accent)]" : "text-[var(--muted)]"}`}>
+                <Icon size={18} />
+                <span className="truncate">{tab.label}</span>
               </button>
             );
           })}
@@ -2483,6 +3516,7 @@ function App() {
     </>
   );
 }
+
 
 createRoot(document.getElementById("root")).render(
   <React.StrictMode>

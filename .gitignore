@@ -32,13 +32,24 @@ coverage/
 *.tmp
 *.temp
 
-# Personal bank statement exports (optional)
-# Uncomment if you do not want local statement files tracked
+# Personal bank statement exports
 *.pdf
 *_raw.txt
 india_passbook_merchants.html
+
+# AI-generated planning/scaffolding docs (not part of the app)
+docs/
+design-system/
 FIXES_APPLIED.md
 FIXES_AND_FEATURES.md
 LEDGR_FEATURE_ROADMAP.md
 
+# AI-generated build/implement scripts (one-off, not part of the app)
+build_ui.py
+build_ui_dark.py
+implement_features.py
+implement_v2.py
+rebuild_ledgr.py
 
+# Antigravity AI assistant tooling
+.agent/
