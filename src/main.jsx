@@ -34,6 +34,7 @@ const STORAGE_KEYS = {
   goals: "ledgr-goals",
   merchantOverrides: "ledgr-merchant-overrides",
   reviewRows: "ledgr-review-rows",
+  splitGroups: "ledgr-split-groups",
 };
 
 const SIDEBAR_SECTIONS = [
@@ -51,6 +52,7 @@ const SIDEBAR_SECTIONS = [
     items: [
       { id: "analysis",  label: "Analytics", icon: ChartColumnBig },
       { id: "insights",  label: "Insights",  icon: BrainCircuit   },
+      { id: "splits",    label: "Split Bills", icon: UsersIcon    },
     ]
   },
 ];
@@ -519,6 +521,7 @@ function deriveCategory({ merchant, rawDescription, debit, credit, isSelfTransfe
   if (GOVERNMENT_MERCHANTS.has(merchant)) return "Government & Banking";
   if (ATM_CASH_MERCHANTS.has(merchant)) return "ATM & Cash";
   if (UTILITY_MERCHANTS.has(merchant)) return "Utilities";
+  if (credit >= 2000 && (!isLikelyPerson(merchant) === false || merchant === "Unclassified" || /rent|salary|stipend|income/i.test(rawDescription))) return "Income";
   if (credit > 0 && isLikelyPerson(merchant) && credit >= 5000) return "Income";
   if ((debit > 0 || credit > 0) && isLikelyPerson(merchant)) return "P2P / Split";
   return "Other";
@@ -988,7 +991,7 @@ function getOrderedBanks(bankCounts) {
 
 function buildAnalytics(transactions) {
   const sorted = [...transactions].sort((left, right) => (left.date === right.date ? left.sequence - right.sequence : left.date.localeCompare(right.date)));
-  const spendTransactions = sorted.filter((transaction) => transaction.debit > 0 && !transaction.isSelfTransfer);
+  const spendTransactions = sorted.filter((transaction) => transaction.debit > 0 && !transaction.isSelfTransfer && !transaction.isReimbursable);
   const grossCredits = sorted.reduce((sum, transaction) => sum + transaction.credit, 0);
   const adjustedCredits = sorted.filter((transaction) => transaction.credit > 0 && !transaction.isSelfTransfer).reduce((sum, transaction) => sum + transaction.credit, 0);
   const totalSpent = spendTransactions.reduce((sum, transaction) => sum + transaction.debit, 0);
@@ -1112,6 +1115,29 @@ function buildAnalytics(transactions) {
     .filter((transaction) => transaction.debit > Math.max((categoryAverages[transaction.category] || 0) * 2.2, transaction.category === "Rent" ? 15000 : 900))
     .sort((left, right) => right.debit - left.debit);
 
+  const emotionalSpends = [];
+  const dateCounts = {};
+  spendTransactions.forEach(t => {
+      if (t.category === "Food & Dining" || t.category === "Shopping / Electronics" || t.category === "Entertainment") {
+          dateCounts[t.date] = dateCounts[t.date] || { count: 0, items: [] };
+          dateCounts[t.date].count++;
+          dateCounts[t.date].items.push(t);
+      }
+  });
+  for (const [date, data] of Object.entries(dateCounts)) {
+     if (data.count >= 3) {
+         const total = data.items.reduce((s, t) => s + t.debit, 0);
+         emotionalSpends.push({ 
+           date, 
+           statementDate: data.items[0].statementDate,
+           count: data.count, 
+           total, 
+           categories: Array.from(new Set(data.items.map(t => t.category))) 
+         });
+     }
+  }
+  emotionalSpends.sort((a, b) => b.date.localeCompare(a.date));
+
   const rentMerchant = spendTransactions
     .filter((transaction) => transaction.category === "Rent")
     .sort((left, right) => right.debit - left.debit)[0]?.merchant || null;
@@ -1143,7 +1169,32 @@ function buildAnalytics(transactions) {
   const cashbackTotal = sorted.filter((transaction) => transaction.isRefund && transaction.category === "Cashback").reduce((sum, transaction) => sum + transaction.credit, 0);
   const biggestExpense = spendTransactions.reduce((largest, transaction) => (transaction.debit > (largest?.debit || 0) ? transaction : largest), null);
 
+  const monthlySpend = {};
+  for (const trx of spendTransactions) {
+      if (trx.date) {
+          const monthKey = trx.date.substring(0, 7); // YYYY-MM
+          monthlySpend[monthKey] = (monthlySpend[monthKey] || 0) + trx.debit;
+      }
+  }
+  const sortedMonths = Object.keys(monthlySpend).sort();
+  const currentMonthKey = sortedMonths[sortedMonths.length - 1] || null;
+  const previousMonthKey = sortedMonths[sortedMonths.length - 2] || null;
+  
+  const momData = {
+     currentMonth: currentMonthKey ? { month: currentMonthKey, spend: monthlySpend[currentMonthKey] } : null,
+     previousMonth: previousMonthKey ? { month: previousMonthKey, spend: monthlySpend[previousMonthKey] } : null,
+     difference: 0,
+     percentChange: 0
+  };
+  
+  if (momData.currentMonth && momData.previousMonth && momData.previousMonth.spend > 0) {
+      momData.difference = momData.currentMonth.spend - momData.previousMonth.spend;
+      momData.percentChange = (momData.difference / momData.previousMonth.spend) * 100;
+  }
+
   return {
+    monthlySpendMap: monthlySpend,
+    allMonths: sortedMonths,
     grossCredits,
     adjustedCredits,
     totalSpent,
@@ -1176,6 +1227,8 @@ function buildAnalytics(transactions) {
     topRecurringP2P,
     banks,
     bankCounts,
+    momData,
+    emotionalSpends,
   };
 }
 
@@ -1357,12 +1410,14 @@ function TransactionDrawer({ transaction, onClose, onSave }) {
   const [merchant, setMerchant] = useState(transaction?.merchant || "");
   const [category, setCategory] = useState(transaction?.category || "Other");
   const [notes, setNotes] = useState(transaction?.notes || "");
+  const [isReimbursable, setIsReimbursable] = useState(transaction?.isReimbursable || false);
   const [applyAll, setApplyAll] = useState(false);
 
   useEffect(() => {
     setMerchant(transaction?.merchant || "");
     setCategory(transaction?.category || "Other");
     setNotes(transaction?.notes || "");
+    setIsReimbursable(transaction?.isReimbursable || false);
     setApplyAll(false);
   }, [transaction]);
 
@@ -1377,7 +1432,6 @@ function TransactionDrawer({ transaction, onClose, onSave }) {
             className="fixed inset-0 z-40 bg-black/60 backdrop-blur-sm"
             onClick={onClose}
           />
-        <KeyboardShortcutsModal open={shortcutsOpen} onClose={() => setShortcutsOpen(false)} />
           <motion.aside
             initial={{ x: "100%" }}
             animate={{ x: 0 }}
@@ -1435,6 +1489,10 @@ function TransactionDrawer({ transaction, onClose, onSave }) {
                 <input type="checkbox" checked={applyAll} onChange={(event) => setApplyAll(event.target.checked)} className="range-input h-4 w-4" />
                 Apply to all similar descriptions
               </label>
+              <label className="flex items-center gap-3 rounded-2xl border border-[var(--line-10)] bg-[var(--surface-5)] px-4 py-3 text-sm text-[var(--text-80)]">
+                <input type="checkbox" checked={isReimbursable} onChange={(event) => setIsReimbursable(event.target.checked)} className="range-input h-4 w-4 accent-amber-500" />
+                Mark as Reimbursable/Business (exclude from analytics)
+              </label>
             </div>
 
             <div className="mt-auto flex gap-3 pt-6">
@@ -1443,7 +1501,7 @@ function TransactionDrawer({ transaction, onClose, onSave }) {
               </button>
               <button
                 type="button"
-                onClick={() => onSave({ merchant, category, notes, applyAll })}
+                onClick={() => onSave({ merchant, category, notes, applyAll, isReimbursable })}
                 className="flex-1 rounded-2xl bg-[var(--accent)] px-4 py-3 text-sm font-semibold text-black transition hover:brightness-105"
               >
                 Save Changes
@@ -2289,7 +2347,45 @@ function QuickStats({ transactions }) {
 }
 
 
-function OverviewTab({ analytics, transactions, onOpenTransaction, onTabChange, budgets }) {
+function TimeSelector({ transactions, timeMode, setTimeMode, selectedMonth, setSelectedMonth }) {
+  const months = useMemo(() => Array.from(new Set(transactions.map(t => t.date.slice(0, 7)))).sort().reverse(), [transactions]);
+  
+  useEffect(() => {
+     if (timeMode === "Monthly" && !selectedMonth && months.length > 0) {
+        setSelectedMonth(months[0]);
+     }
+  }, [timeMode, selectedMonth, months]);
+
+  if (months.length <= 1) return null;
+  
+  return (
+    <div className="flex items-center gap-2 mb-6">
+       <button onClick={() => setTimeMode("Cumulative")} className={`px-4 py-1.5 rounded-full text-xs font-semibold xl:cursor-pointer transition-colors ${timeMode === "Cumulative" ? "bg-[var(--accent)] text-black" : "bg-[var(--surface-5)] text-[var(--muted)] border border-[var(--line-10)]"}`}>Cumulative View</button>
+       <button onClick={() => setTimeMode("Monthly")} className={`px-4 py-1.5 rounded-full text-xs font-semibold xl:cursor-pointer transition-colors ${timeMode === "Monthly" ? "bg-[var(--accent)] text-black" : "bg-[var(--surface-5)] text-[var(--muted)] border border-[var(--line-10)]"}`}>Monthly Slice</button>
+       
+       {timeMode === "Monthly" && (
+          <select value={selectedMonth} onChange={e => setSelectedMonth(e.target.value)} className="bg-[var(--surface-soft)] border border-[var(--line-10)] rounded-full px-3 py-1.5 text-xs text-[var(--text)] outline-none xl:cursor-pointer">
+             {months.map(m => {
+                const date = new Date(m + "-01");
+                return <option key={m} value={m}>{date.toLocaleString("default", { month: "short", year: "numeric" })}</option>;
+             })}
+          </select>
+       )}
+    </div>
+  );
+}
+
+function OverviewTab({ analytics: globalAnalytics, transactions, onOpenTransaction, onTabChange, budgets }) {
+  const [timeMode, setTimeMode] = useState("Cumulative");
+  const [selectedMonth, setSelectedMonth] = useState("");
+
+  const { analytics, filteredTransactions } = useMemo(() => {
+      if (timeMode === "Cumulative") return { analytics: globalAnalytics, filteredTransactions: transactions };
+      const filtered = transactions.filter(t => t.date.startsWith(selectedMonth));
+      if (!filtered.length) return { analytics: globalAnalytics, filteredTransactions: transactions };
+      return { analytics: buildAnalytics(filtered), filteredTransactions: filtered };
+  }, [transactions, timeMode, selectedMonth, globalAnalytics]);
+
   if (!transactions.length) {
     return (
       <div className="flex flex-col items-center justify-center py-24 text-center">
@@ -2308,6 +2404,7 @@ function OverviewTab({ analytics, transactions, onOpenTransaction, onTabChange, 
 
   return (
     <div className="space-y-5">
+      <TimeSelector transactions={transactions} timeMode={timeMode} setTimeMode={setTimeMode} selectedMonth={selectedMonth} setSelectedMonth={setSelectedMonth} />
 
       {/* ── KPI Row ── */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
@@ -2369,11 +2466,11 @@ function OverviewTab({ analytics, transactions, onOpenTransaction, onTabChange, 
       </div>
 
       {/* ── Burn Rate ── */}
-      <BurnRateBar analytics={analytics} transactions={transactions} budgets={budgets} />
+      <BurnRateBar analytics={analytics} transactions={filteredTransactions} budgets={budgets} />
 
       {/* ── Heatmap ── */}
       <SpendingHeatmap
-        transactions={transactions}
+        transactions={filteredTransactions}
         onDateClick={(date) => {
           if (onTabChange) {
             onTabChange("transactions");
@@ -2459,7 +2556,7 @@ function OverviewTab({ analytics, transactions, onOpenTransaction, onTabChange, 
       </div>
 
       {/* ── Smart Insights ── */}
-      <SmartAlerts analytics={analytics} transactions={transactions} />
+      <SmartAlerts analytics={analytics} transactions={filteredTransactions} />
 
       {/* ── Bottom Row ── */}
       <div className="grid gap-5 lg:grid-cols-[1fr_320px]">
@@ -2543,9 +2640,9 @@ function OverviewTab({ analytics, transactions, onOpenTransaction, onTabChange, 
       {/* ── Insights Grid ── */}
       <div className="grid gap-5 lg:grid-cols-2 xl:grid-cols-4">
         <TopMerchantsWidget analytics={analytics} />
-        <DayOfWeekChart transactions={transactions} />
-        <SpendingStreaks transactions={transactions} />
-        <QuickStats transactions={transactions} />
+        <DayOfWeekChart transactions={filteredTransactions} />
+        <SpendingStreaks transactions={filteredTransactions} />
+        <QuickStats transactions={filteredTransactions} />
       </div>
 
       {/* ── Budget Progress ── */}
@@ -2555,13 +2652,24 @@ function OverviewTab({ analytics, transactions, onOpenTransaction, onTabChange, 
   );
 }
 
-function AnalysisTab({ analytics }) {
+function AnalysisTab({ analytics: globalAnalytics, transactions }) {
+  const [timeMode, setTimeMode] = useState("Cumulative");
+  const [selectedMonth, setSelectedMonth] = useState("");
+
+  const { analytics, filteredTransactions } = useMemo(() => {
+      if (timeMode === "Cumulative") return { analytics: globalAnalytics, filteredTransactions: transactions };
+      const filtered = transactions.filter(t => t.date.startsWith(selectedMonth));
+      if (!filtered.length) return { analytics: globalAnalytics, filteredTransactions: transactions };
+      return { analytics: buildAnalytics(filtered), filteredTransactions: filtered };
+  }, [transactions, timeMode, selectedMonth, globalAnalytics]);
+
   if (!analytics.merchantSpend.length) {
     return <EmptyState title="Nothing to analyze yet" message="Spend categories, merchant ranking, subscriptions, and P2P heatmaps appear once debit transactions are available." />;
   }
 
   return (
     <div className="grid gap-6">
+      <TimeSelector transactions={transactions} timeMode={timeMode} setTimeMode={setTimeMode} selectedMonth={selectedMonth} setSelectedMonth={setSelectedMonth} />
       <div className="grid gap-6 xl:grid-cols-[1.15fr,0.85fr]">
         <SectionCard title="Category Breakdown by Week" eyebrow="Stacked Flow">
           <div className="h-80">
@@ -2658,6 +2766,9 @@ function AnalysisTab({ analytics }) {
 
 function BudgetTab({ budgets, setBudgets, analytics, goals, setGoals }) {
   const [draftGoal, setDraftGoal] = useState({ name: "", target: "", current: "", targetDate: "" });
+  const [simReductions, setSimReductions] = useState({ "Food & Dining": 0, "Shopping / Electronics": 0, "Transport": 0 });
+  const simAnnualSavings = Object.values(simReductions).reduce((s, v) => s + v, 0) * 12;
+
   const spendMap = Object.fromEntries(analytics.spendByCategory.map((item) => [item.name, item.value]));
   const budgetRows = Object.keys({ ...budgets, ...spendMap })
     .filter((category) => !["Self Transfer", "Cashback", "Interest Income", "Income"].includes(category))
@@ -2682,15 +2793,15 @@ function BudgetTab({ budgets, setBudgets, analytics, goals, setGoals }) {
                   min="0"
                   value={row.budget}
                   onChange={(event) => setBudgets((current) => ({ ...current, [row.category]: Number(event.target.value || 0) }))}
-                  className="ledgr-mono w-36 rounded-2xl border border-[var(--line-10)] bg-[var(--surface-soft)] px-3 py-2 text-sm text-[var(--text)] outline-none"
+                  className="ledgr-mono w-36 rounded-2xl border border-[var(--line-10)] bg-[var(--surface-soft)] px-3 py-2 text-sm text-[var(--text)] outline-none transition focus:border-[var(--accent)]"
                 />
               </div>
-              <div className="mt-4 h-3 overflow-hidden rounded-full bg-[var(--surface-5)]">
-                <div className="h-full rounded-full bg-[var(--accent)] transition-all" style={{ width: `${Math.min(row.percent, 100)}%` }} />
+              <div className="mt-4 h-3 overflow-hidden rounded-full bg-[var(--surface-soft)]">
+                <div className="h-full rounded-full bg-[var(--text)] transition-all" style={{ width: `${Math.min(row.percent, 100)}%` }} />
               </div>
               <div className="mt-3 flex items-center justify-between text-sm">
-                <span className="text-[var(--muted)]">Actual: {formatCurrency(row.actual)}</span>
-                <span className={`ledgr-mono ${row.actual > row.budget && row.budget > 0 ? "text-rose-300" : "text-[var(--text-80)]"}`}>{row.percent.toFixed(0)}%</span>
+                <span className="text-[var(--text-60)]">Actual: {formatCurrency(row.actual)}</span>
+                <span className={`ledgr-mono ${row.actual > row.budget && row.budget > 0 ? "text-rose-400 font-bold" : "text-[var(--text)]"}`}>{row.percent.toFixed(0)}%</span>
               </div>
             </div>
           ))}
@@ -2698,6 +2809,49 @@ function BudgetTab({ budgets, setBudgets, analytics, goals, setGoals }) {
       </SectionCard>
 
       <div className="grid gap-6">
+        <SectionCard title="Scenario Simulator" eyebrow="Decision Tool">
+          <div className="rounded-[1.5rem] border border-[var(--line-10)] bg-[var(--surface-strong)] p-5">
+            <h3 className="text-lg ledgr-display text-[var(--text)] mb-2">What if you cut back?</h3>
+            <p className="text-sm text-[var(--muted)] mb-5">Slide to simulate monthly reductions in your flexible categories.</p>
+            
+            <div className="space-y-6">
+              {Object.keys(simReductions).map(cat => {
+                const actualSpend = spendMap[cat] || 0;
+                const active = actualSpend > 0;
+                const reduction = simReductions[cat];
+                return (
+                  <div key={cat} className={active ? "opacity-100" : "opacity-40 pointer-events-none"}>
+                    <div className="flex justify-between text-xs mb-2">
+                       <span className="text-[var(--text-80)]">{cat}</span>
+                       <span className="ledgr-mono text-[var(--accent)] hover:scale-105 transition-transform cursor-default font-medium">- {formatCurrency(reduction)} / mo</span>
+                    </div>
+                    <input 
+                      type="range" 
+                      className="w-full h-1.5 bg-[var(--line-10)] rounded-lg appearance-none cursor-pointer range-input accent-[var(--accent)]" 
+                      min="0" 
+                      max={Math.max(1000, actualSpend)} 
+                      step="500"
+                      value={reduction} 
+                      onChange={e => setSimReductions(prev => ({...prev, [cat]: Number(e.target.value)}))} 
+                    />
+                  </div>
+                )
+              })}
+            </div>
+            
+            <div className="mt-6 p-5 rounded-2xl border border-[var(--accent)]/20 bg-[var(--accent)]/5 flex gap-4 items-center">
+              <div className="p-3 bg-[var(--accent)]/10 rounded-xl text-[var(--accent)]">
+                 <TrendingDown size={20} />
+              </div>
+              <div>
+                <div className="text-[10px] uppercase tracking-widest text-[var(--muted)] mb-1">Projected Annual Savings</div>
+                <div className="ledgr-mono text-2xl text-[var(--accent)] font-medium">+{formatCurrency(simAnnualSavings)}</div>
+              </div>
+            </div>
+            {simAnnualSavings > 0 && <div className="mt-4 text-xs text-[var(--muted)] text-center">That's {formatCurrency(simAnnualSavings)} extra you could put towards your goals every year.</div>}
+          </div>
+        </SectionCard>
+
         <SectionCard title="Savings Goals" eyebrow="Progress Rings">
           <div className="grid gap-4">
             {goals.length ? goals.map((goal) => <GoalRing key={goal.id} goal={goal} />) : <EmptyState title="No goals yet" message="Add a savings target to track progress against your March cash flow." />}
@@ -2754,7 +2908,19 @@ function BudgetTab({ budgets, setBudgets, analytics, goals, setGoals }) {
   );
 }
 
-function InsightsTab({ analytics }) {
+function InsightsTab({ analytics, transactions }) {
+  const [mom1, setMom1] = useState(analytics.allMonths?.[analytics.allMonths.length - 1] || "");
+  const [mom2, setMom2] = useState(analytics.allMonths?.[analytics.allMonths.length - 2] || "");
+
+  const customMomData = useMemo(() => {
+     if (!mom1 || !mom2) return null;
+     const currentSpend = analytics.monthlySpendMap[mom1] || 0;
+     const previousSpend = analytics.monthlySpendMap[mom2] || 0;
+     const difference = currentSpend - previousSpend;
+     const percentChange = previousSpend > 0 ? (difference / previousSpend) * 100 : 0;
+     return { currentMonth: mom1, currentSpend, previousMonth: mom2, previousSpend, difference, percentChange };
+  }, [mom1, mom2, analytics.monthlySpendMap]);
+
   if (!analytics.spendByCategory.length) {
     return <EmptyState title="Insights will appear here" message="Ledgr watches for rent, subscriptions, self-transfers, large anomalies, and refund loops once transactions are loaded." />;
   }
@@ -2785,11 +2951,56 @@ function InsightsTab({ analytics }) {
             </div>
             <div className="rounded-[1.5rem] border border-[var(--line-10)] bg-[var(--surface-5)] p-4">
               <div className="text-[11px] uppercase tracking-[0.28em] text-[var(--muted)]">Adjusted Net</div>
-              <div className={`mt-3 ledgr-mono text-2xl ${analytics.cashFlow.adjustedNet >= 0 ? "text-emerald-300" : "text-rose-300"}`}>{formatAmountDisplay(analytics.cashFlow.adjustedNet)}</div>
+              <div className={`mt-3 ledgr-mono text-2xl ${analytics.cashFlow.adjustedNet >= 0 ? "text-[var(--accent)]" : "text-rose-300"}`}>{formatAmountDisplay(analytics.cashFlow.adjustedNet)}</div>
             </div>
           </div>
         </SectionCard>
       </div>
+
+      {customMomData && analytics.allMonths.length >= 2 ? (
+        <SectionCard title="Comparison View" eyebrow="Custom Timeframe Diff">
+          <div className="flex items-center gap-3 mb-4">
+            <select value={mom2} onChange={e => setMom2(e.target.value)} className="bg-[var(--surface-5)] border border-[var(--line-10)] rounded-xl px-4 py-2 text-sm text-[var(--muted)] outline-none hover:border-[var(--line-20)] cursor-pointer">
+                 {analytics.allMonths.map(m => <option key={m} value={m}>{new Date(m + "-01").toLocaleString("default", { month: "short", year: "numeric" })}</option>)}
+            </select>
+            <span className="text-[var(--text-60)] text-xs uppercase tracking-widest font-bold px-2">vs</span>
+            <select value={mom1} onChange={e => setMom1(e.target.value)} className="bg-[var(--surface-5)] border border-[var(--accent)]/30 rounded-xl px-4 py-2 text-sm text-[var(--accent)] font-semibold outline-none hover:border-[var(--accent)]/60 cursor-pointer">
+                 {analytics.allMonths.map(m => <option key={m} value={m}>{new Date(m + "-01").toLocaleString("default", { month: "short", year: "numeric" })}</option>)}
+            </select>
+          </div>
+
+          <div className="rounded-[1.5rem] border border-[var(--line-10)] bg-[var(--surface-5)] p-5 relative overflow-hidden">
+             <div className="absolute inset-0 bg-gradient-to-r from-[var(--surface-strong)] to-transparent pointer-events-none z-0 opacity-50" />
+             <div className="relative z-10">
+               <div className="flex items-start justify-between gap-4 mb-6">
+                 <div>
+                   <h3 className="text-xl ledgr-display text-[var(--text)]">
+                     {customMomData.difference <= 0 ? "Excellent constraint." : "You spent more in this period."}
+                   </h3>
+                   <p className="text-sm text-[var(--muted)] mt-1 max-w-lg leading-relaxed">
+                     Compared to {new Date(customMomData.previousMonth + "-01").toLocaleString("default", { month: "long", year: "numeric" })}, your overall personal spend has {customMomData.difference <= 0 ? "decreased" : "increased"} by {formatCurrency(Math.abs(customMomData.difference))}.
+                     This is a {Math.abs(customMomData.percentChange).toFixed(1)}% {customMomData.percentChange <= 0 ? "drop" : "rise"} in expenditures.
+                   </p>
+                 </div>
+                 <div className={`shrink-0 flex items-center justify-center p-3 rounded-2xl ${customMomData.percentChange <= 0 ? "bg-[var(--accent)]/10 text-[var(--accent)]" : "bg-rose-500/10 text-rose-400"}`}>
+                    {customMomData.percentChange <= 0 ? <TrendingDown size={24} /> : <TrendingUp size={24} />}
+                 </div>
+               </div>
+               
+               <div className="grid grid-cols-2 gap-4">
+                 <div className="p-4 bg-[var(--surface-strong)] rounded-xl border border-[var(--line-5)]">
+                   <div className="text-[10px] uppercase tracking-widest text-[var(--muted)] mb-1">Base ({new Date(customMomData.previousMonth + "-01").toLocaleString("default", { month: "short", year: "numeric" })})</div>
+                   <div className="ledgr-mono text-xl">{formatCurrency(customMomData.previousSpend)}</div>
+                 </div>
+                 <div className="p-4 bg-[var(--surface-strong)] rounded-xl border border-[var(--line-5)]">
+                   <div className="text-[10px] uppercase tracking-widest text-[var(--muted)] mb-1">Target ({new Date(customMomData.currentMonth + "-01").toLocaleString("default", { month: "short", year: "numeric" })})</div>
+                   <div className="ledgr-mono text-xl">{formatCurrency(customMomData.currentSpend)}</div>
+                 </div>
+               </div>
+             </div>
+          </div>
+        </SectionCard>
+      ) : null}
 
       <div className="grid gap-6 xl:grid-cols-[1.1fr,0.9fr]">
         <SectionCard title="Subscription Audit" eyebrow="Recurring Ledger">
@@ -2868,6 +3079,32 @@ function InsightsTab({ analytics }) {
           </div>
         </SectionCard>
       </div>
+
+      {analytics.emotionalSpends && analytics.emotionalSpends.length > 0 && (
+        <SectionCard title="Emotional Spend Layer" eyebrow="Behavioral Analysis">
+          <div className="space-y-4">
+            {analytics.emotionalSpends.map((binge, idx) => (
+               <div key={idx} className="rounded-[1.5rem] border border-[var(--line-10)] bg-[var(--surface-5)] p-5 relative overflow-hidden group">
+                 <div className="absolute inset-0 bg-gradient-to-r from-[var(--danger)]/5 to-transparent pointer-events-none opacity-50 transition-opacity group-hover:opacity-100" />
+                 <div className="relative z-10 flex items-start justify-between gap-4">
+                   <div>
+                     <h4 className="font-medium text-[var(--danger)] text-lg mb-1 flex items-center gap-2">
+                       <Zap size={18} className="fill-[var(--danger)]/20" /> Stress Spend Pattern Detected
+                     </h4>
+                     <p className="text-sm text-[var(--muted)] max-w-md">
+                        On <span className="text-[var(--text-80)]">{binge.statementDate ? formatLongDate(binge.statementDate) : binge.date}</span>, you made <span className="font-medium text-[var(--danger)]/80">{binge.count} separate transactions</span> in flexible categories ({binge.categories.join(', ')}). High-frequency clustering often correlates with emotional/stress-spending rather than planned budgeting.
+                     </p>
+                   </div>
+                   <div className="shrink-0 text-right">
+                     <div className="ledgr-mono text-2xl text-[var(--text)]">{formatCurrency(binge.total)}</div>
+                     <div className="text-[10px] uppercase tracking-wider text-[var(--muted)] mt-1">Total Daily Outflow</div>
+                   </div>
+                 </div>
+               </div>
+            ))}
+          </div>
+        </SectionCard>
+      )}
     </div>
   );
 }
@@ -3057,6 +3294,323 @@ function LiveClock() {
   );
 }
 
+/* ═══════════════════════════════════════════════════════════════════════════
+   FEATURE 8: Split Bills / P2P Tracker (Bucket System)
+   ═══════════════════════════════════════════════════════════════════════════ */
+function SplitsTab({ transactions, splitGroups, setSplitGroups, onTabChange }) {
+  const [dragHover, setDragHover] = useState(null);
+  
+  const ensureMigrated = (groups) => {
+    let migrated = false;
+    const next = { ...groups };
+    for (const key in next) {
+      if (Array.isArray(next[key])) {
+        next[key] = { debits: [key], credits: next[key] };
+        migrated = true;
+      }
+    }
+    return { data: next, migrated };
+  };
+
+  useEffect(() => {
+    const { data, migrated } = ensureMigrated(splitGroups);
+    if (migrated) setSplitGroups(data);
+  }, [splitGroups, setSplitGroups]);
+
+  const groups = ensureMigrated(splitGroups).data;
+
+  const handleDrop = (e, groupId) => {
+    e.preventDefault();
+    setDragHover(null);
+    const rawData = e.dataTransfer.getData("application/json");
+    if (!rawData) return;
+    try {
+      const payload = JSON.parse(rawData);
+      // Older drag format just sent an ID string, new format sends { id, type }
+      const creditId = typeof payload === 'string' ? payload : (payload.type === 'credit' ? payload.id : null);
+      const debitId = typeof payload === 'object' && payload.type === 'debit' ? payload.id : null;
+      
+      setSplitGroups(prev => {
+        const { data: next } = ensureMigrated(prev);
+        
+        // Remove from other groups
+        for (const key in next) {
+          if (creditId) next[key].credits = next[key].credits.filter(id => id !== creditId);
+          if (debitId) next[key].debits = next[key].debits.filter(id => id !== debitId);
+        }
+        
+        if (!next[groupId]) next[groupId] = { debits: [], credits: [] };
+        if (creditId && !next[groupId].credits.includes(creditId)) next[groupId].credits.push(creditId);
+        if (debitId && !next[groupId].debits.includes(debitId)) next[groupId].debits.push(debitId);
+        
+        return next;
+      });
+    } catch (err) {
+       console.error("Invalid drop data");
+    }
+  };
+
+  const createBucket = (debitId) => {
+    setSplitGroups(prev => {
+      const { data: next } = ensureMigrated(prev);
+      if (!next[debitId]) next[debitId] = { debits: [debitId], credits: [] };
+      return next;
+    });
+  };
+
+  const removeBucket = (groupId) => {
+    setSplitGroups(prev => {
+      const { data: next } = ensureMigrated(prev);
+      delete next[groupId];
+      return next;
+    });
+  };
+
+  const renameBucket = (groupId, newName) => {
+    setSplitGroups(prev => {
+      const { data: next } = ensureMigrated(prev);
+      if (next[groupId]) next[groupId].name = newName;
+      return next;
+    });
+  };
+
+  const removeCredit = (groupId, creditId) => {
+     setSplitGroups(prev => {
+       const { data: next } = ensureMigrated(prev);
+       if (next[groupId]) next[groupId].credits = next[groupId].credits.filter(id => id !== creditId);
+       return next;
+     });
+  }
+
+  const removeDebit = (groupId, debitId) => {
+     setSplitGroups(prev => {
+       const { data: next } = ensureMigrated(prev);
+       if (next[groupId]) {
+           next[groupId].debits = next[groupId].debits.filter(id => id !== debitId);
+           if (next[groupId].debits.length === 0 && next[groupId].credits.length === 0) {
+               delete next[groupId];
+           }
+       }
+       return next;
+     });
+  }
+
+  const linkedCreditIds = new Set(Object.values(groups).flatMap(g => g.credits));
+  const linkedDebitIds = new Set(Object.values(groups).flatMap(g => g.debits));
+
+  const buckets = Object.entries(groups).map(([groupId, group]) => {
+     const debs = group.debits.map(id => transactions.find(t => t.id === id)).filter(Boolean);
+     const creds = group.credits.map(id => transactions.find(t => t.id === id)).filter(Boolean);
+     return { groupId, name: group.name, debits: debs, credits: creds };
+  }).filter(b => b.debits.length > 0 || b.credits.length > 0);
+  
+  const sortDesc = (a, b) => b.statementDate.localeCompare(a.statementDate) || b.sequence - a.sequence;
+  
+  const unlinkedCredits = transactions
+    .filter(t => t.credit > 0 && !t.isSelfTransfer && t.category !== "Interest Income" && !linkedCreditIds.has(t.id))
+    .sort(sortDesc).slice(0, 40);
+    
+  const potentialDebits = transactions
+    .filter(t => t.debit >= 150 && !t.isSelfTransfer && !linkedDebitIds.has(t.id))
+    .sort(sortDesc).slice(0, 40);
+
+  return (
+    <div className="flex flex-col lg:flex-row gap-6">
+      <div className="flex-1 space-y-6">
+        <div className="flex items-start justify-between">
+          <div>
+            <h2 className="ledgr-display text-2xl">Split Bills Tracker</h2>
+            <p className="mt-1 text-sm text-[var(--muted)]">Drag and drop unlinked credits or debits into your groups to track clubbed recoveries.</p>
+          </div>
+        </div>
+
+        {buckets.length === 0 ? (
+          <EmptyState title="No active splits" message="Create a group from your recent expenses on the right to start tracking." />
+        ) : (
+          <div className="grid gap-4 xl:grid-cols-2">
+            {buckets.map(bucket => {
+              const totalDebit = bucket.debits.reduce((s, d) => s + d.debit, 0);
+              const totalRecovered = bucket.credits.reduce((s, c) => s + c.credit, 0);
+              const progress = Math.min(100, totalDebit ? (totalRecovered / totalDebit) * 100 : 100);
+              const complete = progress >= 100 && totalDebit > 0;
+              const mainDebit = bucket.debits[0] || { merchant: 'Custom Group', statementDate: '' };
+              const title = bucket.debits.length > 1 ? `${mainDebit.merchant} + ${bucket.debits.length - 1} more` : mainDebit.merchant;
+
+              return (
+                <div 
+                  key={bucket.groupId} 
+                  className={`glass-card p-5 relative overflow-hidden transition-all flex flex-col justify-between ${dragHover === bucket.groupId ? "ring-2 ring-[var(--accent)] bg-[var(--accent)]/5" : ""}`}
+                  onDragOver={(e) => { e.preventDefault(); setDragHover(bucket.groupId); }}
+                  onDragLeave={() => setDragHover(null)}
+                  onDrop={(e) => handleDrop(e, bucket.groupId)}
+                >
+                  <div>
+                    {complete && <div className="absolute top-4 right-4"><CheckCircle2 className="text-[var(--accent)]" size={20} /></div>}
+                    <div className="flex justify-between items-start mb-4 pr-6">
+                      <div className="min-w-0 pr-4 w-full">
+                        <input
+                          type="text"
+                          value={bucket.name || ""}
+                          placeholder={title}
+                          onChange={(e) => renameBucket(bucket.groupId, e.target.value)}
+                          className="text-lg ledgr-display font-medium w-full bg-transparent border-none outline-none placeholder:text-[var(--text)] transition focus:border-b focus:border-[var(--line-10)]"
+                        />
+                        <div className="text-xs text-[var(--muted)] mt-1">{mainDebit.statementDate ? formatLongDate(mainDebit.statementDate) : "Clubbed Group"}</div>
+                      </div>
+                      <div className="text-right shrink-0">
+                        <div className="ledgr-mono font-bold text-[var(--text)]">{formatCurrency(totalDebit, 0)}</div>
+                        <div className="text-[10px] uppercase tracking-wider text-[var(--muted)] mt-0.5">Total Split</div>
+                      </div>
+                    </div>
+
+                    <div className="h-2 bg-[var(--surface-5)] rounded-full overflow-hidden mb-2">
+                      <div className={`h-full transition-all ${complete ? "bg-[var(--accent)]" : "bg-[var(--text)]"}`} style={{ width: `${progress}%` }} />
+                    </div>
+                    
+                    <div className="flex justify-between items-center text-xs text-[var(--muted)] mb-5">
+                      <span className={complete ? "text-[var(--accent)]" : ""}>{formatCurrency(totalRecovered, 0)} recovered</span>
+                      <span>{formatCurrency(Math.max(0, totalDebit - totalRecovered), 0)} left</span>
+                    </div>
+
+                    <div className="space-y-2">
+                      {bucket.credits.length === 0 && bucket.debits.length <= 1 && (
+                        <div className="text-center p-4 py-6 border border-dashed border-[var(--line-10)] rounded-xl text-xs text-[var(--text-50)]">
+                          Drop recovered credits or extra debits here
+                        </div>
+                      )}
+                      
+                      {bucket.debits.length > 1 && (
+                         <div className="mb-2">
+                           <div className="text-[10px] uppercase tracking-widest text-[var(--muted)] mb-1">Clubbed Expenses</div>
+                           {bucket.debits.map(d => (
+                              <div key={d.id} className="flex justify-between items-center bg-[var(--surface-strong)] rounded-lg px-3 py-1.5 text-xs mb-1">
+                                <span className="truncate pr-2 text-[var(--text-80)]">{d.merchant}</span>
+                                <div className="flex items-center gap-3 shrink-0">
+                                  <span className="ledgr-mono text-[var(--text)]">-{formatCurrency(d.debit, 0)}</span>
+                                  <button type="button" onClick={() => removeDebit(bucket.groupId, d.id)} className="text-[var(--muted)] hover:text-[var(--danger)] transition-colors"><X size={14}/></button>
+                                </div>
+                              </div>
+                           ))}
+                         </div>
+                      )}
+
+                      {bucket.credits.length > 0 && (
+                         <div className="mt-2">
+                           <div className="text-[10px] uppercase tracking-widest text-[var(--muted)] mb-1">Recovered</div>
+                           {bucket.credits.map(c => (
+                             <div key={c.id} className="flex justify-between items-center bg-[var(--surface-strong)] rounded-lg px-3 py-2 text-xs mb-1">
+                               <span className="truncate pr-2 font-medium">{c.merchant !== "Unclassified" ? c.merchant : titleCase(c.rawDescription.slice(0,25))}</span>
+                               <div className="flex items-center gap-3 shrink-0">
+                                 <span className="ledgr-mono text-[var(--accent)]">+{formatCurrency(c.credit, 0)}</span>
+                                 <button type="button" onClick={() => removeCredit(bucket.groupId, c.id)} className="text-[var(--muted)] hover:text-[var(--danger)] transition-colors"><X size={14}/></button>
+                               </div>
+                             </div>
+                           ))}
+                         </div>
+                      )}
+                    </div>
+                  </div>
+
+                  <div className="mt-4 pt-4 border-t border-[var(--line-10)] text-right">
+                    <button type="button" onClick={() => removeBucket(bucket.groupId)} className="text-xs text-[var(--danger)]/70 hover:text-[var(--danger)] transition-colors cursor-pointer">
+                      Delete Group
+                    </button>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        )}
+      </div>
+
+      <div className="w-full lg:w-[320px] shrink-0 space-y-6">
+        <div className="glass-card flex flex-col h-[calc(100vh-140px)] sticky top-6">
+          <div className="p-4 border-b border-[var(--line-10)]">
+            <div className="text-[11px] uppercase tracking-widest text-[var(--muted)] font-medium">Pool</div>
+            <div className="mt-1 text-sm font-semibold text-[var(--text)]">Unlinked Items</div>
+          </div>
+          
+          <div className="flex-1 overflow-y-auto p-2 space-y-1">
+            <div className="px-2 pt-2 pb-1 text-[10px] uppercase tracking-wider text-[var(--muted)] font-medium">Credits to Recover</div>
+            {unlinkedCredits.length === 0 ? (
+               <div className="p-4 text-center text-xs text-[var(--muted)]">No unlinked credits available.</div>
+            ) : unlinkedCredits.map(credit => (
+              <div
+                key={credit.id}
+                draggable
+                onDragStart={(e) => {
+                  e.dataTransfer.setData("application/json", JSON.stringify({ id: credit.id, type: 'credit' }));
+                  e.dataTransfer.effectAllowed = "move";
+                }}
+                className="cursor-move p-3 rounded-lg border border-[var(--line-10)] bg-[var(--surface-5)] hover:border-[var(--accent)] hover:bg-[var(--surface-strong)] transition-all flex items-center justify-between gap-2 group"
+              >
+                <div className="min-w-0 flex-1">
+                  <div className="text-xs font-medium text-[var(--text)] truncate">{credit.merchant !== "Unclassified" ? credit.merchant : titleCase(credit.rawDescription)}</div>
+                  <div className="text-[10px] text-[var(--muted)] mt-0.5">{formatShortDate(credit.statementDate)}</div>
+                </div>
+                <div className="ledgr-mono text-sm font-bold text-[var(--accent)] flex shrink-0 items-center gap-2">
+                  <span>+{formatCurrency(credit.credit, 0)}</span>
+                  <div className="opacity-0 group-hover:opacity-100 text-[var(--muted)]">
+                     <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="9" cy="12" r="1"></circle><circle cx="9" cy="5" r="1"></circle><circle cx="9" cy="19" r="1"></circle><circle cx="15" cy="12" r="1"></circle><circle cx="15" cy="5" r="1"></circle><circle cx="15" cy="19" r="1"></circle></svg>
+                  </div>
+                </div>
+              </div>
+            ))}
+            
+            <div className="px-2 pt-4 pb-1 text-[10px] uppercase tracking-wider text-[var(--muted)] font-medium">Debits to Club (Drag into bucket)</div>
+            {potentialDebits.map(debit => (
+              <div
+                key={debit.id}
+                draggable
+                onDragStart={(e) => {
+                  e.dataTransfer.setData("application/json", JSON.stringify({ id: debit.id, type: 'debit' }));
+                  e.dataTransfer.effectAllowed = "move";
+                }}
+                className="cursor-move p-3 rounded-lg border border-[var(--line-5)] bg-[var(--surface-strong)] hover:border-[var(--text-30)] hover:bg-[var(--surface-5)] transition-all flex items-center justify-between gap-2 group"
+              >
+                <div className="min-w-0 flex-1">
+                  <div className="text-[11px] font-medium text-[var(--text-80)] truncate">{debit.merchant}</div>
+                  <div className="text-[9px] text-[var(--muted)] mt-0.5">{formatShortDate(debit.statementDate)}</div>
+                </div>
+                <div className="ledgr-mono text-xs font-bold text-[var(--text)] flex shrink-0 items-center gap-2">
+                  <span>-{formatCurrency(debit.debit, 0)}</span>
+                  <div className="opacity-0 group-hover:opacity-100 text-[var(--muted)]">
+                     <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="9" cy="12" r="1"></circle><circle cx="9" cy="5" r="1"></circle><circle cx="9" cy="19" r="1"></circle><circle cx="15" cy="12" r="1"></circle><circle cx="15" cy="5" r="1"></circle><circle cx="15" cy="19" r="1"></circle></svg>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <div className="p-4 border-t border-[var(--line-10)] bg-[var(--surface-strong)] rounded-b-xl">
+             <div className="text-[11px] uppercase tracking-widest text-[var(--muted)] font-medium mb-3">Create new Bucket</div>
+             <div className="max-h-48 overflow-y-auto space-y-1 pr-1">
+               {potentialDebits.map(debit => (
+                 <button
+                   key={debit.id}
+                   type="button"
+                   onClick={() => createBucket(debit.id)}
+
+                   className="w-full text-left p-2 rounded border border-[var(--line-5)] hover:border-[var(--accent)]/50 hover:bg-[var(--surface-5)] transition-all flex justify-between items-center cursor-pointer group"
+                 >
+                   <div className="min-w-0 pr-2">
+                     <div className="text-[11px] font-medium text-[var(--text-80)] truncate group-hover:text-[var(--text)] transition-colors">{debit.merchant}</div>
+                     <div className="text-[9px] text-[var(--muted)] mt-0.5">{formatShortDate(debit.statementDate)}</div>
+                   </div>
+                   <div className="ledgr-mono text-xs font-bold text-[var(--text)] whitespace-nowrap">
+                     {formatCurrency(debit.debit, 0)}
+                   </div>
+                 </button>
+               ))}
+               {potentialDebits.length === 0 && <div className="text-xs text-[var(--muted)] text-center pb-2">No expenses available.</div>}
+             </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 function App() {
   const [activeTab, setActiveTab] = useState("overview");
   const [merchantOverrides, setMerchantOverrides] = useState(() => storageGet(STORAGE_KEYS.merchantOverrides, {}));
@@ -3064,6 +3618,7 @@ function App() {
   const [budgets, setBudgets] = useState(() => storageGet(STORAGE_KEYS.budgets, {}));
   const [goals, setGoals] = useState(() => storageGet(STORAGE_KEYS.goals, []));
   const [reviewRows, setReviewRows] = useState(() => storageGet(STORAGE_KEYS.reviewRows, []));
+  const [splitGroups, setSplitGroups] = useState(() => storageGet(STORAGE_KEYS.splitGroups, {}));
   const [selectedTransaction, setSelectedTransaction] = useState(null);
   const [commandPaletteOpen, setCommandPaletteOpen] = useState(false);
   const [shortcutsOpen, setShortcutsOpen] = useState(false);
@@ -3090,6 +3645,7 @@ function App() {
   useEffect(() => storageSet(STORAGE_KEYS.goals, goals), [goals]);
   useEffect(() => storageSet(STORAGE_KEYS.merchantOverrides, merchantOverrides), [merchantOverrides]);
   useEffect(() => storageSet(STORAGE_KEYS.reviewRows, reviewRows), [reviewRows]);
+  useEffect(() => storageSet(STORAGE_KEYS.splitGroups, splitGroups), [splitGroups]);
 
   useEffect(() => {
     if (transactions.length && !Object.keys(budgets).length) {
@@ -3129,8 +3685,8 @@ function App() {
         setCommandPaletteOpen(false);
         return;
       }
-      // Number keys 1-6 switch tabs
-      const tabKeys = { '1': 'overview', '2': 'transactions', '3': 'subscriptions', '4': 'budget', '5': 'analysis', '6': 'insights' };
+      // Number keys 1-7 switch tabs
+      const tabKeys = { '1': 'overview', '2': 'transactions', '3': 'subscriptions', '4': 'budget', '5': 'analysis', '6': 'insights', '7': 'splits' };
       if (tabKeys[e.key] && !e.ctrlKey && !e.metaKey) {
         setActiveTab(tabKeys[e.key]);
       }
@@ -3202,24 +3758,24 @@ function App() {
     }
   };
 
-  const handleSaveTransaction = ({ merchant, category, notes, applyAll }) => {
+  const handleSaveTransaction = ({ merchant, category, notes, applyAll, isReimbursable }) => {
     if (!selectedTransaction) return;
     if (applyAll) {
       setMerchantOverrides((current) => ({
         ...current,
-        [selectedTransaction.merchantKey]: { merchant, category, notes },
+        [selectedTransaction.merchantKey]: { merchant, category, notes, isReimbursable },
       }));
       setTransactions((current) =>
         current.map((transaction) =>
           transaction.merchantKey === selectedTransaction.merchantKey
-            ? { ...transaction, merchant, category, notes, isManual: true }
+            ? { ...transaction, merchant, category, notes, isReimbursable, isManual: true }
             : transaction
         )
       );
     } else {
       setTransactions((current) =>
         current.map((transaction) =>
-          transaction.id === selectedTransaction.id ? { ...transaction, merchant, category, notes, isManual: true } : transaction
+          transaction.id === selectedTransaction.id ? { ...transaction, merchant, category, notes, isReimbursable, isManual: true } : transaction
         )
       );
     }
@@ -3292,13 +3848,15 @@ function App() {
   if (activeTab === "overview") {
     tabContent = <OverviewTab analytics={analytics} transactions={transactions} onOpenTransaction={setSelectedTransaction} onTabChange={setActiveTab} budgets={budgets} />;
   } else if (activeTab === "analysis") {
-    tabContent = <AnalysisTab analytics={analytics} />;
+    tabContent = <AnalysisTab analytics={analytics} transactions={transactions} />;
   } else if (activeTab === "subscriptions") {
     tabContent = <SubscriptionsTab analytics={analytics} />;
   } else if (activeTab === "budget") {
     tabContent = <BudgetTab budgets={budgets} setBudgets={setBudgets} analytics={analytics} goals={goals} setGoals={setGoals} />;
   } else if (activeTab === "insights") {
-    tabContent = <InsightsTab analytics={analytics} />;
+    tabContent = <InsightsTab analytics={analytics} transactions={transactions} />;
+  } else if (activeTab === "splits") {
+    tabContent = <SplitsTab transactions={transactions} splitGroups={splitGroups} setSplitGroups={setSplitGroups} onTabChange={setActiveTab} />;
   } else {
     tabContent = (
       <TransactionsTab
@@ -3512,6 +4070,7 @@ function App() {
         </nav>
 
         <TransactionDrawer transaction={selectedTransaction} onClose={() => setSelectedTransaction(null)} onSave={handleSaveTransaction} />
+        <KeyboardShortcutsModal open={shortcutsOpen} onClose={() => setShortcutsOpen(false)} />
       </div>
     </>
   );
