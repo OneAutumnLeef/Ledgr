@@ -265,7 +265,6 @@ const GLOBAL_STYLES = `
   }
   .glass-card::before { display: none; }
   .soft-grid { display: none; }
-  @media (max-width: 1023px) { .mobile-safe { padding-bottom: calc(env(safe-area-inset-bottom) + 5rem); } }
   .range-input { accent-color: var(--accent); }
 
   ::-webkit-scrollbar { width: 6px; height: 6px; }
@@ -1703,35 +1702,37 @@ function SpendingHeatmap({ transactions, onDateClick }) {
       </div>
 
       {/* Row-based heatmap: each row = a day of the week */}
-      <div className="space-y-1">
-        {DOW.map((dayName, dowIndex) => (
-          <div key={dayName} className="flex items-center gap-1.5">
-            <div className="w-8 text-[10px] text-[var(--muted)] shrink-0">{dayName}</div>
-            <div className="flex gap-1 flex-1">
-              {weeks.map((week, wi) => {
-                const d = week[dowIndex];
-                if (!d) return <div key={wi} className="h-7 rounded-sm flex-1" />;
-                const intensity = maxSpend > 0 ? d.spend / maxSpend : 0;
-                return (
-                  <div
-                    key={d.date}
-                    className="h-7 rounded-sm cursor-pointer transition-all hover:ring-1 hover:ring-[var(--accent)] hover:z-10 flex items-center justify-center flex-1"
-                    style={{
-                      backgroundColor: d.spend === 0
-                        ? 'rgba(255,255,255,0.04)'
-                        : `rgba(200, 242, 46, ${0.15 + intensity * 0.65})`,
-                    }}
-                    onMouseEnter={(e) => showTooltip(e, d)}
-                    onMouseLeave={hideTooltip}
-                    onClick={() => onDateClick && onDateClick(d.date)}
-                  >
-                    <span className="text-[9px] font-semibold text-[var(--text)] opacity-50 select-none pointer-events-none">{d.day}</span>
-                  </div>
-                );
-              })}
+      <div className="space-y-1 overflow-x-auto pb-2 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
+        <div className="min-w-[340px]">
+          {DOW.map((dayName, dowIndex) => (
+            <div key={dayName} className="flex items-center gap-1.5">
+              <div className="w-8 text-[10px] text-[var(--muted)] shrink-0">{dayName}</div>
+              <div className="flex gap-1 flex-1">
+                {weeks.map((week, wi) => {
+                  const d = week[dowIndex];
+                  if (!d) return <div key={wi} className="h-7 rounded-sm flex-1" />;
+                  const intensity = maxSpend > 0 ? d.spend / maxSpend : 0;
+                  return (
+                    <div
+                      key={d.date}
+                      className="h-7 rounded-sm cursor-pointer transition-all hover:ring-1 hover:ring-[var(--accent)] hover:z-10 flex items-center justify-center flex-1"
+                      style={{
+                        backgroundColor: d.spend === 0
+                          ? 'rgba(255,255,255,0.04)'
+                          : `rgba(200, 242, 46, ${0.15 + intensity * 0.65})`,
+                      }}
+                      onMouseEnter={(e) => showTooltip(e, d)}
+                      onMouseLeave={hideTooltip}
+                      onClick={() => onDateClick && onDateClick(d.date)}
+                    >
+                      <span className="text-[9px] font-semibold text-[var(--text)] opacity-50 select-none pointer-events-none">{d.day}</span>
+                    </div>
+                  );
+                })}
+              </div>
             </div>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
     </div>
   );
@@ -1764,17 +1765,17 @@ function BurnRateBar({ analytics, transactions, budgets }) {
             <div className="text-xs text-[var(--muted)]">{daysElapsed} days tracked</div>
           </div>
         </div>
-        <div className="flex items-center gap-4 sm:gap-6">
-          <div className="text-right">
+        <div className="flex flex-wrap items-center gap-3 sm:gap-6 mt-3 sm:mt-0">
+          <div className="text-left sm:text-right">
             <div className="text-[10px] uppercase tracking-wider text-[var(--muted)]">Daily avg</div>
             <div className="ledgr-mono text-sm font-bold text-[var(--text)]">{formatCurrency(dailyBurn, 0)}</div>
           </div>
-          <div className="text-right">
+          <div className="text-left sm:text-right">
             <div className="text-[10px] uppercase tracking-wider text-[var(--muted)]">Projected /mo</div>
             <div className={`ledgr-mono text-sm font-bold ${onTrack ? "text-[var(--accent)]" : "text-[var(--danger)]"}`}>{formatCurrency(projected, 0)}</div>
           </div>
           {totalBudget > 0 && (
-            <div className="text-right">
+            <div className="text-left sm:text-right">
               <div className="text-[10px] uppercase tracking-wider text-[var(--muted)]">Budget</div>
               <div className="ledgr-mono text-sm font-bold text-[var(--text)]">{formatCurrency(totalBudget, 0)}</div>
             </div>
@@ -2407,7 +2408,7 @@ function OverviewTab({ analytics: globalAnalytics, transactions, onOpenTransacti
       <TimeSelector transactions={transactions} timeMode={timeMode} setTimeMode={setTimeMode} selectedMonth={selectedMonth} setSelectedMonth={setSelectedMonth} />
 
       {/* ── KPI Row ── */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         {/* Total Spent */}
         <div className="glass-card p-5">
           <div className="flex items-start justify-between gap-2">
@@ -3395,6 +3396,23 @@ function SplitsTab({ transactions, splitGroups, setSplitGroups, onTabChange }) {
      });
   }
 
+  const handleMobileMove = (id, type, groupId) => {
+    setSplitGroups(prev => {
+      const { data: next } = ensureMigrated(prev);
+      for (const key in next) {
+        if (type === 'credit') next[key].credits = next[key].credits.filter(cId => cId !== id);
+        if (type === 'debit') next[key].debits = next[key].debits.filter(dId => dId !== id);
+      }
+      if (!next[groupId]) next[groupId] = { debits: [], credits: [] };
+      if (type === 'credit' && !next[groupId].credits.includes(id)) next[groupId].credits.push(id);
+      if (type === 'debit' && !next[groupId].debits.includes(id)) next[groupId].debits.push(id);
+      for (const key in next) {
+          if (next[key].debits.length === 0 && next[key].credits.length === 0) delete next[key];
+      }
+      return next;
+    });
+  };
+
   const linkedCreditIds = new Set(Object.values(groups).flatMap(g => g.credits));
   const linkedDebitIds = new Set(Object.values(groups).flatMap(g => g.debits));
 
@@ -3542,17 +3560,32 @@ function SplitsTab({ transactions, splitGroups, setSplitGroups, onTabChange }) {
                   e.dataTransfer.setData("application/json", JSON.stringify({ id: credit.id, type: 'credit' }));
                   e.dataTransfer.effectAllowed = "move";
                 }}
-                className="cursor-move p-3 rounded-lg border border-[var(--line-10)] bg-[var(--surface-5)] hover:border-[var(--accent)] hover:bg-[var(--surface-strong)] transition-all flex items-center justify-between gap-2 group"
+                className="cursor-move p-3 rounded-lg border border-[var(--line-10)] bg-[var(--surface-5)] hover:border-[var(--accent)] hover:bg-[var(--surface-strong)] transition-all flex flex-col gap-2 group"
               >
-                <div className="min-w-0 flex-1">
-                  <div className="text-xs font-medium text-[var(--text)] truncate">{credit.merchant !== "Unclassified" ? credit.merchant : titleCase(credit.rawDescription)}</div>
-                  <div className="text-[10px] text-[var(--muted)] mt-0.5">{formatShortDate(credit.statementDate)}</div>
-                </div>
-                <div className="ledgr-mono text-sm font-bold text-[var(--accent)] flex shrink-0 items-center gap-2">
-                  <span>+{formatCurrency(credit.credit, 0)}</span>
-                  <div className="opacity-0 group-hover:opacity-100 text-[var(--muted)]">
-                     <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="9" cy="12" r="1"></circle><circle cx="9" cy="5" r="1"></circle><circle cx="9" cy="19" r="1"></circle><circle cx="15" cy="12" r="1"></circle><circle cx="15" cy="5" r="1"></circle><circle cx="15" cy="19" r="1"></circle></svg>
+                <div className="flex items-center justify-between gap-2 w-full">
+                  <div className="min-w-0 flex-1">
+                    <div className="text-xs font-medium text-[var(--text)] truncate">{credit.merchant !== "Unclassified" ? credit.merchant : titleCase(credit.rawDescription)}</div>
+                    <div className="text-[10px] text-[var(--muted)] mt-0.5">{formatShortDate(credit.statementDate)}</div>
                   </div>
+                  <div className="ledgr-mono text-sm font-bold text-[var(--accent)] flex shrink-0 items-center gap-2">
+                    <span>+{formatCurrency(credit.credit, 0)}</span>
+                    <div className="opacity-0 group-hover:opacity-100 text-[var(--muted)] hidden lg:block">
+                       <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="9" cy="12" r="1"></circle><circle cx="9" cy="5" r="1"></circle><circle cx="9" cy="19" r="1"></circle><circle cx="15" cy="12" r="1"></circle><circle cx="15" cy="5" r="1"></circle><circle cx="15" cy="19" r="1"></circle></svg>
+                    </div>
+                  </div>
+                </div>
+                {/* Mobile action */}
+                <div className="block lg:hidden w-full">
+                   <select 
+                     value="" 
+                     onChange={e => e.target.value && handleMobileMove(credit.id, 'credit', e.target.value)}
+                     className="w-full bg-[var(--surface-strong)] border border-[var(--line-10)] text-[var(--text)] text-xs px-2 py-1.5 rounded-md outline-none"
+                   >
+                     <option value="" disabled hidden>Move to group...</option>
+                     {buckets.map(b => (
+                       <option key={b.groupId} value={b.groupId}>{b.name || b.debits[0]?.merchant || "Clubbed Group"}</option>
+                     ))}
+                   </select>
                 </div>
               </div>
             ))}
@@ -3566,17 +3599,36 @@ function SplitsTab({ transactions, splitGroups, setSplitGroups, onTabChange }) {
                   e.dataTransfer.setData("application/json", JSON.stringify({ id: debit.id, type: 'debit' }));
                   e.dataTransfer.effectAllowed = "move";
                 }}
-                className="cursor-move p-3 rounded-lg border border-[var(--line-5)] bg-[var(--surface-strong)] hover:border-[var(--text-30)] hover:bg-[var(--surface-5)] transition-all flex items-center justify-between gap-2 group"
+                className="cursor-move p-3 rounded-lg border border-[var(--line-5)] bg-[var(--surface-strong)] hover:border-[var(--text-30)] hover:bg-[var(--surface-5)] transition-all flex flex-col gap-2 group"
               >
-                <div className="min-w-0 flex-1">
-                  <div className="text-[11px] font-medium text-[var(--text-80)] truncate">{debit.merchant}</div>
-                  <div className="text-[9px] text-[var(--muted)] mt-0.5">{formatShortDate(debit.statementDate)}</div>
-                </div>
-                <div className="ledgr-mono text-xs font-bold text-[var(--text)] flex shrink-0 items-center gap-2">
-                  <span>-{formatCurrency(debit.debit, 0)}</span>
-                  <div className="opacity-0 group-hover:opacity-100 text-[var(--muted)]">
-                     <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="9" cy="12" r="1"></circle><circle cx="9" cy="5" r="1"></circle><circle cx="9" cy="19" r="1"></circle><circle cx="15" cy="12" r="1"></circle><circle cx="15" cy="5" r="1"></circle><circle cx="15" cy="19" r="1"></circle></svg>
+                <div className="flex items-center justify-between gap-2 w-full">
+                  <div className="min-w-0 flex-1">
+                    <div className="text-[11px] font-medium text-[var(--text-80)] truncate">{debit.merchant}</div>
+                    <div className="text-[9px] text-[var(--muted)] mt-0.5">{formatShortDate(debit.statementDate)}</div>
                   </div>
+                  <div className="ledgr-mono text-xs font-bold text-[var(--text)] flex shrink-0 items-center gap-2">
+                    <span>-{formatCurrency(debit.debit, 0)}</span>
+                    <div className="opacity-0 group-hover:opacity-100 text-[var(--muted)] hidden lg:block">
+                       <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="9" cy="12" r="1"></circle><circle cx="9" cy="5" r="1"></circle><circle cx="9" cy="19" r="1"></circle><circle cx="15" cy="12" r="1"></circle><circle cx="15" cy="5" r="1"></circle><circle cx="15" cy="19" r="1"></circle></svg>
+                    </div>
+                  </div>
+                </div>
+                {/* Mobile action */}
+                <div className="block lg:hidden w-full">
+                   <select 
+                     value="" 
+                     onChange={e => {
+                       if (e.target.value === 'NEW') createBucket(debit.id);
+                       else if (e.target.value) handleMobileMove(debit.id, 'debit', e.target.value);
+                     }}
+                     className="w-full bg-[var(--surface)] border border-[var(--line-10)] text-[var(--text)] text-xs px-2 py-1.5 rounded-md outline-none"
+                   >
+                     <option value="" disabled hidden>Actions...</option>
+                     <option value="NEW">+ Create New Group</option>
+                     {buckets.map(b => (
+                       <option key={b.groupId} value={b.groupId}>Add to: {b.name || b.debits[0]?.merchant || "Clubbed Group"}</option>
+                     ))}
+                   </select>
                 </div>
               </div>
             ))}
@@ -3622,6 +3674,7 @@ function App() {
   const [selectedTransaction, setSelectedTransaction] = useState(null);
   const [commandPaletteOpen, setCommandPaletteOpen] = useState(false);
   const [shortcutsOpen, setShortcutsOpen] = useState(false);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
   const [page, setPage] = useState(1);
   const [toasts, setToasts] = useState([]);
   const [filters, setFilters] = useState({
@@ -3878,7 +3931,7 @@ function App() {
   return (
     <>
       <style>{GLOBAL_STYLES}</style>
-      <div className="mobile-safe min-h-screen bg-[var(--bg)] text-[var(--text)] flex">
+      <div className="min-h-screen bg-[var(--bg)] text-[var(--text)] flex">
         <ToastStack toasts={toasts} />
         <CommandPalette
           open={commandPaletteOpen}
@@ -3893,8 +3946,13 @@ function App() {
           }}
         />
 
+        {/* ── Sidebar Mobile Overlay ── */}
+        {sidebarOpen && (
+          <div className="fixed inset-0 z-40 bg-black/60 backdrop-blur-sm lg:hidden" onClick={() => setSidebarOpen(false)} />
+        )}
+
         {/* ── Sidebar ── */}
-        <aside className="w-64 shrink-0 bg-[var(--surface)] hidden lg:flex flex-col border-r border-[var(--line-10)] sticky top-0 h-screen">
+        <aside className={`fixed lg:sticky lg:top-0 inset-y-0 left-0 z-50 h-screen w-64 shrink-0 bg-[var(--surface)] flex flex-col border-r border-[var(--line-10)] transition-transform duration-300 ease-in-out lg:translate-x-0 ${sidebarOpen ? "translate-x-0 shadow-2xl" : "-translate-x-full"}`}>
           {/* Logo */}
           <div className="px-6 py-5 flex items-center gap-3 border-b border-[var(--line-10)]">
             <img src="https://images.prismic.io/derajportfolio/acq0eJGXnQHGZG01_ledgr-icon.png?auto=format,compress" alt="Ledgr" className="h-8 w-8 rounded" />
@@ -3930,7 +3988,7 @@ function App() {
                       <button
                         key={tab.id}
                         type="button"
-                        onClick={() => setActiveTab(tab.id)}
+                        onClick={() => { setActiveTab(tab.id); setSidebarOpen(false); }}
                         className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-all cursor-pointer ${
                           active
                             ? "bg-[var(--accent)]/12 text-[var(--accent)] border-l-2 border-[var(--accent)]"
@@ -3976,12 +4034,16 @@ function App() {
         <div className="flex-1 flex flex-col h-screen overflow-hidden min-w-0">
 
           {/* Header */}
-          <header className="shrink-0 h-16 flex items-center justify-between px-6 border-b border-[var(--line-10)] bg-[var(--bg)] gap-4">
-            <div className="flex items-center gap-3 min-w-0">
+          <header className="shrink-0 h-16 flex items-center justify-between px-4 sm:px-6 border-b border-[var(--line-10)] bg-[var(--bg)] gap-2 sm:gap-4 overflow-x-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
+            <div className="flex items-center gap-3 min-w-0 flex-1">
+              {/* Mobile hamburger */}
+              <button type="button" onClick={() => setSidebarOpen(true)} className="lg:hidden p-1.5 -ml-1 text-[var(--muted)] hover:text-[var(--text)] transition-colors rounded-md cursor-pointer">
+                <AlignLeft size={20} />
+              </button>
               {/* Mobile logo */}
-              <img src="https://images.prismic.io/derajportfolio/acq0eJGXnQHGZG01_ledgr-icon.png?auto=format,compress" alt="Ledgr" className="h-7 w-7 rounded lg:hidden shrink-0" />
+              <img src="https://images.prismic.io/derajportfolio/acq0eJGXnQHGZG01_ledgr-icon.png?auto=format,compress" alt="Ledgr" className="h-7 w-7 rounded lg:hidden shrink-0 hidden sm:block" />
               {/* Live search */}
-              <div className="relative max-w-xs w-full">
+              <div className="relative max-w-xs w-full min-w-[120px]">
                 <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-[var(--muted)] pointer-events-none" />
                 <input
                   value={filters.search}
@@ -3989,8 +4051,8 @@ function App() {
                     setFilters(cur => ({ ...cur, search: e.target.value }));
                     if (e.target.value.trim() && activeTab !== "transactions") setActiveTab("transactions");
                   }}
-                  placeholder="Search transactions…"
-                  className="w-full bg-[var(--surface-5)] border border-[var(--line-10)] rounded-lg py-2 pl-8 pr-16 text-sm text-[var(--text)] placeholder-[var(--muted)] outline-none focus:border-[var(--accent)] transition-colors"
+                  placeholder="Search..."
+                  className="w-full bg-[var(--surface-5)] border border-[var(--line-10)] rounded-lg py-2 pl-8 pr-12 sm:pr-16 text-sm text-[var(--text)] placeholder-[var(--muted)] outline-none focus:border-[var(--accent)] transition-colors"
                 />
                 <button
                   type="button"
@@ -4055,19 +4117,7 @@ function App() {
           </main>
         </div>
 
-        {/* Mobile bottom nav */}
-        <nav className="fixed inset-x-0 bottom-0 z-30 flex border-t border-[var(--line-10)] bg-[var(--surface)] lg:hidden">
-          {SIDEBAR_SECTIONS.flatMap(s => s.items).slice(0, 5).map((tab) => {
-            const Icon = tab.icon;
-            const active = activeTab === tab.id;
-            return (
-              <button key={tab.id} type="button" onClick={() => setActiveTab(tab.id)} className={`flex flex-1 flex-col items-center justify-center gap-1 py-3 text-[10px] font-medium transition-colors cursor-pointer ${active ? "text-[var(--accent)]" : "text-[var(--muted)]"}`}>
-                <Icon size={18} />
-                <span className="truncate">{tab.label}</span>
-              </button>
-            );
-          })}
-        </nav>
+
 
         <TransactionDrawer transaction={selectedTransaction} onClose={() => setSelectedTransaction(null)} onSave={handleSaveTransaction} />
         <KeyboardShortcutsModal open={shortcutsOpen} onClose={() => setShortcutsOpen(false)} />
