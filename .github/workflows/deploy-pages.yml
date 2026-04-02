@@ -33,12 +33,18 @@ jobs:
       - name: Build
         run: npm run build
 
+      - name: Verify build output exists
+        run: |
+          test -d dist
+          ls -la dist
+
       - name: Configure Pages
         uses: actions/configure-pages@v5
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
+          name: github-pages
           path: ./dist
 
   deploy:
@@ -47,6 +53,7 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     needs: build
+    if: ${{ needs.build.result == 'success' }}
     steps:
       - name: Deploy to GitHub Pages
         id: deployment
