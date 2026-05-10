@@ -23,6 +23,9 @@ import { UploadCloud, AlertCircle, ArrowUpRight, ArrowDownRight, Activity, Trend
 import demoSeed from "../demo_seed.json";
 import merchantCatalog from "../merchant_catalog.json";
 import "./styles.css";
+import { trackVisit } from "./lib/visitTracker.js";
+
+void trackVisit();
 
 const DEMO_SEED = demoSeed;
 const MERCHANT_CATALOG = merchantCatalog;
