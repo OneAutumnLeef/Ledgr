@@ -26,6 +26,7 @@ import "./styles.css";
 
 const DEMO_SEED = demoSeed;
 const MERCHANT_CATALOG = merchantCatalog;
+const LEDGR_ICON = `${import.meta.env.BASE_URL}favicon.png`;
 pdfjsLib.GlobalWorkerOptions.workerSrc = pdfWorkerUrl;
 
 const STORAGE_KEYS = {
@@ -3955,7 +3956,7 @@ function App() {
         <aside className={`fixed lg:sticky lg:top-0 inset-y-0 left-0 z-50 h-screen w-64 shrink-0 bg-[var(--surface)] flex flex-col border-r border-[var(--line-10)] transition-transform duration-300 ease-in-out lg:translate-x-0 ${sidebarOpen ? "translate-x-0 shadow-2xl" : "-translate-x-full"}`}>
           {/* Logo */}
           <div className="px-6 py-5 flex items-center gap-3 border-b border-[var(--line-10)]">
-            <img src="https://images.prismic.io/derajportfolio/acq0eJGXnQHGZG01_ledgr-icon.png?auto=format,compress" alt="Ledgr" className="h-8 w-8 rounded" />
+            <img src={LEDGR_ICON} alt="Ledgr" className="h-8 w-8 rounded" />
             <span className="ledgr-display text-xl tracking-tight text-[var(--text)]">LEDGR</span>
           </div>
 
@@ -4041,7 +4042,7 @@ function App() {
                 <AlignLeft size={20} />
               </button>
               {/* Mobile logo */}
-              <img src="https://images.prismic.io/derajportfolio/acq0eJGXnQHGZG01_ledgr-icon.png?auto=format,compress" alt="Ledgr" className="h-7 w-7 rounded lg:hidden shrink-0 hidden sm:block" />
+              <img src={LEDGR_ICON} alt="Ledgr" className="h-7 w-7 rounded lg:hidden shrink-0 hidden sm:block" />
               {/* Live search */}
               <div className="relative max-w-xs w-full min-w-[120px]">
                 <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-[var(--muted)] pointer-events-none" />
@@ -4100,7 +4101,7 @@ function App() {
             <footer className="border-t border-[var(--line-10)] px-6 py-5 mt-4">
               <div className="flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-[var(--muted)]">
                 <div className="flex items-center gap-2">
-                  <img src="https://images.prismic.io/derajportfolio/acq0eJGXnQHGZG01_ledgr-icon.png?auto=format,compress" alt="Ledgr" className="h-4 w-4 rounded opacity-60" />
+                  <img src={LEDGR_ICON} alt="Ledgr" className="h-4 w-4 rounded opacity-60" />
                   <span>Built by{" "}
                     <a href="https://derajyojith.dev" target="_blank" rel="noopener noreferrer" className="font-semibold text-[var(--accent)] hover:underline transition-colors">
                       Deraj Yojith
